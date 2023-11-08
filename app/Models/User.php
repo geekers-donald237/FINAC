@@ -42,4 +42,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public static function checkUser(String $email){
+        $user = User::where('email', $email)->first();
+
+        if ($user) {
+            $userId = $user->id;
+            return $userId;
+        } else {
+            return null;
+        }
+    }
 }
