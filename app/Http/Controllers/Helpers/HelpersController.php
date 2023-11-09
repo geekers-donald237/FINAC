@@ -29,5 +29,30 @@ class HelpersController extends Controller
         }
     }
 
+    public static function checkIfEmailAlreadyExit($email): bool
+    {
+        // Vérifier si l'e-mail existe déjà
+        $existingUser = User::where('email', $email)->first();
+
+        return $existingUser ? true : false;
+    }
+
+    public static function validatePasswords($password1, $password2)
+    {
+        // Vérifier si les deux mots de passe ont au moins 8 caractères
+        if (strlen($password1) < 8 || strlen($password2) < 8) {
+            return false;
+        }
+
+        // Vérifier si les deux mots de passe sont égaux
+        if ($password1 !== $password2) {
+            return false;
+        }
+
+        // Si toutes les conditions sont remplies, les mots de passe sont valides
+        return true;
+    }
+
+
 
 }
