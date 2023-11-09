@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('firstname');
             $table->string('lastname');
             $table->string('email')->unique();
+            $table->string('telephone');
+            $table->string('profession');
+            $table->integer('age');
             $table->string('password');
             $table->enum('user_type' , [0,1,2])->default(0); // 0 -> user , 1 -> armureries , 2 -> detenteur_arme
             $table->timestamps();

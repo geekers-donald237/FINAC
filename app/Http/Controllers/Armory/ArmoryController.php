@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Armory;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Helpers\HelpersController;
 use App\Models\armory\Armory;
 use App\Models\armory\HolderWeapon;
 use App\Models\User;
@@ -46,20 +47,11 @@ class ArmoryController extends Controller
             $id_state = $request->id_state;
             $license = $request->license;
 
-            if (
-                empty($name) ||
-                empty($sector) ||
-                empty($address) ||
-                empty($email) ||
-                empty($mailbox) ||
-                empty($phone_number) ||
-                empty($agrement) ||
-                empty($id_town) ||
-                empty($id_state) || empty($license)
-            ){
+            if (HelpersController::checkValueOfArrayIsEmpty([$name, $sector, $address, $email, $mailbox, $phone_number, $agrement, $id_town, $id_state, $license])) {
                 var_dump('Veuillez remplir tous les champs');
                 return redirect()->back();
             }
+
             $new_armory = new Armory();
             if ($request->hasFile('licence')) {
                 $uploadedFile = $request->file('license');
@@ -67,6 +59,9 @@ class ArmoryController extends Controller
                 $uploadedFile->move(public_path("finac/license"), $filename);
                 $new_armory->license = $filename;
             }
+
+            HelpersController::updateUserRole($email , 1); //nouveau role passe a 1 -> armureries
+
             $new_armory->id_country = 37; //specifions directement qu'il s'agit du cameroun
             $new_armory->id_states = $id_state;
             $new_armory->id_town = $id_town;
@@ -87,6 +82,8 @@ class ArmoryController extends Controller
             return redirect()->back();
         }
     }
+
+
 
     /**
      * Display the specified resource.
@@ -119,6 +116,10 @@ class ArmoryController extends Controller
     {
         //
     }
+
+
+
+
 
 
     public function storeWeaponSale(Request $request)

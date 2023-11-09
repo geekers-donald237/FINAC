@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('holders_weapons', function (Blueprint $table) {
             $table->id();
-            $table->string('email');
+            $table->string('firstname');
+            $table->string('lastname');
+            $table->string('telephone');
+            $table->string('email')->unique();
             $table->string('profession');
             $table->integer('age');
             $table->string('identity_number');
