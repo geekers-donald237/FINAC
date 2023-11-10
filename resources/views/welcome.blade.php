@@ -8,7 +8,7 @@
 @section('content')
     <div class="site-wrap">
         <div class="intro-section" id="home-section">
-            <div class="slide-1" style="background-image: url('{{ asset('asset/images/hero_1.jpg') }}')"
+            <div class="slide-1" style="background-image: url('{{ asset('asset/images/normal.jpg') }}')"
                  data-stellar-background-ratio="0.5">
                 <div class="container">
                     <div class="row align-items-center">

@@ -17,9 +17,9 @@
             <div class="mx-auto text-center">
                 <nav class="site-navigation position-relative text-right" role="navigation">
                     <ul class="site-menu main-menu js-clone-nav mx-auto d-none d-lg-block  m-0 p-0">
-                        <li><a href="#home-section" class="nav-link">Home</a></li>
-                        <li><a href="#courses-section" class="nav-link">Services</a></li>
-                        <li><a href="#programs-section" class="nav-link">Atouts</a></li>
+                        <li><a href="#home-section" class="nav-link">Armurerie</a></li>
+                        <li><a href="#courses-section" class="nav-link">Declaration</a></li>
+                        <li><a href="#programs-section" class="nav-link">InfoAchat</a></li>
                         <li><a href="#contact-section" class="nav-link">Contactez-nous</a></li>
                     </ul>
                 </nav>
