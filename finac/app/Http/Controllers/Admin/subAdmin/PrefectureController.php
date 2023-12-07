@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\subAdmin;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\HelpersFunction;
 use App\Models\armory\Armory;
+use App\Models\armory\HoldersWeapon;
 use App\Models\internaltionalison\Departement;
 use App\Models\internaltionalison\State;
 use App\Models\internaltionalison\District;
@@ -26,21 +27,65 @@ class PrefectureController extends Controller
      */
     public function index()
     {
+        $prefecture_id = auth()->user()->ressource_id;
+        $prefecture = Prefect::find($prefecture_id);
         $permissionsPorts = PermissionsPort::all();
-        $permissionsValides = PermissionsPort::where('code_finac', '!=', null)->count();
-        $permissionsRejetees = PermissionsPort::where('statut', 'rejete')->count();
-        $permissionsNonTraitees = PermissionsPort::whereNull('code_finac')->count() - ($permissionsValides + $permissionsRejetees);
+        $departement_id = $prefecture->departement_id;
 
+        $permissionsAvecArmureries = [];
+        $permissionsTraitees = 0;
+        $permissionsNonTraitees = 0;
+        $permissionsRejetees = 0;
 
-        $associatedData = [];
-
+        // Boucler à travers chaque enregistrement de PermissionsPort
         foreach ($permissionsPorts as $permissionsPort) {
-            $associatedData[$permissionsPort->id]['permissionsPortId'] = $permissionsPort->id;
-            $associatedData[$permissionsPort->id]['holderWeapons'] = $permissionsPort->holderWeapons;
-            $associatedData[$permissionsPort->id]['weapon'] = $permissionsPort->weapon;
+            // Récupérer l'ID de l'arme depuis l'enregistrement de PermissionsPort
+            $weaponsId = $permissionsPort->weapon_id;
+
+            // Créer un objet Weapons à partir de l'ID de l'arme
+            $weapons = Weapon::find($weaponsId);
+
+            // Vérifier si l'objet Weapons a été trouvé
+            if ($weapons) {
+                // Vérifier si le département de l'armurerie est le même que celui de la préfecture
+                if ($weapons->weaponType->armory->departement_id == $departement_id) {
+                    // Utiliser la relation pour obtenir l'armurerie associée
+                    $armory = $weapons->weaponType->armory;
+
+                    // Ajouter les données nécessaires au tableau des résultats finaux
+                    $holderId = $weapons->holder_id;
+                    $holder = HoldersWeapon::find($holderId);
+
+                    $permissionsAvecArmureries[] = [
+                        'permissionsPort' => $permissionsPort,
+                        'weapons' => $weapons,
+                        'armory' => $armory,
+                        'holder' => $holder,
+                    ];
+
+                    // Mettre à jour les compteurs
+                    switch ($permissionsPort->statut) {
+                        case 'valide':
+                            $permissionsTraitees++;
+                            break;
+                        case 'rejete':
+                            $permissionsRejetees++;
+                            break;
+                        default:
+                            $permissionsNonTraitees++;
+                            break;
+                    }
+                }
+            }
         }
 
-        return view('prefecture.index' , compact('permissionsPorts', 'associatedData' , 'permissionsRejetees' ,'permissionsValides' , 'permissionsNonTraitees') );
+        return view('prefecture.index', compact(
+            'permissionsPorts',
+            'permissionsAvecArmureries',
+            'permissionsTraitees',
+            'permissionsRejetees',
+            'permissionsNonTraitees'
+        ));
     }
 
     /**

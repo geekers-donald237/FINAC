@@ -66,7 +66,7 @@
 
                         @if($activeLink === 'user')
                             <li class="dropdown active">
-                                <a href="" class="nav-link"><i data-feather="plus-circle"></i><span>Ajouter une armurerie</span></a>
+                                <a href="" class="nav-link"><i data-feather="plus-circle"></i><span>Creer une armurerie</span></a>
                             </li>
                         @endif
 

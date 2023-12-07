@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>FINAC - Acceuil</title>
+    <title>Acceuil</title>
 
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">

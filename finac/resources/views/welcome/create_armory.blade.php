@@ -2,14 +2,13 @@
     $activeLink = 'user';
 @endphp
 @extends('layouts.backend')
-
 @section('content')
 
     <div class="row">
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-primary text-white-all">
-                    <li class="breadcrumb-item"><a href="#"><i class="fas fa-building"></i>Cree Armurerie /</a></li>
+                    <li class="breadcrumb-item"><a href="#"><i class="fas fa-building"></i>Creer une armurerie/ </a></li>
                 </ol>
             </nav>
         </div>
@@ -18,9 +17,7 @@
     <div class="row">
         <div class="col-12 col-md-12 col-lg-12">
             <div class="card">
-                <div class="card-header">
-                    <h4>Creer Armureries</h4>
-                </div>
+
                 <form action="{{ route('armory.store') }}" id="form" method="POST" style="width: 100%" enctype="multipart/form-data" class="needs-validation" novalidate="">
                     @csrf
                     @method('POST')
@@ -77,7 +74,7 @@
                             <div class="col-12 form-group form-float">
                                 <label for="id_state">Departement<span class="text-danger">*</span></label>
                                 <select type="2" class="form-control select2" id="departement_id"
-                                        onchange="changetown(this)" name="departement_id" required>
+                                        name="departement_id" required>
                                     @foreach ($departments as $department)
                                         <option value="{{ $department->id }}">{{ $department->name }}</option>
                                     @endforeach
@@ -87,7 +84,9 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-info" onclick="showLoader(); this.disabled=true; this.innerHTML='<i class=\'fas fa-spinner fa-spin\'></i> Envoi en cours...'">Ajouter</button>
+                        <button type="submit" class="btn btn-info"
+                                onclick="showLoader(); this.disabled=true; this.innerHTML='<i class=\'fas fa-spinner fa-spin\'></i> Envoi en cours...'">
+                            Ajouter</button>
                     </div>
                 </form>
             </div>
@@ -105,8 +104,8 @@
     // Fonction pour afficher le loader
     function showLoader() {
         // Afficher le loader
-        $('#loader-wrapper').show();
         $('#form').submit();
+        $('#loader-wrapper').show();
     }
 
     // Attacher une fonction de gestionnaire d'événements pour masquer le loader lorsque la page est prête

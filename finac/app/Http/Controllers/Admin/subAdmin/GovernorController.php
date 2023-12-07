@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Email\MailController;
 use App\Http\Controllers\Helpers\HelpersFunction;
 use App\Models\armory\Armory;
+use App\Models\armory\HoldersWeapon;
 use App\Models\internaltionalison\Departement;
 use App\Models\internaltionalison\State;
 use App\Models\internaltionalison\District;
@@ -27,22 +28,71 @@ class GovernorController extends Controller
      */
     public function index()
     {
-
+        $gouverneur_id = auth()->user()->ressource_id;
+        $gouverneur = Governor::find($gouverneur_id);
         $permissionsPorts = PermissionsPort::all();
-        $permissionsValides = PermissionsPort::where('code_finac', '!=', null)->count();
-        $permissionsRejetees = PermissionsPort::where('statut', 'rejete')->count();
-        $permissionsNonTraitees = PermissionsPort::whereNull('code_finac')->count() - ($permissionsValides + $permissionsRejetees);
+        $departements = $gouverneur->state->departements;
+        $departement_ids = [];
 
-
-        $associatedData = [];
-
-        foreach ($permissionsPorts as $permissionsPort) {
-            $associatedData[$permissionsPort->id]['permissionsPortId'] = $permissionsPort->id;
-            $associatedData[$permissionsPort->id]['holderWeapons'] = $permissionsPort->holderWeapons;
-            $associatedData[$permissionsPort->id]['weapon'] = $permissionsPort->weapon;
+        foreach ($departements as $departement) {
+            $departement_ids[] = $departement->id;
         }
 
-        return view('governor.index' , compact('permissionsPorts', 'associatedData' , 'permissionsRejetees' ,'permissionsValides' , 'permissionsNonTraitees') );
+        $permissionsAvecArmureries = [];
+        $permissionsTraitees = 0;
+        $permissionsNonTraitees = 0;
+        $permissionsRejetees = 0;
+
+        // Boucler à travers chaque enregistrement de PermissionsPort
+        foreach ($permissionsPorts as $permissionsPort) {
+            // Récupérer l'ID de l'arme depuis l'enregistrement de PermissionsPort
+            $weaponsId = $permissionsPort->weapon_id;
+
+            // Créer un objet Weapons à partir de l'ID de l'arme
+            $weapons = Weapon::find($weaponsId);
+
+            // Vérifier si l'objet Weapons a été trouvé
+            if ($weapons) {
+                // Vérifier si le département de l'armurerie est inclus dans la liste des départements
+                if (in_array($weapons->weaponType->armory->departement_id, $departement_ids)) {
+                    // Utiliser la relation pour obtenir l'armurerie associée
+                    $armory = $weapons->weaponType->armory;
+
+                    // Ajouter les données nécessaires au tableau des résultats finaux
+                    $holderId = $weapons->holder_id;
+                    $holder = HoldersWeapon::find($holderId);
+
+                    $permissionsAvecArmureries[] = [
+                        'permissionsPort' => $permissionsPort,
+                        'weapons' => $weapons,
+                        'armory' => $armory,
+                        'holder' => $holder,
+                    ];
+
+                    // Mettre à jour les compteurs
+                    switch ($permissionsPort->statut) {
+                        case 'valide':
+                            $permissionsTraitees++;
+                            break;
+                        case 'rejete':
+                            $permissionsRejetees++;
+                            break;
+                        default:
+                            $permissionsNonTraitees++;
+                            break;
+                    }
+                }
+            }
+        }
+
+        return view('governor.index', compact(
+            'departements',
+            'permissionsPorts',
+            'permissionsAvecArmureries',
+            'permissionsTraitees',
+            'permissionsRejetees',
+            'permissionsNonTraitees'
+        ));
     }
 
     /**

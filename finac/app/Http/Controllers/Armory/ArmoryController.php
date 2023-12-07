@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Armory;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Email\MailController;
 use App\Http\Controllers\Helpers\HelpersFunction;
 use App\Models\armory\Armory;
 use App\Models\armory\HoldersWeapon;
 use App\Models\internaltionalison\State;
-use App\Models\internaltionalison\District;
 use App\Models\PermissionsPort;
 use App\Models\user\User;
 use App\Models\weapons\Weapon;
@@ -20,22 +18,21 @@ use Ramsey\Uuid\Nonstandard\Uuid;
 class ArmoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
+     * Display a listing of the resource. **/
 
     public function index()
     {
-        $userID = Auth::user()->id;
-        $user = User::find($userID);
-        $armoryId = $user->getArmoryId();
-        $weaponTypes = WeaponType::where('armory_id', $armoryId)->get();
-        $weaponTypesId = WeaponType::where('armory_id', $armoryId)->pluck('id');
-        $weapons = Weapon::whereIn('weapon_type_id', $weaponTypesId)->pluck('id');
-        $permissionsPorts = PermissionsPort::whereIn('weapon_id', $weapons)->get();
-        $states = State::all();
+    $userID = Auth::user()->id;
+    $user = User::find($userID);
+    $armoryId = $user->getArmoryId();
+    $weaponTypes = WeaponType::where('armory_id', $armoryId)->get();
+    $weaponTypesId = WeaponType::where('armory_id', $armoryId)->pluck('id');
+    $weapons = Weapon::whereIn('weapon_type_id', $weaponTypesId)->pluck('id');
+    $permissionsPorts = PermissionsPort::whereIn('weapon_id', $weapons)->get();
+    $states = State::all();
 
 
-        return view('armory.index', compact('states', 'weaponTypes', 'armoryId' , 'permissionsPorts'));
+    return view('armory.index', compact('states', 'weaponTypes', 'armoryId' , 'permissionsPorts'));
     }
 
     /**
@@ -91,8 +88,8 @@ class ArmoryController extends Controller
             $new_armory->agrement_number = $agrement;
             $new_armory->save();
 
-           $new_user = $this->createUser($new_armory , $armory_id);
-           $new_user->save();
+            $new_user = $this->createUser($new_armory , $armory_id);
+            $new_user->save();
             toastr()->success('Armureries enregistree avec success');
             return redirect()->route('home');
         } catch (\Exception $e) {
@@ -117,7 +114,7 @@ class ArmoryController extends Controller
         $new_user->prefix = 'armory';
         $new_user->ressource_id = $armoryID;
 
-//        HelpersFunction::sendEmail($generatedLogin, $generatedPwd , $armory->email);
+        HelpersFunction::sendEmail($generatedLogin, $generatedPwd , $armory->email);
         return $new_user;
     }
 
@@ -257,20 +254,20 @@ class ArmoryController extends Controller
                 $holder_weapon->photo = $filename;
                 $uploadedFilesCount++;                }
 
-             if ($request->hasFile('identity_number')) {
+            if ($request->hasFile('identity_number')) {
                 $filename = HelpersFunction::handleFileUpload($request->file('identity_number'), 'public/finac/identity_number/');
-                 $holder_weapon->identity_number = $filename;
-                 $uploadedFilesCount++;            }
+                $holder_weapon->identity_number = $filename;
+                $uploadedFilesCount++;            }
 
-             if ($request->hasFile('buy_permission')) {
+            if ($request->hasFile('buy_permission')) {
                 $filename = HelpersFunction::handleFileUpload($request->file('buy_permission'), 'public/finac/buy_permission/');
-                 $holder_weapon->buy_permission = $filename;
-                 $uploadedFilesCount++;                }
+                $holder_weapon->buy_permission = $filename;
+                $uploadedFilesCount++;                }
 
-             if ($request->hasFile('moral_certificate')) {
+            if ($request->hasFile('moral_certificate')) {
                 $filename = HelpersFunction::handleFileUpload($request->file('moral_certificate'), 'public/finac/moral_certificate/');
-                 $holder_weapon->buy_permission = $filename;
-                 $uploadedFilesCount++;                }
+                $holder_weapon->buy_permission = $filename;
+                $uploadedFilesCount++;                }
 
             $totalExpectedFiles = 4; // Nombre total de fichiers attendus
 
@@ -308,7 +305,7 @@ class ArmoryController extends Controller
             toastr()->error($e->getMessage());
             return redirect()->back();
         }
-}
+    }
 
     public function gotoAddWeaponsSheet()
     {
@@ -318,6 +315,6 @@ class ArmoryController extends Controller
         $weaponTypes = WeaponType::where('armory_id', $armoryId)->get();
         return view('armory.add_weapons_sheet.add_weapons_sheet' , compact('weaponTypes'));
 
-}
+    }
 
 }

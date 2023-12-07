@@ -24,7 +24,7 @@ class WelcomeController extends Controller
     public function goTocreateArmory()
     {
 
-        $departments = Departement::all();
+        $departments = Departement::orderBy('name', 'asc')->get();
         $districts = District::all();
         return view('welcome.create_armory',compact('departments', 'districts'));
     }

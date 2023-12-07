@@ -12,8 +12,9 @@ class State extends Model
         return $this->belongsTo(Country::class,'country_id');
 
     }
-    public function towns(){
-        return $this->hasMany(District::class,'state_id');
 
+    public function departements()
+    {
+        return $this->hasMany(Departement::class);
     }
 }

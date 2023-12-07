@@ -28,7 +28,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Liste des Services gouverneur</h4>
+                    <h4>Liste des Prefectures</h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -83,7 +83,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addPrefectureModalLabel">Ajouter Minatd</h5>
+                    <h5 class="modal-title" id="addPrefectureModalLabel">Ajouter Prefecture</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

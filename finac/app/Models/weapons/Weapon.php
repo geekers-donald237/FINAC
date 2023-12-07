@@ -24,9 +24,9 @@ class Weapon extends Model
         return $this->belongsTo(WeaponType::class, 'weapon_type_id');
     }
 
-    public function holders()
+    public function holder()
     {
-        return $this->hasMany(HoldersWeapon::class);
+        return $this->hasMany(HoldersWeapon::class , 'holder_id');
     }
 
 }

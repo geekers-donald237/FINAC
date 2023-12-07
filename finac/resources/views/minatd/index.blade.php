@@ -79,6 +79,7 @@
                                     </thead>
                                     <tbody>
                                     @foreach($associatedData as $key=> $data)
+
                                         <tr>
                                             <th scope="row">{{ intval($key) + 1 }}</th>
                                             <td>{{ $data['holderWeapons']->fullname }}</td>

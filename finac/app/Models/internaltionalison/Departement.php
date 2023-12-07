@@ -10,4 +10,9 @@ class Departement extends Model
     use HasFactory;
     protected $keyType = 'string';
 
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+
 }

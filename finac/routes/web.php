@@ -23,6 +23,8 @@ Route::middleware(['web'])->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('logout', [AuthController::class, 'logout_dashboard'])->name('logout_dashboard');
+    Route::resource('armory', \App\Http\Controllers\Armory\ArmoryController::class);
+
 });
 
 Route::middleware(['check.auth'])->group(function () {
@@ -35,7 +37,6 @@ Route::middleware(['check.auth'])->group(function () {
     Route::resource('minatd', \App\Http\Controllers\Admin\subAdmin\MinatdController::class);
 
     // Armory Routes
-    Route::resource('armory', App\Http\Controllers\Armory\ArmoryController::class);
     Route::get('armory_details/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'getArmorySytemdetails'])->name('armory.details');
     Route::get('minatd_armory_details/{id}', [\App\Http\Controllers\Admin\subAdmin\MinatdController::class, 'getArmoryMinatdDetails'])->name('minatd.armory.details');
     Route::get('governor_armory_details/{id}', [\App\Http\Controllers\Admin\subAdmin\GovernorController::class, 'getArmoryGovernorDetails'])->name('governor.armory.details');

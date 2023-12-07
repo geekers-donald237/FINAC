@@ -28,7 +28,7 @@
             <div class="card card-primary rounded-0">
                 <div class="card-header">
                     <h4>
-                        <span class="badge badge-danger mr-2">{{$permissionsValides}}</span>
+                        <span class="badge badge-danger mr-2">{{$permissionsTraitees}}</span>
                         Fiche validee
                     </h4>
                 </div>
@@ -48,7 +48,7 @@
             <div class="card card-primary rounded-0">
                 <div class="card-header">
                     <h4>
-                        <span class="badge badge-danger mr-2">{{$permissionsNonTraitees}}</span>
+                        <span class="badge badge-danger mr-2">{{$permissionsNonTraitees }}</span>
                         Fiche non consulte
                     </h4>
                 </div>
@@ -78,21 +78,22 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($associatedData as $key=> $data)
+                                    @foreach($permissionsAvecArmureries as $key => $data)
                                         <tr>
                                             <th scope="row">{{ intval($key) + 1 }}</th>
-                                            <td>{{ $data['holderWeapons']->fullname }}</td>
-                                            <td>{{ $data['holderWeapons']->telephone }}</td>
-                                            <td>{{ $data['holderWeapons']->email }}</td>
-                                            <td>{{ $data['holderWeapons']->profession }}</td>
-                                            <td>{{$data['weapon']->weaponType->armory->name}}</td>
+                                            <td>{{ $data['holder']->fullname }}</td>
+                                            <td>{{ $data['holder']->telephone }}</td>
+                                            <td>{{ $data['holder']->email }}</td>
+                                            <td>{{ $data['holder']->profession }}</td>
+                                            <td>{{ $data['armory']->name }}</td>
                                             <td>
-                                                <a class="btn btn-primary btn-action" href="{{route('governor.holders.details', $data['permissionsPortId'])}}" title="Details">
+                                                <a class="btn btn-primary btn-action" href="{{ route('governor.holders.details', $data['permissionsPort']->id) }}" title="Details">
                                                     Details
                                                 </a>
                                             </td>
                                         </tr>
                                     @endforeach
+
                                     </tbody>
                                 </table>
                             </div>

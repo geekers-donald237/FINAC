@@ -1,4 +1,6 @@
 @extends('layouts.template')
+@section('title','info & contact')
+
 
 @section('style')
 @endsection
