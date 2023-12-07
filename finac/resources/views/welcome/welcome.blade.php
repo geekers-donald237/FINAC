@@ -9,22 +9,26 @@
                     <div class="row align-items-center">
                         <div class="col-12">
                             <div class="row  align-items-center">
-                                <h1 data-aos="fade-up" data-aos-delay="100">Contrôle et gestion des armes avec FINAC</h1>
-                                <p class="mb-4" data-aos="fade-up" data-aos-delay="200">Bienvenue sur le Fichier National des Armes du Cameroun (FINAC). Notre plateforme est dédiée à la gestion complète et sécurisée des armes à l'échelle nationale. FINAC offre un outil avancé facilitant le suivi et la régulation des armes sur le territoire, garantissant une gestion administrative transparente et rigoureuse. Avec des fonctionnalités intuitives, notre objectif est de renforcer la sécurité et le contrôle des armes, offrant ainsi un mécanisme de suivi et de gestion des stocks pour une meilleure gouvernance nationale.</p>
-                                @guest
-                                    <li class="cta3">
-                                        <a href="#" class="nav-link" data-toggle="modal" data-target="#lossDeclarationModal">
-                                            <span>Déclaration de Pertes</span>
-                                        </a>
-                                    </li>
+                                <h1 data-aos="fade-up" data-aos-delay="100">Fichier National des Armes Civile</h1>
+                                <h2 data-aos="fade-up" data-aos-delay="100">MINISTERE DE L'ADMINISTRATION TERRITORIALE ET DE LA DECENTRALISATION</h2>
+{{--                                <p class="mb-4" data-aos="fade-up" data-aos-delay="200">Controle - Gestion - Securisation - Tracabilite.</br></p>--}}
 
-                                    <li class="cta4">
-                                        <a href="" class="nav-link ">
-                                            <span>Déclaration d'Arme</span>
-                                        </a>
-                                    </li>
-                                @endguest
                             </div>
+                            @guest
+                             <div class="row">
+                                 <li class="cta3">
+                                     <a href="{{ route('declaration.LossDeclaration') }}" class="nav-link">
+                                         <span>Déclaration de Pertes</span>
+                                     </a>
+                                 </li>
+                                 <li class="cta4">
+                                     <a href="{{ route('declaration.WeaponsDeclaration') }}" class="nav-link ">
+                                         <span>Déclaration d'Arme</span>
+                                     </a>
+                                 </li>
+                             </div>
+
+                            @endguest
                         </div>
                     </div>
                 </div>

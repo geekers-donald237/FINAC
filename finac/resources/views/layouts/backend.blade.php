@@ -65,8 +65,14 @@
                     <ul class="sidebar-menu">
 
                         @if($activeLink === 'user')
-                            <li class="dropdown active">
-                                <a href="" class="nav-link"><i data-feather="plus-circle"></i><span>Creer une armurerie</span></a>
+                            <li class="dropdown {{$subactiveLink === 'user.armory' ? 'active' : ''}}">
+                                <a href="{{route('add_armory')}}" class="nav-link"><i data-feather="plus-circle"></i><span>Creer une armurerie</span></a>
+                            </li>
+                            <li class="dropdown {{$subactiveLink === 'user.declaration.perte' ? 'active' : ''}}">
+                                <a href="{{ route('declaration.LossDeclaration') }}" class="nav-link"><i data-feather="alert-triangle"></i><span>Declaration </span></a>
+                            </li>
+                            <li class="dropdown {{$subactiveLink === 'user.possesion' ? 'active' : ''}}">
+                                <a href="{{ route('declaration.WeaponsDeclaration') }}" class="nav-link"><i data-feather="shield"></i><span>Declaration de possesion</span></a>
                             </li>
                         @endif
 

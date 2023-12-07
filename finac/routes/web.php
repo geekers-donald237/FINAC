@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Declaration\ArmeController;
+use App\Http\Controllers\Declaration\DeclarationController;
 use App\Http\Controllers\Home\WelcomeController;
 
 use Illuminate\Support\Facades\Route;
@@ -71,3 +73,14 @@ Route::middleware(['check.auth'])->group(function () {
     Route::get('gtest_route', [\App\Http\Controllers\Admin\subAdmin\GovernorController::class, 'index2'])->name('governor_armory');
     Route::get('ptest_route', [\App\Http\Controllers\Admin\subAdmin\PrefectureController::class, 'index2'])->name('prefecture_armory');
 });
+
+
+
+Route::get('/declaration/LossDeclaration', [DeclarationController::class, 'index'])->name('declaration.LossDeclaration');
+Route::get('/declaration/WeaponsDeclaration', [ArmeController::class, 'index'])->name('declaration.WeaponsDeclaration');
+
+Route::post('declaration/store', [DeclarationController::class, 'store'])->name('declaration.store');
+Route::post('declarationarmes/store', [ArmeController::class, 'store'])->name('declarationarmes.store');
+
+Route::resource('declarationarmes', ArmeController::class);
+Route::resource('declaration', DeclarationController::class);

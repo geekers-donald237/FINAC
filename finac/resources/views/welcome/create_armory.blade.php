@@ -1,5 +1,6 @@
 @php
     $activeLink = 'user';
+  $subactiveLink = 'user.armory'
 @endphp
 @extends('layouts.backend')
 @section('content')
