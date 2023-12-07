@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Admin\subAdmin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\HelpersFunction;
+use App\Models\armory\Armory;
 use App\Models\internaltionalison\Departement;
 use App\Models\internaltionalison\State;
 use App\Models\internaltionalison\District;
+use App\Models\PermissionsPort;
 use App\Models\user\subAdmin\Governor;
 use App\Models\user\subAdmin\Prefect;
 use App\Models\user\User;
+use App\Models\weapons\Weapon;
+use App\Models\weapons\WeaponType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Testing\Fluent\Concerns\Has;
@@ -22,10 +26,21 @@ class PrefectureController extends Controller
      */
     public function index()
     {
-        $departements = Departement::orderBy('name', 'asc')->get();
-        $allPrefectures = Prefect::whereIsDelete(false)->get();
-        return view('prefecture.index' , compact( 'departements' ,'allPrefectures' ));
+        $permissionsPorts = PermissionsPort::all();
+        $permissionsValides = PermissionsPort::where('code_finac', '!=', null)->count();
+        $permissionsRejetees = PermissionsPort::where('statut', 'rejete')->count();
+        $permissionsNonTraitees = PermissionsPort::whereNull('code_finac')->count() - ($permissionsValides + $permissionsRejetees);
 
+
+        $associatedData = [];
+
+        foreach ($permissionsPorts as $permissionsPort) {
+            $associatedData[$permissionsPort->id]['permissionsPortId'] = $permissionsPort->id;
+            $associatedData[$permissionsPort->id]['holderWeapons'] = $permissionsPort->holderWeapons;
+            $associatedData[$permissionsPort->id]['weapon'] = $permissionsPort->weapon;
+        }
+
+        return view('prefecture.index' , compact('permissionsPorts', 'associatedData' , 'permissionsRejetees' ,'permissionsValides' , 'permissionsNonTraitees') );
     }
 
     /**
@@ -96,6 +111,72 @@ class PrefectureController extends Controller
             return redirect()->back();
         }
     }
+
+    public function index2()
+    {
+        $towns = District::all();
+        $states = State::all();
+        $allArmories = Armory::where('is_delete' , false)->get();
+        $armories = Armory::all();
+
+        return view('prefecture.armory.index' , compact('allArmories' , 'towns' , 'states'  , 'armories' ));
+
+    }
+
+
+    public function gotoHolderWeaponsDetails($id)
+    {
+        try {
+            $permissionsPort = PermissionsPort::findOrFail($id);
+            $holderWeapons = $permissionsPort->holderWeapons;
+            $weapon = $permissionsPort->weapon;
+
+            return view('prefecture.details.holder_weapons_details', compact('holderWeapons', 'weapon'  , 'id'));
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+
+    public function gotoLostArm()
+    {
+        try {
+            return view('prefecture.weapon_lost.index');
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    public function getArmoryPrefectureDetails($armoryId)
+    {
+        $weaponTypes = WeaponType::where('armory_id', $armoryId)->get();
+        $weaponTypesId = WeaponType::where('armory_id', $armoryId)->pluck('id');
+        $armory = Armory::find($armoryId);
+        $armoryName = $armory->name;
+
+
+        $weapons = Weapon::whereIn('weapon_type_id', $weaponTypesId)->pluck('id');
+
+        $permissionsPorts = PermissionsPort::whereIn('weapon_id', $weapons)->get();
+
+        return view('prefecture.armory.armory_details',compact('weaponTypes' ,'armoryName','permissionsPorts' , 'armoryId'));
+
+    }
+
+    public function gotoHolderWeaponsDetailsCopy($id)
+    {
+        try {
+            $permissionsPort = PermissionsPort::findOrFail($id);
+            $holderWeapons = $permissionsPort->holderWeapons;
+            $weapon = $permissionsPort->weapon;
+
+            return view('prefecture.details.finac_sheet', compact('holderWeapons', 'permissionsPort','weapon'  , 'id'));
+        } catch (\Exception $e) {
+            dd($e);
+            // Gérer l'exception, par exemple, rediriger ou afficher un message d'erreur
+        }
+    }
+
 
     public function resendEmail($prefecture_id)
     {

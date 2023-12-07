@@ -1,6 +1,6 @@
 @php
     $activeLink = 'prefecture';
-    $subactiveLink = 'prefecture.fiche'
+    $subactiveLink = 'prefecture.weapon_lost'
 @endphp
 @extends('layouts.backend')
 
@@ -14,8 +14,8 @@
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-primary text-white-all">
-                    <li class="breadcrumb-item"><a href="{{route('minatd.index')}}"><i class="fas fa-building"></i>Admin</a></li>
-                    <li class="breadcrumb-item"><a><i class="fas fa-cubes"></i>Prefecture</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('prefecture.index')}}"><i class="fas fa-building"></i>Prefecture</a></li>
+                    <li class="breadcrumb-item"><a><i class="fas fa-cubes"></i>Armes Perdues</a></li>
                 </ol>
             </nav>
         </div>

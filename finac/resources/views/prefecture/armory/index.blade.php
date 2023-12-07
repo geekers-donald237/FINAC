@@ -1,6 +1,6 @@
 @php
     $activeLink = 'prefecture';
-    $subactiveLink = 'prefecture.fiche'
+    $subactiveLink = 'prefecture.armory'
 
 @endphp
 @extends('layouts.backend')
@@ -38,7 +38,7 @@
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-primary text-white-all">
-                    <li class="breadcrumb-item"><a href="{{route('governor.index')}}"><i class="fas fa-building"></i>Governor Services</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('prefecture.index')}}"><i class="fas fa-building"></i>Prefecture</a></li>
                     <li class="breadcrumb-item"><a ><i class="fas fa-cubes"></i>Armureries</a></li>
                 </ol>
             </nav>
@@ -88,7 +88,7 @@
                                                     <div class="badge badge-danger">Inconnu</div>
                                                 @endif
                                             </td>
-                                            <td> <a class="btn btn-info btn-action mr-1" href="{{route('governor.armory.details' ,$armory->id )}}" title="Editer">
+                                            <td> <a class="btn btn-info btn-action mr-1" href="{{route('prefeture.armory.details' ,$armory->id )}}" title="Editer">
                                                     Details
                                                 </a></td>
                                         </tr>

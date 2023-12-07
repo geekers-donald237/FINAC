@@ -35,7 +35,7 @@ class AuthController extends Controller
                 } elseif ($user->prefix == 'governor') {
                     return redirect()->route('governor.index');
                 } elseif ($user->prefix == 'prefecture') {
-//                    return redirect()->route('prefecture.dashboard');
+                    return redirect()->route('prefecture.index');
                 } elseif ($user->prefix == 'admin') {
                     return redirect()->route('admin.index');
                 } else {

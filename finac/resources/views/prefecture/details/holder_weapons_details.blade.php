@@ -214,7 +214,7 @@
                         } else {
                             console.log(data);
                             // Redirection vers une nouvelle URL après succès
-                            window.location.href = "{{ route('governor.holders.details_copy', ':id') }}".replace(':id', id);
+                            window.location.href = "{{ route('prefecture.holders.details_copy', ':id') }}".replace(':id', id);
                         }
                     },
                     error: function(error) {

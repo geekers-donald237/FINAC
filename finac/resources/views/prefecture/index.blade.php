@@ -16,7 +16,7 @@
         <div class="col-md-12 ">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-primary text-white-all">
-                    <li class="breadcrumb-item"><a href=""><i class="fas fa-building"></i>Governor</a></li>
+                    <li class="breadcrumb-item"><a href=""><i class="fas fa-building"></i>Prefecture</a></li>
                     <li class="breadcrumb-item"><a ><i class="fas fa-cubes"></i>Fiche d'armes</a></li>
                 </ol>
             </nav>
@@ -87,7 +87,7 @@
                                             <td>{{ $data['holderWeapons']->profession }}</td>
                                             <td>{{$data['weapon']->weaponType->armory->name}}</td>
                                             <td>
-                                                <a class="btn btn-primary btn-action" href="{{route('governor.holders.details', $data['permissionsPortId'])}}" title="Details">
+                                                <a class="btn btn-primary btn-action" href="{{route('prefecture.holders.details', $data['permissionsPortId'])}}" title="Details">
                                                     Details
                                                 </a>
                                             </td>
