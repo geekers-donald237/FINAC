@@ -164,7 +164,6 @@
         var pdf = new jsPDF({
             orientation: 'portrait', // 'portrait' ou 'landscape'
             unit: 'mm',
-            format: 'a3',
         });
         pdf.setFontSize(12); // Ajustez la taille de police selon vos besoins
 
@@ -237,37 +236,37 @@
         var pdfData = pdf.output("datauristring");
         //
         // Créer un élément d'ancrage invisible
-        var link = document.createElement("a");
-        link.href = pdfData;
-        link.download = "ficheFinac.pdf";
-
-        // Ajouter l'élément au document
-        document.body.appendChild(link);
-
-        // Simuler le clic sur l'élément d'ancrage
-        link.click();
-
-        // Retirer l'élément du document
-        document.body.removeChild(link);
+        // var link = document.createElement("a");
+        // link.href = pdfData;
+        // link.download = "ficheFinac.pdf";
+        //
+        // // Ajouter l'élément au document
+        // document.body.appendChild(link);
+        //
+        // // Simuler le clic sur l'élément d'ancrage
+        // link.click();
+        //
+        // // Retirer l'élément du document
+        // document.body.removeChild(link);
 
         // Envoyer le fichier PDF au serveur avec Ajax
-        // $.ajax({
-        //
-        //     url: '/save-pdf', // Assurez-vous que le chemin correspond à votre route Laravel
-        //     type: 'POST',
-        //     contentType: 'application/json', // Spécifiez que vous envoyez du JSON
-        //     headers: {
-        //         'X-CSRF-TOKEN': csrfToken, // Ajouter le jeton CSRF dans les en-têtes
-        //     },
-        //     data: JSON.stringify({ pdfData: pdfData, formData: formData , email: email }), // Convertissez les données en JSON
-        //     success: function(response) {
-        //         console.log(response);
-        //     },
-        //     error: function(error) {
-        //         console.error('Erreur lors de l\'envoi du fichier PDF au serveur.');
-        //         console.error(error);
-        //     }
-        // });
+        $.ajax({
+
+            url: '/save-pdf', // Assurez-vous que le chemin correspond à votre route Laravel
+            type: 'POST',
+            contentType: 'application/json', // Spécifiez que vous envoyez du JSON
+            headers: {
+                'X-CSRF-TOKEN': csrfToken, // Ajouter le jeton CSRF dans les en-têtes
+            },
+            data: JSON.stringify({ pdfData: pdfData, formData: formData , email: email }), // Convertissez les données en JSON
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(error) {
+                console.error('Erreur lors de l\'envoi du fichier PDF au serveur.');
+                console.error(error);
+            }
+        });
     }
 
 </script>
