@@ -16,7 +16,7 @@
         <div class="col-md-12 ">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-primary text-white-all">
-                    <li class="breadcrumb-item"><a href=""><i class="fas fa-building"></i>Minatd</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('minatd.index')}}"><i class="fas fa-building"></i>Minatd</a></li>
                     <li class="breadcrumb-item"><a ><i class="fas fa-cubes"></i>Fiche d'armes</a></li>
                 </ol>
             </nav>

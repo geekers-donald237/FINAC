@@ -16,7 +16,7 @@
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-primary text-white-all">
-                    <li class="breadcrumb-item"><a href="{{route('governor.index')}}"><i class="fas fa-building"></i>Governor</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('prefecture.index')}}"><i class="fas fa-building"></i>Prefecture</a></li>
                     <li class="breadcrumb-item"><a><i class="fas fa-cubes"></i>Details Fiche d'armes</a></li>
                 </ol>
             </nav>

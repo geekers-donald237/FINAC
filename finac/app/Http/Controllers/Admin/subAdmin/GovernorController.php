@@ -187,12 +187,24 @@ class GovernorController extends Controller
     {
         $towns = District::all();
         $states = State::all();
-        $allArmories = Armory::where('is_delete' , false)->get();
-        $armories = Armory::all();
+        $gouverneur_id = auth()->user()->ressource_id;
+        $gouverneur = Governor::find($gouverneur_id);
+        $departements = $gouverneur->state->departements;
+        $departement_ids = [];
 
-        return view('governor.armory.index' , compact('allArmories' , 'towns' , 'states'  , 'armories' ));
+        foreach ($departements as $departement) {
+            $departement_ids[] = $departement->id;
+        }
 
+        // Récupérez les armureries dont l'ID de département est autorisé
+        $allArmories = Armory::where('is_delete', false)
+            ->whereIn('departement_id', $departement_ids)
+            ->get();
+
+
+        return view('governor.armory.index', compact('allArmories', 'towns', 'states'));
     }
+
 
 
     public function gotoHolderWeaponsDetails($id)

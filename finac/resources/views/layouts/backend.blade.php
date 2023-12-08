@@ -134,6 +134,10 @@
                                 <li class="dropdown {{$subactiveLink === 'minatd.weapon_lost' ? 'active' : ''}}">
                                     <a href="{{route('lost_arm')}}" class="nav-link"><i data-feather="shield"></i><span>Arme Perdue</span></a>
                                 </li>
+
+                                <li class="dropdown {{$subactiveLink === 'minatd.weapon_declared' ? 'active' : ''}}">
+                                    <a href="{{route('declared_arm')}}" class="nav-link"><i data-feather="check"></i><span>Arme declaree</span></a>
+                                </li>
                         @endif
 
 

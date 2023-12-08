@@ -31,8 +31,6 @@ class WeaponsTypeController extends Controller
     public function store(Request $request)
     {
         try {
-
-
             $types = $request->input('type');
             $armory_id = $request->input('armory_id');
             $quantities = $request->input('quantity');

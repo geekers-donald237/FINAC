@@ -15,7 +15,7 @@
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-primary text-white-all">
-                    <li class="breadcrumb-item"><a href="{{route('minatd.index')}}"><i class="fas fa-building"></i>Admin</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('minatd.index')}}"><i class="fas fa-building"></i>Minatd</a></li>
                     <li class="breadcrumb-item"><a><i class="fas fa-cubes"></i>Prefecture</a></li>
                 </ol>
             </nav>
@@ -54,10 +54,6 @@
                                                 <a class="btn btn-primary btn-action mr-1" title="Details">
                                                     Details
                                                 </a>
-                                                <a class="btn btn-info btn-action mr-1" href='' title="email">
-                                                    Renvoyer Email
-                                                </a>
-
                                             </td>
                                         </tr>
                                     @endforeach

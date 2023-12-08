@@ -64,6 +64,7 @@ Route::middleware(['check.auth'])->group(function () {
     Route::get('valid_weapons_sheet/{id}', [\App\Http\Controllers\Helpers\HelpersFunction::class, 'generateFINACCode'])->name('generate.finac');
     Route::post('reject_weapons_sheet/{id}', [\App\Http\Controllers\Helpers\HelpersFunction::class, 'rejectPermissionsPort'])->name('submit.reject');
     Route::get('lost_weapon', [\App\Http\Controllers\Admin\subAdmin\MinatdController::class, 'gotoLostArm'])->name('lost_arm');
+    Route::get('declared_weapon', [\App\Http\Controllers\Admin\subAdmin\MinatdController::class, 'gotoDeclaredArm'])->name('declared_arm');
     Route::get('glost_weapon', [\App\Http\Controllers\Admin\subAdmin\GovernorController::class, 'gotoLostArm'])->name('governor_lost_arm');
     Route::get('plost_weapon', [\App\Http\Controllers\Admin\subAdmin\PrefectureController::class, 'gotoLostArm'])->name('prefecture_lost_arm');
     Route::get('resend_prefecture/{id}', [\App\Http\Controllers\Admin\subAdmin\PrefectureController::class, 'resendEmail'])->name('resend.email');

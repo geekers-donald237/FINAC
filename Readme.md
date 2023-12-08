@@ -98,3 +98,5 @@ Votre application Laravel sera maintenant accessible à l'adresse du serveur dis
 - Pour une utilisation en production, envisagez d'utiliser un serveur web comme Nginx ou Apache en conjonction avec PHP-FPM.
 
 N'oubliez pas d'ajuster ces étapes en fonction de votre configuration spécifique.
+
+sudo docker-compose exec laravel-app php artisan migrate --database=mysql --force

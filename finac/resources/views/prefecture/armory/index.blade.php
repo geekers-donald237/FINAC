@@ -16,7 +16,7 @@
             <div class="card card-primary rounded-0">
                 <div class="card-header">
                     <h4>
-                        <span class="badge badge-danger mr-2">{{ count($allArmories) }}</span>
+                        <span class="badge badge-danger mr-2">{{ count($armories) }}</span>
                         Armes Perdus
                     </h4>
                 </div>
@@ -26,7 +26,7 @@
             <div class="card card-primary rounded-0">
                 <div class="card-header">
                     <h4>
-                        <span class="badge badge-danger mr-2">{{ count($allArmories) }}</span>
+                        <span class="badge badge-danger mr-2">{{ count($armories) }}</span>
                         Armureries
                     </h4>
                 </div>

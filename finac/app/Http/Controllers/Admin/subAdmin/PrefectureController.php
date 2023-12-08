@@ -161,12 +161,17 @@ class PrefectureController extends Controller
     {
         $towns = District::all();
         $states = State::all();
-        $allArmories = Armory::where('is_delete' , false)->get();
-        $armories = Armory::all();
+        $prefecture_id = auth()->user()->ressource_id;
+        $prefecture = Prefect::find($prefecture_id);
 
-        return view('prefecture.armory.index' , compact('allArmories' , 'towns' , 'states'  , 'armories' ));
+        // Récupérez les armureries dont l'ID de département est autorisé
+        $armories = Armory::where('is_delete', false)
+            ->where('departement_id', $prefecture->departement_id)
+            ->get();
 
+        return view('prefecture.armory.index', compact( 'towns', 'states', 'armories'));
     }
+
 
 
     public function gotoHolderWeaponsDetails($id)

@@ -98,6 +98,15 @@ class MinatdController extends Controller
         }
     }
 
+    public function gotoDeclaredArm()
+    {
+        try {
+            return view('minatd.weapon_declared.index');
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
     public function getArmoryMinatdDetails($armoryId)
     {
         $weaponTypes = WeaponType::where('armory_id', $armoryId)->get();

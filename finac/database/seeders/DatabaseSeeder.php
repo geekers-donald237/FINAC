@@ -18,5 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call(MinatdSeeder::class);
         $this->call(DepartementSeeders::class);
         $this->call(DistrictsSeeders::class);
+        $this->call(GovernorSeeder::class);
+        $this->call(PrefectureSeeder::class);
+        $this->call(ArmorySeeder::class);
     }
 }

@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('weapons', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('weapon_type_id');
-            $table->string('holder_id');
+            $table->string('holder_id')->nullable();
             $table->string('serial_number');
             $table->timestamps();
             $table->foreign('holder_id')->references('id')->on('holders_weapons');

@@ -1,41 +1,176 @@
-@extends('layouts.template')
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Acceuil</title>
 
-@section('content')
+    <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{{ asset('asset/fonts/icomoon/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/css/jquery-ui.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/css/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/css/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/css/jquery.fancybox.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/css/bootstrap-datepicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/fonts/flaticon/font/flaticon.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/css/aos.css') }}">
+    <link rel="stylesheet" href="{{ asset('asset/css/style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{asset('asset/images/logo_finac.jpg')}}">
+
+</head>
+<body>
 
     <div class="site-wrap">
-        <div class="intro-section" id="home-section">
-            <div class="slide-1" style="background-image: url('{{ asset('asset/images/normal.jpg') }}'); opacity: 1 " data-stellar-background-ratio="0.5">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-12">
-                            <div class="row  align-items-center">
-                                <h1 data-aos="fade-up" data-aos-delay="100">Fichier National des Armes Civile</h1>
-                                <h2 data-aos="fade-up" data-aos-delay="100">MINISTERE DE L'ADMINISTRATION TERRITORIALE ET DE LA DECENTRALISATION</h2>
-{{--                                <p class="mb-4" data-aos="fade-up" data-aos-delay="200">Controle - Gestion - Securisation - Tracabilite.</br></p>--}}
 
-                            </div>
-                            @guest
-                             <div class="row">
-                                 <li class="cta3">
-                                     <a href="{{ route('declaration.LossDeclaration') }}" class="nav-link">
-                                         <span>Déclaration de Pertes</span>
-                                     </a>
-                                 </li>
-                                 <li class="cta4">
-                                     <a href="{{ route('declaration.WeaponsDeclaration') }}" class="nav-link ">
-                                         <span>Déclaration d'Arme</span>
-                                     </a>
-                                 </li>
-                             </div>
+        <div class="site-mobile-menu site-navbar-target">
+            <div class="site-mobile-menu-header">
+                <div class="site-mobile-menu-close mt-3">
+                    <span class="icon-close2 js-menu-toggle"></span>
+                </div>
+            </div>
+            <div class="site-mobile-menu-body"></div>
+        </div>
 
+        <header class="site-navbar py-4 js-sticky-header site-navbar-target" role="banner" style="background-color: #0F1111;">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center">
+                        <div class="site-logo mr-auto w-25"><a href="{{route('home')}}"><img src="{{ asset('asset/images/cameroun-flag.png') }}" width="60" height="40" alt="Drapeau Cameroun" class="flag-icon"></a></div>
+
+                        <div class="mx-auto text-center">
+                            @guest()
+                                <nav class="site-navigation position-relative navbar navbar-expand-lg text-right" role="navigation" style="background-color: #0F1111">
+                                    <ul class="site-menu main-menu js-clone-nav mx-auto d-none d-lg-block  m-0 p-0">
+                                        <li><a href="{{route('home')}}" class="nav-link">Home</a></li>
+                                        <li><a href="{{route('info_contact')}}" class="nav-link">Infos & Contact</a></li>
+                                        <li><a href="{{route('add_armory')}}" class="nav-link">Creer une Armurerie</a></li>
+                                    </ul>
+                                </nav>
                             @endguest
                         </div>
+                        <div class="ml-auto ">
+                            <nav class="site-navigation position-relative navbar navbar-expand-lg  text-right" role="navigation">
+                                <ul class="site-menu main-menu site-menu-dark js-clone-nav mr-auto d-none d-lg-block m-0 p-0">
+                                    @auth
+                                        <li class="ctav">
+                                            <a href="{{route('logout')}}"  class="nav-link text-primary"><span>Logout</span>
+                                            </a></li>
+                                    @endauth
+                                    @guest
+
+
+                                        <li class="cta2">
+                                            <a href="#" data-toggle="modal" data-target="#LoginPopupModal" class="nav-link"><span>Connexion</span>
+                                            </a></li>
+                                    @endguest
+
+                                </ul>
+                            </nav>
+                            <a href="#" class="d-inline-block-block d-lg-none site-menu-toggle js-menu-toggle text-black float-right"><span class="icon-menu h3"></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid mt-5" style="background-color: #0F1111">
+                    <div class="row">
+                        <div class="col-md-6 text-light">
+                            <div class="col mt-5 d-flex flex-column align-items-end"> <!-- Ajout de la classe d-flex pour activer les flexbox et flex-column pour la disposition en colonne -->
+                                <div class="container mt-5">
+                                    <div class="col-8">
+                                        <div class="row">
+                                            <h1 data-aos="fade-up" data-aos-delay="100" style="font-family: 'Arial', sans-serif; letter-spacing: 2px; line-height: 1.2;">Fichier National des Armes Civiles.</h1>
+                                            <h2 data-aos="fade-up" class="mt-2" data-aos-de
+                                                lay="200" style="font-family: 'Arial', sans-serif; letter-spacing: 1px; line-height: 1.2;">MINISTERE DE L'ADMINISTRATION TERRITORIALE ET DE LA DECENTRALISATION</h2>
+                                        </div>
+                                        @guest
+                                            <div class="row mt-5">
+                                                <div class="cta3">
+                                                    <a href="{{ route('declaration.LossDeclaration') }}" class="nav-link">
+                                                        <span>Déclaration de Pertes</span>
+                                                    </a>
+                                                </div>
+                                                <div class="cta4">
+                                                    <a href="{{ route('declaration.WeaponsDeclaration') }}" class="nav-link">
+                                                        <span>Déclaration d'Arme</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        @endguest
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr/>
+                        <div class="col-md-6">
+                            <img src="{{asset('asset/images/logo_finac.jpg')}}" alt="Image" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                </div>
+            <div class="container" style="background-color: #0F1111">
+                <div class="row text-center">
+                    <div class="col-md-12 mt-3 mb-0">
+                        <p>
+                            Copyright &copy;<script> 2023 ;</script> by <a href="#">SOS Home</a> All Rights Reserved
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            </header>
+
+
+        <div class="modal fade" id="LoginPopupModal" tabindex="-1" role="dialog" aria-labelledby="LoginPopupModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="LoginPopupModalTitle">Connexion</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="{{ route('login') }}">
+                            @csrf
+                            @method('POST')
+                            <div class="form-group">
+                                <label for="login">Login <span class="text-danger">*</span></label>
+                                <input type="text" name="login" class="form-control" placeholder="Login" autocomplete="login" autofocus required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Mot de passe <span class="text-danger">*</span></label>
+                                <input type="password" name="password" class="form-control" placeholder="Entrer votre mot de passe" autofocus min="8" required>
+                            </div>
+                            <div class="btn-box pt-3 pb-4">
+                                <input type="submit" value="Connexion" class="btn btn-primary w-100">
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-         </div>
+
+    </div>
+
+
+<script src="{{ asset('asset/js/jquery-3.3.1.min.js') }}"></script>
+<script src="{{ asset('asset/js/jquery-migrate-3.0.1.min.js') }}"></script>
+<script src="{{ asset('asset/js/jquery-ui.js') }}"></script>
+<script src="{{ asset('asset/js/popper.min.js') }}"></script>
+<script src="{{ asset('asset/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('asset/js/owl.carousel.min.js') }}"></script>
+<script src="{{ asset('asset/js/jquery.stellar.min.js') }}"></script>
+<script src="{{ asset('asset/js/jquery.countdown.min.js') }}"></script>
+<script src="{{ asset('asset/js/bootstrap-datepicker.min.js') }}"></script>
+<script src="{{ asset('asset/js/jquery.easing.1.3.js') }}"></script>
+<script src="{{ asset('asset/js/aos.js') }}"></script>
+<script src="{{ asset('asset/js/jquery.fancybox.min.js') }}"></script>
+<script src="{{ asset('asset/js/jquery.sticky.js') }}"></script>
+<script src="{{ asset('asset/js/main.js') }}"></script>
+</body>
+</html>
 
 
 
-@endsection
