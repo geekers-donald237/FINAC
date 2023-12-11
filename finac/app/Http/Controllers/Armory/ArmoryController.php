@@ -281,7 +281,6 @@ class ArmoryController extends Controller
             $holder_weapon->email = $email;
             $holder_weapon->profession = $profession;
 
-
             $new_weapon = new Weapon();
             $new_weapon->id = $weaponUid->toString();
             $new_weapon->weapon_type_id = $weapon_type;

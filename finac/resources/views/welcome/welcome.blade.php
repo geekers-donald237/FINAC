@@ -36,72 +36,81 @@
         <header class="site-navbar py-4 js-sticky-header site-navbar-target" role="banner" style="background-color: #0F1111;">
                 <div class="container-fluid">
                     <div class="d-flex align-items-center">
-                        <div class="site-logo mr-auto w-25"><a href="{{route('home')}}"><img src="{{ asset('asset/images/cameroun-flag.png') }}" width="60" height="40" alt="Drapeau Cameroun" class="flag-icon"></a></div>
+                        <div class="site-logo mr-auto w-25">
+                            <a href="{{route('home')}}">
+                                <img src="{{ asset('asset/images/cameroun-flag.png') }}" width="60" height="45" alt="Drapeau Cameroun" class="flag-icon">
+                            </a>
+                        </div>
 
                         <div class="mx-auto text-center">
                             @guest()
                                 <nav class="site-navigation position-relative navbar navbar-expand-lg text-right" role="navigation" style="background-color: #0F1111">
                                     <ul class="site-menu main-menu js-clone-nav mx-auto d-none d-lg-block  m-0 p-0">
-                                        <li><a href="{{route('home')}}" class="nav-link">Home</a></li>
+                                        <li><a href="{{route('home')}}" class="active nav-link">Acceuil</a></li>
                                         <li><a href="{{route('info_contact')}}" class="nav-link">Infos & Contact</a></li>
                                         <li><a href="{{route('add_armory')}}" class="nav-link">Creer une Armurerie</a></li>
                                     </ul>
                                 </nav>
                             @endguest
                         </div>
-                        <div class="ml-auto ">
+
+                        <div class="ml-auto">
                             <nav class="site-navigation position-relative navbar navbar-expand-lg  text-right" role="navigation">
                                 <ul class="site-menu main-menu site-menu-dark js-clone-nav mr-auto d-none d-lg-block m-0 p-0">
                                     @auth
                                         <li class="ctav">
-                                            <a href="{{route('logout')}}"  class="nav-link text-primary"><span>Logout</span>
-                                            </a></li>
+                                            <a href="{{route('logout')}}" class="nav-link text-primary"><span>Logout</span></a>
+                                        </li>
                                     @endauth
                                     @guest
-
-
                                         <li class="cta2">
-                                            <a href="#" data-toggle="modal" data-target="#LoginPopupModal" class="nav-link"><span>Connexion</span>
-                                            </a></li>
+                                            <a href="#" data-toggle="modal" data-target="#LoginPopupModal" class="nav-link"><span>Connexion</span></a>
+                                        </li>
                                     @endguest
-
                                 </ul>
                             </nav>
                             <a href="#" class="d-inline-block-block d-lg-none site-menu-toggle js-menu-toggle text-black float-right"><span class="icon-menu h3"></span></a>
                         </div>
                     </div>
+
+                    <div class="row mt-5 align-items-center">
+                        <div class="col-md-12 text-light text-center mx-auto">
+                            <div class="text-container">
+                                <h2 data-aos="fade-up" data-aos-delay="200" style="font-family: 'Arial', sans-serif; letter-spacing: 1px; line-height: 1.2;">Ministere de L'Administration  Territoriale et de la  Decentralisation</h2>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="container-fluid mt-5" style="background-color: #0F1111">
                     <div class="row">
                         <div class="col-md-6 text-light">
                             <div class="col mt-5 d-flex flex-column align-items-end"> <!-- Ajout de la classe d-flex pour activer les flexbox et flex-column pour la disposition en colonne -->
                                 <div class="container mt-5">
-                                    <div class="col-8">
-                                        <div class="row">
-                                            <h1 data-aos="fade-up" data-aos-delay="100" style="font-family: 'Arial', sans-serif; letter-spacing: 2px; line-height: 1.2;">Fichier National des Armes Civiles.</h1>
-                                            <h2 data-aos="fade-up" class="mt-2" data-aos-de
-                                                lay="200" style="font-family: 'Arial', sans-serif; letter-spacing: 1px; line-height: 1.2;">MINISTERE DE L'ADMINISTRATION TERRITORIALE ET DE LA DECENTRALISATION</h2>
+                                    <div class="col-12">
+                                        <div class="text-container  d-flex flex-column align-items-center">
+                                            <h3 data-aos="fade-up" data-aos-delay="100" style="font-family: 'Arial', sans-serif; letter-spacing: 2px; line-height: 1.2; margin-bottom: 10px;">FICHIER NATIONAL DES ARMES CIVILES.</h3>
+                                            <p data-aos="fade-up" data-aos-delay="200" style="font-family: 'Arial', sans-serif; letter-spacing: 2px; line-height: 1.2; margin-bottom: 10px;">Contrôle - gestion - sécurisation - traçabilité</p>
                                         </div>
                                         @guest
-                                            <div class="row mt-5">
+                                            <div class="row" style="margin-top: 45%">
                                                 <div class="cta3">
                                                     <a href="{{ route('declaration.LossDeclaration') }}" class="nav-link">
-                                                        <span>Déclaration de Pertes</span>
+                                                        <span>Déclaration de perte d'arme</span>
                                                     </a>
                                                 </div>
                                                 <div class="cta4">
                                                     <a href="{{ route('declaration.WeaponsDeclaration') }}" class="nav-link">
-                                                        <span>Déclaration d'Arme</span>
+                                                        <span>Déclaration de possession d'Arme</span>
                                                     </a>
                                                 </div>
                                             </div>
                                         @endguest
                                     </div>
                                 </div>
+
                             </div>
                         </div>
-
-                        <hr/>
                         <div class="col-md-6">
                             <img src="{{asset('asset/images/logo_finac.jpg')}}" alt="Image" class="img-fluid">
                         </div>
@@ -109,15 +118,15 @@
                 </div>
                 <div>
                 </div>
-            <div class="container" style="background-color: #0F1111">
-                <div class="row text-center">
-                    <div class="col-md-12 mt-3 mb-0">
-                        <p>
-                            Copyright &copy;<script> 2023 ;</script> by <a href="#">SOS Home</a> All Rights Reserved
-                        </p>
-                    </div>
-                </div>
-            </div>
+{{--            <div class="container" style="background-color: #0F1111">--}}
+{{--                <div class="row text-center">--}}
+{{--                    <div class="col-md-12 mt-3 mb-0">--}}
+{{--                        <p>--}}
+{{--                            Copyright &copy;<script> 2023 ;</script> by <a href="#">SOS Home</a> All Rights Reserved--}}
+{{--                        </p>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
             </header>
 
@@ -151,7 +160,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
 

@@ -332,9 +332,10 @@ h1, h2, h3, h4, h5,
         padding: 5px 20px;
         color: #fff;
         display: inline-block;
+          font-weight: bold;
         text-decoration: none !important; }
         .site-navbar .site-navigation .site-menu > li > a:hover {
-          color: #fff; }
+          color: green; }
     .site-navbar .site-navigation .site-menu .has-children {
       position: relative; }
       .site-navbar .site-navigation .site-menu .has-children > a {
@@ -434,7 +435,7 @@ h1, h2, h3, h4, h5,
   right: 0;
   z-index: 2000;
   padding-top: 20px;
-  background: #fff;
+  background: antiquewhite;
   height: calc(100vh);
   -webkit-transform: translateX(110%);
   -ms-transform: translateX(110%);
@@ -612,24 +613,8 @@ h1, h2, h3, h4, h5,
     padding-top: 10px !important;
     padding-bottom: 10px !important; }
 
-/* Blocks */
-.intro-section {
-  position: relative; }
-  .intro-section, .intro-section .container > .row {
-    height: 100vh;
-    min-height: 900px; }
-  .intro-section.single-cover, .intro-section.single-cover .container > .row {
-    height: 50vh;
-    min-height: 400px; }
-  .intro-section h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 1.5rem; }
-  .intro-section p {
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 1.1rem; }
 
+/* Blocks */
 .img-absolute {
   position: absolute;
   right: 10%;
@@ -682,24 +667,6 @@ h1, h2, h3, h4, h5,
   @media (max-width: 991.98px) {
     .site-section {
       padding: 4em 0; } }
-
-/* FINAC TEXT*/
-.green { color: green; font-size: 1.5em; }
-.red { color: red; font-size: 1.8em; }
-.yellow { color: yellow; font-size: 1.5em; }
-
-/*HOME BTN DECLARATION BTN*/
-.green-text {
-    color: green;
-}
-
-.red-text {
-    color: red;
-}
-
-.green-text:hover {
-    color: red; /* Couleur rouge au survol */
-}
 
 .red-text:hover {
     color: green; /* Couleur verte au survol */
