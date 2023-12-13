@@ -34,18 +34,6 @@
                         @method('POST')
                         <div class="row">
                             <div class="form-group col">
-                                <label for="finac_code">Code Finac <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="finac_code" name="finac_code" placeholder="Code Finac" required>
-                            </div>
-
-                            <div class="form-group col">
-                                <label for="series_number">Numero de serie<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="series_number" name="series_number" placeholder="Numero de serie" required>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col">
                                 <label for="name">Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
                             </div>

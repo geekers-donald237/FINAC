@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('declarations', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('finac_code');
-            $table->string('series_number');
             $table->string('name');
             $table->string('surname');
             $table->date('dateNaissance');

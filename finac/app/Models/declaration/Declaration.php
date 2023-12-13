@@ -13,8 +13,6 @@ class Declaration extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'finac_code',
-        'series_number',
         'name',
         'surname',
         'dateNaissance',

@@ -32,8 +32,6 @@ class DeclarationController extends Controller
     public function store(Request $request)
     {
         try {
-            $finac_code = $request->finac_code;
-            $series_number = $request->series_number;
             $name = $request->name;
             $surname = $request->surname;
             $dateNaissance = $request->dateNaissance;
@@ -45,15 +43,13 @@ class DeclarationController extends Controller
             $description = $request->description;
 
             // Vérifier si tous les champs nécessaires sont remplis
-            if (HelpersFunction::checkValueOfArrayIsEmpty([$finac_code, $series_number, $date, $adresse, $description])) {
+            if (HelpersFunction::checkValueOfArrayIsEmpty([$name,$surname,$dateNaissance,$lieuNaissance, $date, $adresse, $description])) {
                 throw new \Exception('Veuillez remplir tous les champs');
             }
 
             // Créer une nouvelle déclaration
             $new_declaration = new Declaration();
             $new_declaration->id = \Illuminate\Support\Str::uuid(); // Génération d'UUID
-            $new_declaration->finac_code = $finac_code;
-            $new_declaration->series_number = $series_number;
             $new_declaration->name = $request->name;
             $new_declaration->surname = $request->surname;
             $new_declaration->dateNaissance = $request->dateNaissance;

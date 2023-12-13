@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Declaration\ArmeController;
 use App\Http\Controllers\Declaration\DeclarationController;
+use App\Http\Controllers\Declaration\LoginLossController;
 use App\Http\Controllers\Home\WelcomeController;
 
 use Illuminate\Support\Facades\Route;
@@ -85,3 +86,7 @@ Route::post('declarationarmes/store', [ArmeController::class, 'store'])->name('d
 
 Route::resource('declarationarmes', ArmeController::class);
 Route::resource('declaration', DeclarationController::class);
+
+Route::get('verifylogin', [LoginLossController::class, 'showLoginForm']);
+
+Route::resource('/declarationverify/verifylogin', LoginLossController::class)->only(['show', 'store']);

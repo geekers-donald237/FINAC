@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('statut',['envoye' , 'rejete' ,'accepte']);
             $table->string('motif_refus')->nullable();
             $table->string('code_finac')->unique()->nullable();
+            $table->string('numero_serie')->unique()->nullable();
             $table->timestamps();
 
             $table->foreign('weapon_id')->references('id')->on('weapons')->onDelete('cascade')->onUpdate('cascade');
