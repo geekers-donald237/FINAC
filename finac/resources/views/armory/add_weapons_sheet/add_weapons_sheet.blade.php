@@ -1,8 +1,6 @@
-
 @php
     $activeLink = 'armory';
-        $subactiveLink = 'weapons.sheet';
-
+    $subactiveLink = 'weapons.sheet';
 @endphp
 @extends('layouts.backend')
 
@@ -12,7 +10,6 @@
 @endsection
 
 @section('content')
-
     <div class=" row">
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
@@ -70,8 +67,8 @@
                                 <input type="file" name="buy_permission" accept = ".pdf" id="buy_permission" class="form-control" required>
                             </div>
                             <div class="form-group col">
-                                <label for="moral_certificate">Certificat de Moralite</label>
-                                <input type="file" name="moral_certificate" accept = ".pdf" id="moral_certificate" class="form-control" required>
+                                <label for="honor_contract">Contrat sur L'honneur</label>
+                                <input type="file" name="honor_contract" accept = ".pdf" id="honor_contract" class="form-control" required>
                             </div>
                         </div>
                         <div class="row">
@@ -87,10 +84,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col">
-                                <label for="serial_number">Numéro de série</label>
-                                <input type="text" name="serial_number" id="nui" class="form-control" value="{{ old('serial_number') }}" placeholder="Entrez le numéro de série" required>
-                            </div>
+
                         </div>
                         <div class="form-group col-12 d-flex justify-content-between">
                             <div class="form-check">
@@ -101,7 +95,6 @@
                             </div>
                             <button type="button" class="btn btn-primary" id="submitBtn" disabled>Ajouter la fiche d'arme</button>
                         </div>
-
                     </div>
                 </form>
             </div>

@@ -12,71 +12,81 @@ use App\Models\weapons\Weapon;
 use App\Models\weapons\WeaponType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
 
 class WeaponsTypeController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $userID = Auth::user()->id;
         $user = User::find($userID);
         $armoryId = $user->getArmoryId();
         $weaponTypes = WeaponType::where('armory_id', $armoryId)->whereIsDelete(false)->get();
-        return view('armory.stock_details.all_weapons_type' , compact('armoryId' , 'weaponTypes' ));
+        return view('armory.stock_details.all_weapons_type', compact('armoryId', 'weaponTypes'));
     }
 
-    public function create() {
+    public function index2()
+    {
+        $userID = Auth::user()->id;
+        $user = User::find($userID);
+        $armoryId = $user->getArmoryId();
+        return view('armory.stock_details.add_stock', compact('armoryId'));
+    }
+
+    public function create()
+    {
 //        return view('weapon_types.create');
     }
 
     public function store(Request $request)
     {
         try {
-            $types = $request->input('type');
+            $type = $request->input('type');
             $armory_id = $request->input('armory_id');
-            $quantities = $request->input('quantity');
-            $descriptions = $request->input('description');
+            $quantity = $request->input('quantity');
+            $description = $request->input('description');
+            $serialNumbers = $request->input('serialnumber');
 
-            if (HelpersFunction::checkValueOfArrayIsEmpty([$types, $quantities , $descriptions])) {
-                throw new \Exception('Veuillez remplir au moins les champs pour la première arme.');
+            if (HelpersFunction::checkValueOfArrayIsEmpty([$type, $quantity, $description, $serialNumbers])) {
+                throw new \Exception('Veuillez remplir tous les champs');
             }
 
-            // Vérifiez si le premier ensemble de champs est rempli
-            if (HelpersFunction::checkValueOfArrayIsEmpty([$types[0], $quantities[0] , $descriptions[0]])) {
-                throw new \Exception('Veuillez remplir tous les champs pour la première arme.');
+            $uid = Str::uuid()->toString();
+
+            // Create the WeaponType
+            $weaponType = WeaponType::create([
+                'id' => $uid,
+                'type' => $type,
+                'armory_id' => $armory_id,
+                'quantity' => $quantity,
+                'description' => $description,
+            ]);
+
+            // Validate uniqueness of serial numbers
+            $uniqueSerialNumbers = array_unique($serialNumbers);
+            if (count($serialNumbers) !== count($uniqueSerialNumbers)) {
+                throw new \Exception('Les numéros de série doivent être uniques.');
             }
 
-            // Itérer sur les stocks reçus pour les enregistrer
-            foreach ($types as $key => $type) {
-                $quantity = $quantities[$key];
-                $description = $descriptions[$key];
+            $existingSerialNumbers = Weapon::whereIn('serial_number', $uniqueSerialNumbers)->pluck('serial_number')->toArray();
+            $duplicateSerialNumbers = array_intersect($uniqueSerialNumbers, $existingSerialNumbers);
 
-                // Vérifiez si les champs sont vides pour les autres ensembles
-                if ($key > 0 && (HelpersFunction::checkValueOfArrayIsEmpty([$type , $quantity , $description]))) {
-                    continue; // Passe à l'itération suivante sans générer d'erreur
-                }
+            if (!empty($duplicateSerialNumbers)) {
+                throw new \Exception('Certains numéros de série existent déjà en base de données.');
+            }
 
-                // Vérifiez si le type d'arme existe déjà
-                $existingType = WeaponType::where('type', $type)->where('armory_id', $armory_id)->first();
-
-                // Si le type existe déjà, affichez un toast et continuez à l'itération suivante
-                if ($existingType) {
-                    toastr()->error("L'élément avec le nom '$type' existe déjà.");
-                    continue;
-                }
-
-                WeaponType::create([
-                    'id'=>   Uuid::uuid4()->toString(),
-                    'type' => $type,
-                    'armory_id' => $armory_id,
-                    'quantity' => $quantity,
-                    'description' => $description,
+            foreach ($serialNumbers as $serialNumber) {
+                Weapon::create([
+                    'id' => Str::uuid()->toString(),
+                    'weapon_type_id' => $uid,
+                    'serial_number' => $serialNumber,
                 ]);
-                toastr()->success('les Types inexistant on ete emregirtres deja.');
             }
 
+            toastr()->success('Type d\'armes ajouté');
             return redirect()->back();
         } catch (\Exception $e) {
-            dd($e->getMessage());
             toastr()->error($e->getMessage());
             return redirect()->back();
         }
@@ -86,7 +96,7 @@ class WeaponsTypeController extends Controller
     {
         try {
             $weapon = WeaponType::getSingle($id);
-            return  response()->json($weapon);
+            return response()->json($weapon);
         } catch (\Exception $e) {
             return response()->json('off');
         }
@@ -114,7 +124,8 @@ class WeaponsTypeController extends Controller
      * Update the specified resource in storage.
      */
 
-    public function update(Request $request) {
+    public function update(Request $request)
+    {
         try {
             $id_weapon = $request->input('id_weapon');
             $type = $request->input('type');
@@ -166,9 +177,6 @@ class WeaponsTypeController extends Controller
     }
 
 
-
-
-
     public function gotoProfileScreen()
     {
         $userID = Auth::user()->id;
@@ -176,6 +184,6 @@ class WeaponsTypeController extends Controller
         $armoryId = $user->getArmoryId();
         $departements = Departement::all();
         $districts = District::all();
-        return view('armory.edit.edit_armory' , compact('districts' ,'departements' , 'armoryId'));
+        return view('armory.edit.edit_armory', compact('districts', 'departements', 'armoryId'));
     }
 }

@@ -36,13 +36,11 @@
                 </ul>
             </div>
             @auth
-            <ul class="navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                        <span class="d-sm-none d-lg-inline-block text-dark">Menu</span>
-                    </a>
-
-
+                <ul class="navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                            <span class="d-sm-none d-lg-inline-block text-dark">Menu</span>
+                        </a>
                         <div class="dropdown-menu dropdown-menu-right pullDown">
                             @if($activeLink === 'armory')
                                 <a href="{{route('armory.update_details')}}" class="dropdown-item has-icon"> <i class="far
@@ -57,14 +55,15 @@
                                 Logout
                             </a>
                         </div>
-                </li>
-            </ul>
+                    </li>
+                </ul>
             @endauth
         </nav>
         <div class="main-sidebar sidebar-style-2">
             <aside id="sidebar-wrapper">
                 <div class="sidebar-brand">
-                    <a href="{{route('home')}}"> <img alt="image" src="{{asset('asset/images/logo_finac.jpg')}}" class="header-logo"/>
+                    <a href="{{route('home')}}"> <img alt="image" src="{{asset('asset/images/logo_finac.jpg')}}"
+                                                      class="header-logo"/>
                         <span
                             class="logo-name">FINAC</span>
                     </a>
@@ -104,7 +103,7 @@
 
                         <li class="dropdown {{ Route::is('add_arm_sheet') ? 'active' : '' }}">
                             <a href="{{ route('add_arm_sheet') }}" class="nav-link"><i
-                                    data-feather="file-text"></i><span>Creer fiche d'armes</span></a>
+                                    data-feather="file-text"></i><span>Creer fiche client</span></a>
                         </li>
 
                     @endif
@@ -161,7 +160,6 @@
                         </li>
                     @endif
 
-
                     @if($activeLink === 'governor')
                         <li class="dropdown {{$subactiveLink === 'governor.armory' ? 'active' : ''}}">
                             <a href="{{ route('governor_armory') }}" class="nav-link"><i
@@ -214,7 +212,6 @@
 <script src="{{ asset('assets/bundles/sweetalert/sweetalert.min.js') }}"></script>
 <script src="{{ asset('assets/js/page/sweetalert.js') }}"></script>
 <script src="{{ asset('assets/js/page/sweetalert.js') }}"></script>
-
 
 @yield('scripts')
 @stack('other-scripts')

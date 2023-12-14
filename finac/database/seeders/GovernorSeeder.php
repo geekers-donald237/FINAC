@@ -25,7 +25,7 @@ class GovernorSeeder extends Seeder
             $governorId = Str::uuid();
             DB::table('governors')->insert([
                 'id' => $governorId,
-                'country_id' => 37, // Assuming the country_id for Cameroon is 1
+                'country_id' => '1', // Assuming the country_id for Cameroon is 1
                 'state_id' => $index + 1,
                 'name' => $region . ' Governor',
                 'email' => strtolower(str_replace(' ', '', $region)) . '@example.com',

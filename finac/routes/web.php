@@ -73,6 +73,7 @@ Route::middleware(['check.auth'])->group(function () {
     Route::get('test_route', [\App\Http\Controllers\Admin\subAdmin\MinatdController::class, 'index2'])->name('minatd_armory');
     Route::get('gtest_route', [\App\Http\Controllers\Admin\subAdmin\GovernorController::class, 'index2'])->name('governor_armory');
     Route::get('ptest_route', [\App\Http\Controllers\Admin\subAdmin\PrefectureController::class, 'index2'])->name('prefecture_armory');
+    Route::get('goto', [\App\Http\Controllers\weapons\WeaponsTypeController::class, 'index2'])->name('goto');
 });
 
 

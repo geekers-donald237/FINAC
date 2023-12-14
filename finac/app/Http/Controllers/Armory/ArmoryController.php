@@ -57,11 +57,15 @@ class ArmoryController extends Controller
             $email = $request->email;
             $mailbox = $request->mailbox;
             $phone_number = $request->phone_number;
-            $agrement = $request->agrement_number;
             $departement_id = $request->departement_id;
 
-            if (HelpersFunction::checkValueOfArrayIsEmpty([$name, $sector, $address, $email, $mailbox, $phone_number, $agrement, $departement_id])) {
+            if (HelpersFunction::checkValueOfArrayIsEmpty([$name, $sector, $address, $email, $mailbox, $phone_number, $departement_id])) {
                 throw new \Exception('Veuillez remplir tous les champs');
+            }
+
+            $existingArmory = Armory::where('email', $email)->first();
+            if ($existingArmory) {
+                throw new \Exception('Cet email est déjà associé à une armurerie.');
             }
 
             $existingArmory = Armory::where('email', $email)->first();
@@ -77,7 +81,7 @@ class ArmoryController extends Controller
 
 
             $new_armory->id = $armory_id;
-            $new_armory->country_id = '37'; //specifions directement qu'il s'agit du cameroun
+            $new_armory->country_id = '1'; //specifions directement qu'il s'agit du cameroun
             $new_armory->departement_id = $departement_id;
             $new_armory->name = $name;
             $new_armory->sector = $sector;
@@ -85,7 +89,6 @@ class ArmoryController extends Controller
             $new_armory->email = $email;
             $new_armory->mailbox = $mailbox;
             $new_armory->phone_number = $phone_number;
-            $new_armory->agrement_number = $agrement;
             $new_armory->save();
 
             $new_user = $this->createUser($new_armory , $armory_id);
@@ -117,8 +120,6 @@ class ArmoryController extends Controller
         HelpersFunction::sendEmail($generatedLogin, $generatedPwd , $armory->email);
         return $new_user;
     }
-
-
 
     /**
      * Display the specified resource.
@@ -233,17 +234,24 @@ class ArmoryController extends Controller
             $profession = $request->profession;
 
             $weapon_type = $request->weapon_type;
-            $serial_number = $request->serial_number;
 
             if (empty($fullname) || empty($telephone) ||
-                empty($weapon_type) || empty($serial_number) || empty($email) ||
+                empty($weapon_type)  || empty($email) ||
                 empty($profession)) {
                 throw new \Exception('Veuillez remplir tous les champs');
             }
+            $weaponType = WeaponType::find($weapon_type);
+            if ($weaponType->quantity <= 0) {
+                throw new \Exception('La quantité d\'armes est épuisée.');
+            }
 
-            $serialNumberExists = Weapon::where('serial_number', $serial_number)->exists();
-            if ($serialNumberExists) {
-                throw new \Exception('Le numéro de série de l\'arme existe déjà.');
+            // Trouver le premier numéro de série disponible pour le type d'arme
+            $firstAvailableWeapon = Weapon::where('weapon_type_id', $weapon_type)
+                ->whereNull('holder_id') // Vérifier que l'arme n'est pas déjà associée à un détenteur
+                ->first();
+
+            if (!$firstAvailableWeapon) {
+                throw new \Exception('Aucun numéro de série disponible pour ce type d\'arme.');
             }
 
             $holder_weapon = new HoldersWeapon();
@@ -264,9 +272,9 @@ class ArmoryController extends Controller
                 $holder_weapon->buy_permission = $filename;
                 $uploadedFilesCount++;                }
 
-            if ($request->hasFile('moral_certificate')) {
-                $filename = HelpersFunction::handleFileUpload($request->file('moral_certificate'), 'public/finac/moral_certificate/');
-                $holder_weapon->buy_permission = $filename;
+            if ($request->hasFile('honor_contract')) {
+                $filename = HelpersFunction::handleFileUpload($request->file('honor_contract'), 'public/finac/honor_contract/');
+                $holder_weapon->honor_contract = $filename;
                 $uploadedFilesCount++;                }
 
             $totalExpectedFiles = 4; // Nombre total de fichiers attendus
@@ -281,10 +289,18 @@ class ArmoryController extends Controller
             $holder_weapon->email = $email;
             $holder_weapon->profession = $profession;
 
+            $weaponType = WeaponType::find($weapon_type);
+            if ($weaponType->quantity <= 0) {
+                throw new \Exception('La quantité d\'armes est épuisée.');
+            }
+
+            // Décrémenter la quantité
+            $weaponType->quantity--;
+            $weaponType->save();
+
             $new_weapon = new Weapon();
             $new_weapon->id = $weaponUid->toString();
             $new_weapon->weapon_type_id = $weapon_type;
-            $new_weapon->serial_number = $serial_number;
             $holder_weapon->save();
             $new_weapon->holder_id = $uuid->toString(); // Relier l'arme au détenteur (acheteur)
             $new_weapon->save();
@@ -312,7 +328,12 @@ class ArmoryController extends Controller
         $user = User::find($userID);
         $armoryId = $user->getArmoryId();
         $weaponTypes = WeaponType::where('armory_id', $armoryId)->get();
-        return view('armory.add_weapons_sheet.add_weapons_sheet' , compact('weaponTypes'));
+        $weapons = [];
+        foreach ($weaponTypes as $value){
+            $weapons = Weapon::where('weapon_type_id' , $value->id);
+        }
+
+        return view('armory.add_weapons_sheet.add_weapons_sheet' , compact('weaponTypes' , 'weapons'));
 
     }
 

@@ -123,7 +123,7 @@ class PrefectureController extends Controller
             $newPrefecture = new Prefect();
 
             $newPrefecture->id = $uuid->toString();
-            $newPrefecture->country_id = '37'; // Spécifiez directement qu'il s'agit du Cameroun
+            $newPrefecture->country_id = '1'; // Spécifiez directement qu'il s'agit du Cameroun
             $newPrefecture->departement_id = $departement_id;
             $newPrefecture->name = $name;
             $newPrefecture->email = $email;

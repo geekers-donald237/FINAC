@@ -24,7 +24,7 @@
         </div>
         <div class="col-md-auto">
             <nav aria-label="breadcrumb">
-                <a class="btn btn-success btn-pilll" data-toggle="modal" data-target="#addWeaponStockModal" href="#">
+                <a class="btn btn-success btn-pilll"  href="{{route('goto')}}">
                     Ajouter Un stock d'arme
                 </a>
             </nav>
@@ -74,51 +74,6 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="addWeaponStockModal" tabindex="-1" role="dialog" aria-labelledby="addWeaponStockModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <form method="POST" action="{{ route('weapons_type.store') }}">
-                    @csrf
-                    @method('POST')
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addWeaponStockModalLabel">Ajouter un stock d'armes</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="weaponsList">
-                            <!-- Champs d'arme initiaux -->
-                            <div class="weaponFields">
-                                <div class="form-group">
-                                    <p>Numéro d'arme : 1</p>
-                                    <label for="type">Type d'arme</label>
-                                    <input type="text" class="form-control" placeholder="Type de l'arme" name="type[]">
-                                    <input type="hidden" class="form-control"  name="armory_id" value="{{$armoryId}}">
-
-                                </div>
-                                <div class="form-group">
-                                    <label for="quantity">Quantité</label>
-                                    <input type="number" class="form-control" placeholder="quantie"   name="quantity[]">
-                                </div>
-                                <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <textarea name="description[]" placeholder="description" class="form-control"></textarea>
-                                </div>
-                            </div>
-                            <hr class="hr" />
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-info" id="addMoreWeapons">Ajouter un stock</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                        <button type="submit" class="btn btn-primary">Enregistrer</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <div class="modal-popup">
         <div class="modal fade" id="editWeaponTypeModal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -160,7 +115,6 @@
             </div>
         </div>
     </div>
-
 
 @endsection
 
@@ -245,41 +199,6 @@
         });
         $('#editWeaponTypeModal').modal('show');
     }
-
-
-    $(document).ready(function() {
-        var wrapper = $("#weaponsList");
-        var addButton = $("#addMoreWeapons");
-
-        var x = 1; // Initial input box count
-        $(addButton).click(function(e) {
-            e.preventDefault();
-            if (x < 2) { // Limite le nombre d'armes à 10
-                x++;
-                $(wrapper).append(
-                    '<div class="weaponFields">' +
-                    '<div class="form-group">' +
-                    '<p>Numéro d\'arme : ' + x + '</p>' +
-                    '<label for="type">Type d\'arme</label>' +
-                    '<input type="text" class="form-control" placeholder="type de l\'arme" name="type[]">' +
-                    '</div>' +
-                    '<div class="form-group">' +
-                    '<label for="quantity">Quantité</label>' +
-                    '<input type="number" class="form-control" placeholder="quantite" name="quantity[]">' +
-                    '</div>' +
-                    '<div class="form-group">' +
-                    '<label for="description">Description</label>' +
-                    '<textarea name="description[]" placeholder="description" class="form-control"></textarea>' +
-                    '</div>' +
-                    '</div>'
-                );
-            }
-            if (x === 2){
-                addButton.css("display", "none"); // Pour rendre invisible
-            }
-        });
-    });
-
 </script>
 
 

@@ -23,10 +23,8 @@ return new class extends Migration
             $table->string('mailbox');
             $table->string('phone_number');
             $table->enum('statut',['creer' ,'suspendu' , 'verifie'])->default('creer');
-            $table->string('agrement_number')->nullable();
             $table->string('license',1000)->nullable(); //file for license
             $table->boolean('is_delete')->default(false);
-
 
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('departement_id')->references('id')->on('departements')->onDelete('cascade')->onUpdate('cascade');

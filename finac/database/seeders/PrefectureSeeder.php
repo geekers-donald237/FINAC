@@ -32,7 +32,7 @@ class PrefectureSeeder extends Seeder
             $departmentId = Str::uuid();
             DB::table('prefects')->insert([
                 'id' => $departmentId,
-                'country_id' => 37 ,
+                'country_id' => '1' ,
                 'departement_id' => $department['departement_id'],
                 'name' => $department['name'],
                 'email' => strtolower(str_replace(' ', '', $department['name'])) . '@example.com',

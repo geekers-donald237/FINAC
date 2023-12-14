@@ -130,7 +130,7 @@ class GovernorController extends Controller
             $newGovernor = new Governor();
 
             $newGovernor->id = $uuid->toString();
-            $newGovernor->country_id = '37'; // Spécifiez directement qu'il s'agit du Cameroun
+            $newGovernor->country_id = '1'; // Spécifiez directement qu'il s'agit du Cameroun
             $newGovernor->state_id = $state_id;
             $newGovernor->name = $name;
             $newGovernor->email = $email;
