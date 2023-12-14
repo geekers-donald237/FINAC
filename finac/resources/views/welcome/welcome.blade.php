@@ -180,8 +180,8 @@
                                 <input type="text" name="code_finac" class="form-control" placeholder="Code Finac" autocomplete="Code Finac" autofocus required>
                             </div>
                             <div class="form-group">
-                                <label for="numero_serie">Numero de Serie <span class="text-danger">*</span></label>
-                                <input type="text" name="numero_serie" class="form-control" placeholder="Entrer votre Numero de Serie"  required>
+                                <label for="serial_number">Numero de Serie <span class="text-danger">*</span></label>
+                                <input type="text" name="serial_number" class="form-control" placeholder="Entrer votre Numero de Serie"  required>
                             </div>
                             <div class="btn-box pt-3 pb-4">
                                 <input type="submit" value="Connexion" class="btn btn-primary w-100">
