@@ -1,5 +1,7 @@
 @php
     $activeLink = 'admin';
+    $subactiveLink = 'admin.armory';
+
 @endphp
 @extends('layouts.backend')
 
@@ -11,7 +13,7 @@
 @section('content')
     <div class="row justify-content-between">
         <div class="col-4 col-md-3 col-lg-3">
-            <div class="card card-primary rounded-0">
+            <div class="card card-primary">
                 <div class="card-header">
                     <h4>
                         <span class="badge badge-danger mr-2">{{ count($allMinatdUsers) }}</span>
@@ -21,7 +23,7 @@
             </div>
         </div>
         <div class="col-4 col-md-3 col-lg-3">
-            <div class="card card-primary rounded-0">
+            <div class="card card-primary">
                 <div class="card-header">
                     <h4>
                         <span class="badge badge-danger mr-2">{{ count($allGovernorServices) }}</span>
@@ -31,7 +33,7 @@
             </div>
         </div>
         <div class="col-4 col-md-3 col-lg-3">
-            <div class="card card-primary rounded-0">
+            <div class="card card-primary">
                 <div class="card-header">
                     <h4>
                         <span class="badge badge-danger mr-2">{{ count($allPrefectures) }}</span>
@@ -53,7 +55,7 @@
     </div>
         <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="card card-primary">
                 <div class="card-header">
                     <h4>Liste des Armureries</h4>
                 </div>

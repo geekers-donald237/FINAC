@@ -9,7 +9,7 @@
     <div class="row">
         @forelse($weaponTypes as $weaponType)
             <div class="col-4 col-md-3 col-lg-3">
-                <div class="card card-primary rounded-0">
+                <div class="card card-primary">
                     <div class="card-header">
                         <h4>
                             <span class="badge badge-danger mr-2">{{ $weaponType->quantity }}</span>
@@ -20,7 +20,7 @@
             </div>
         @empty
             <div class="col-10 col-md-10 col-lg-10">
-                <div class="card card-primary rounded-0">
+                <div class="card card-primary">
                     <div class="card-header">
                         <h4>
                             <span class="badge badge-danger mr-2"></span>
@@ -31,7 +31,6 @@
             </div>
         @endforelse
     </div>
-
 
     <div class="row justify-content-between">
         <div class="col-md-8">
@@ -53,7 +52,7 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="card card-primary">
                 <div class="card-header">
                     <h4>Fiche Client</h4>
                 </div>

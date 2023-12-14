@@ -16,7 +16,8 @@
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-primary text-white-all">
-                    <li class="breadcrumb-item"><a href="{{route('armory.index')}}"><i class="fas fa-building"></i>Armueries</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('armory.index')}}"><i class="fas fa-building"></i>Armueries</a>
+                    </li>
                     <li class="breadcrumb-item"><a href="weapons_type.index"><i class="fas fa-cubes"></i>Stock</a></li>
                     <li class="breadcrumb-item"><a href="#">Ajouter</a></li>
                 </ol>
@@ -26,7 +27,7 @@
 
     <div class="row">
         <div class="col-12 col-md-12 col-lg-12">
-            <div class="card">
+            <div class="card card-primary">
                 <div class="card-header">
                     <h4>Ajouter Stock</h4>
                 </div>
@@ -42,7 +43,8 @@
                             </div>
                             <div class="form-group col">
                                 <label for="quantity">Quantité</label>
-                                <input type="number" class="form-control" placeholder="Quantité" name="quantity" id="quantityInput">
+                                <input type="number" class="form-control" placeholder="Quantité" name="quantity"
+                                       id="quantityInput">
                             </div>
                         </div>
                         <div class="form-group">
@@ -50,13 +52,16 @@
                             <textarea name="description" placeholder="description" class="form-control"></textarea>
                         </div>
                         <br>
-                        <div class="form-group row" id="serialNumbersContainer">
-                            <!-- Les champs de numéro de série seront ajoutés ici -->
+                        <div class="row" id="serialNumbersContainer">
+{{--                            add serial number input --}}
+                        </div>
+                        <div class="row">
+                            <div class="form-group col">
+                                <button type="submit" class="btn btn-primary" id="addMoreWeapons">Ajouter</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-info" id="addMoreWeapons">Ajouter</button>
-                    </div>
+
                 </form>
             </div>
         </div>
@@ -66,6 +71,7 @@
 
 <!-- Assurez-vous d'inclure jQuery avant ce script -->
 <script src="{{ asset('asset/js/jquery-3.3.1.min.js') }}"></script>
+
 <script>
     $(document).ready(function () {
         // Récupérer le champ de quantité et le conteneur pour les numéros de série
@@ -84,7 +90,7 @@
 
             // Générer les nouveaux champs de saisie en fonction de la quantité
             for (var i = 1; i <= quantity; i++) {
-                var inputGroup = $('<div class="form-group col"></div>');
+                var inputGroup = $('<div class="form-group col-md-6"></div>'); // Utilisez col-md-6 pour que deux éléments s'affichent côte à côte
                 var input = $('<input>').attr({
                     type: 'text',
                     class: 'form-control',
@@ -93,8 +99,12 @@
                 });
                 inputGroup.append(input);
                 serialNumbersContainer.append(inputGroup);
+
+                // Ajouter une nouvelle ligne toutes les deux colonnes
+                if (i % 2 === 0) {
+                    serialNumbersContainer.append('</div><div class="row"><div class="form-group col" id="serialNumbersContainer">');
+                }
             }
         }
     });
 </script>
-

@@ -11,8 +11,6 @@
 <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
 
 <link rel="stylesheet" href="{{asset('assets/css/components.css')}}">
-
-
 <!-- Custom style CSS -->
 <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
 <link rel="icon" type="image/x-icon" href="{{asset('asset/images/logo_finac.jpg')}}">
@@ -96,7 +94,7 @@
                             <a href="{{ route('armory.index') }}" class="nav-link"><i data-feather="monitor"></i><span>Dashboard</span></a>
                         </li>
 
-                        <li class="dropdown {{ Route::is('weapons_type.index') ? 'active' : '' }}">
+                        <li class="dropdown  {{$subactiveLink === 'weapons.stock' ? 'active' : ''}}">
                             <a href="{{ route('weapons_type.index') }}" class="nav-link"><i
                                     data-feather="bar-chart-2"></i><span>Stock</span></a>
                         </li>
@@ -108,21 +106,21 @@
 
                     @endif
                     @if($activeLink == 'admin')
-                        <li class="dropdown">
+                        <li class="dropdown {{$subactiveLink === 'admin.armory' ? 'active' : ''}}"">
                             <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="briefcase"></i><span>Armureries</span></a>
                             <ul class="dropdown-menu">
                                 <li><a class="nav-link" href="{{route('admin.index')}}">Liste</a></li>
                             </ul>
                         </li>
 
-                        <li class="dropdown">
+                            <li class="dropdown {{$subactiveLink === 'admin.governor' ? 'active' : ''}}"">
                             <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="briefcase"></i><span>Gouverneur</span></a>
                             <ul class="dropdown-menu">
                                 <li><a class="nav-link" href="{{route('admin_governor')}}">Liste</a></li>
                             </ul>
                         </li>
 
-                        <li class="dropdown">
+                            <li class="dropdown {{$subactiveLink === 'admin.prefecture' ? 'active' : ''}}"">
                             <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="briefcase"></i><span>Prefecture</span></a>
                             <ul class="dropdown-menu">
                                 <li><a class="nav-link" href="{{route('admin_prefecture')}}">Liste</a></li>

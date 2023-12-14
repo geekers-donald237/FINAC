@@ -1,5 +1,7 @@
 @php
     $activeLink = 'admin';
+    $subactiveLink = 'admin.prefecture';
+
 @endphp
 @extends('layouts.backend')
 
@@ -26,7 +28,7 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="card card-primary">
                 <div class="card-header">
                     <h4>Liste des Prefectures</h4>
                 </div>

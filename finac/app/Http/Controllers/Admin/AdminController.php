@@ -24,7 +24,7 @@ class AdminController extends Controller
     {
         $towns = District::all();
         $states = State::all();
-        $allMinatdUsers = Minatd::where('is_delete' , false)->get();
+        $allMinatdUsers = Minatd::whereIsDelete(false)->get();
         $allGovernorServices = Governor::whereIsDelete(false)->get();
         $allPrefectures = Prefect::whereIsDelete(false)->get();
         $armories = Armory::all();

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\weapons;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\HelpersFunction;
 use App\Models\internaltionalison\Departement;
-use App\Models\internaltionalison\State;
 use App\Models\internaltionalison\District;
 use App\Models\user\User;
 use App\Models\weapons\Weapon;
@@ -13,7 +12,6 @@ use App\Models\weapons\WeaponType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Ramsey\Uuid\Uuid;
 
 class WeaponsTypeController extends Controller
 {
@@ -63,6 +61,10 @@ class WeaponsTypeController extends Controller
                 'description' => $description,
             ]);
 
+            if (empty($serialNumbers)) {
+                throw new \Exception('Veuillez renseigner les numero de serie');
+            }
+
             // Validate uniqueness of serial numbers
             $uniqueSerialNumbers = array_unique($serialNumbers);
             if (count($serialNumbers) !== count($uniqueSerialNumbers)) {
@@ -85,7 +87,7 @@ class WeaponsTypeController extends Controller
             }
 
             toastr()->success('Type d\'armes ajouté');
-            return redirect()->back();
+            return redirect()->route('weapons_type.index');
         } catch (\Exception $e) {
             toastr()->error($e->getMessage());
             return redirect()->back();
@@ -129,10 +131,9 @@ class WeaponsTypeController extends Controller
         try {
             $id_weapon = $request->input('id_weapon');
             $type = $request->input('type');
-            $quantity = $request->input('quantity');
             $description = $request->input('description');
 
-            if (HelpersFunction::checkValueOfArrayIsEmpty([$type, $quantity, $description])) {
+            if (HelpersFunction::checkValueOfArrayIsEmpty([$type, $description])) {
                 throw new \Exception('Veuillez remplir tous les champs.');
             }
 
@@ -143,7 +144,6 @@ class WeaponsTypeController extends Controller
 
             $weaponType = WeaponType::findOrFail($id_weapon);
             $weaponType->type = $type;
-            $weaponType->quantity = $quantity;
             $weaponType->description = $description;
             $weaponType->save();
 

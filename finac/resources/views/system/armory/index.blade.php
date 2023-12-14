@@ -1,6 +1,8 @@
 
 @php
     $activeLink = 'admin';
+    $subactiveLink = 'admin.armory';
+
 @endphp
 @extends('layouts.backend')
 
@@ -24,7 +26,7 @@
     <div class="row">
 
         <div class="col-12 col-md-6 col-lg-6">
-            <div class="card">
+            <div class="card card-primary">
                 <div class="card-header">
                     <h4>Stock D'armes</h4>
                 </div>

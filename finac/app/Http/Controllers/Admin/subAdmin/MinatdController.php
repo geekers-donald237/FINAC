@@ -48,7 +48,7 @@ class MinatdController extends Controller
 
         $allMinatdUsers = Minatd::where('is_delete' , false)->get();
         $allGovernorServices = Governor::whereIsDelete(false)->get();
-        $armories = Armory::all();
+        $armories = Armory::whereIsDelete(false)->get();
 
         return view('minatd.governor.index' , compact('allMinatdUsers'   , 'allGovernorServices' , 'armories' ));
     }
@@ -68,7 +68,7 @@ class MinatdController extends Controller
         $allArmories = Armory::where('is_delete' , false)->get();
         $allGovernorServices = Governor::whereIsDelete(false)->get();
         $allPrefectures = Prefect::whereIsDelete(false)->get();
-        $armories = Armory::all();
+        $armories = Armory::whereIsDelete(false)->get();
 
         return view('minatd.armory.index' , compact('allArmories' , 'towns' , 'states' , 'allPrefectures' , 'allGovernorServices' , 'armories' ));
 
@@ -123,19 +123,7 @@ class MinatdController extends Controller
 
     }
 
-    public function gotoHolderWeaponsDetailsCopy($id)
-    {
-        try {
-            $permissionsPort = PermissionsPort::findOrFail($id);
-            $holderWeapons = $permissionsPort->holderWeapons;
-            $weapon = $permissionsPort->weapon;
 
-            return view('minatd.details.finac_sheet', compact('holderWeapons', 'permissionsPort','weapon'  , 'id'));
-        } catch (\Exception $e) {
-            dd($e);
-            // Gérer l'exception, par exemple, rediriger ou afficher un message d'erreur
-        }
-    }
 
     /**
      * Show the form for creating a new resource.

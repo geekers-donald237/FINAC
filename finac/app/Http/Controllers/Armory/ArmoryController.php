@@ -25,7 +25,7 @@ class ArmoryController extends Controller
     $userID = Auth::user()->id;
     $user = User::find($userID);
     $armoryId = $user->getArmoryId();
-    $weaponTypes = WeaponType::where('armory_id', $armoryId)->get();
+    $weaponTypes = WeaponType::where('armory_id', $armoryId)->whereIsDelete(false)->get();
     $weaponTypesId = WeaponType::where('armory_id', $armoryId)->pluck('id');
     $weapons = Weapon::whereIn('weapon_type_id', $weaponTypesId)->pluck('id');
     $permissionsPorts = PermissionsPort::whereIn('weapon_id', $weapons)->get();
@@ -327,7 +327,7 @@ class ArmoryController extends Controller
         $userID = Auth::user()->id;
         $user = User::find($userID);
         $armoryId = $user->getArmoryId();
-        $weaponTypes = WeaponType::where('armory_id', $armoryId)->get();
+        $weaponTypes = WeaponType::where('armory_id', $armoryId)->whereIsDelete(false)->get();
         $weapons = [];
         foreach ($weaponTypes as $value){
             $weapons = Weapon::where('weapon_type_id' , $value->id);

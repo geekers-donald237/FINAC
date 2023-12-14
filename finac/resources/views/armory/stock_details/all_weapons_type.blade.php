@@ -32,7 +32,7 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="card card-primary">
                 <div class="card-header">
                     <h4>All Weapons Type</h4>
                 </div>
@@ -95,10 +95,6 @@
                                         <input type="text" class="form-control" id="type_update" placeholder="Type de l'arme" name="type">
                                     </div>
                                     <input type="hidden" id="id_weapons_update" name="id_weapon">
-                                    <div class="form-group">
-                                        <label for="quantity">Quantité</label>
-                                        <input type="number" class="form-control" id="quantity_update" placeholder="quantite" name="quantity">
-                                    </div>
                                     <div class="form-group">
                                         <label for="description">description</label>
                                         <textarea name="description" class="form-control" placeholder="description" id="description_update"></textarea>                        </div>

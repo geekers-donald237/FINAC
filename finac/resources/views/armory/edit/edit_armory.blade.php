@@ -25,7 +25,7 @@
 
     <div class="row">
         <div class="col-12 col-md-12 col-lg-12">
-            <div class="card">
+            <div class="card card-primary">
                 <div class="card-header">
                     <h4>Modifier armurerie</h4>
                 </div>

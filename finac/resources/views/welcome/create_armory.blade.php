@@ -17,8 +17,10 @@
 
     <div class="row">
         <div class="col-12 col-md-12 col-lg-12">
-            <div class="card">
-
+            <div class="card  card-primary">
+                <div class="card-header">
+                    <h4>Armurerie</h4>
+                </div>
                 <form action="{{ route('armory.store') }}" id="form" method="POST" style="width: 100%" enctype="multipart/form-data" class="needs-validation" novalidate="">
                     @csrf
                     @method('POST')
