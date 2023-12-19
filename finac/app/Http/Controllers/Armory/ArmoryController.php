@@ -23,17 +23,17 @@ class ArmoryController extends Controller
 
     public function index()
     {
-    $userID = Auth::user()->id;
-    $user = User::find($userID);
-    $armoryId = $user->getArmoryId();
-    $weaponTypes = WeaponType::where('armory_id', $armoryId)->whereIsDelete(false)->get();
-    $weaponTypesId = WeaponType::where('armory_id', $armoryId)->pluck('id');
-    $weapons = Weapon::whereIn('weapon_type_id', $weaponTypesId)->pluck('id');
-    $permissionsPorts = PermissionsPort::whereIn('weapon_id', $weapons)->get();
-    $states = State::all();
+        $userID = Auth::user()->id;
+        $user = User::find($userID);
+        $armoryId = $user->getArmoryId();
+        $weaponTypes = WeaponType::where('armory_id', $armoryId)->whereIsDelete(false)->get();
+        $weaponTypesId = WeaponType::where('armory_id', $armoryId)->pluck('id');
+        $weapons = Weapon::whereIn('weapon_type_id', $weaponTypesId)->pluck('id');
+        $permissionsPorts = PermissionsPort::whereIn('weapon_id', $weapons)->get();
+        $states = State::all();
 
 
-    return view('armory.index', compact('states', 'weaponTypes', 'armoryId' , 'permissionsPorts'));
+        return view('armory.index', compact('states', 'weaponTypes', 'armoryId', 'permissionsPorts'));
     }
 
     /**
@@ -58,9 +58,9 @@ class ArmoryController extends Controller
             $email = $request->email;
             $mailbox = $request->mailbox;
             $phone_number = $request->phone_number;
-            $departement_id = $request->departement_id;
+            $state_id = $request->state_id;
 
-            if (HelpersFunction::checkValueOfArrayIsEmpty([$name, $manager_name, $address, $email, $mailbox, $phone_number, $departement_id])) {
+            if (HelpersFunction::checkValueOfArrayIsEmpty([$name, $manager_name, $address, $email, $mailbox, $phone_number, $state_id])) {
                 throw new \Exception('Veuillez remplir tous les champs');
             }
 
@@ -83,7 +83,7 @@ class ArmoryController extends Controller
 
             $new_armory->id = $armory_id;
             $new_armory->country_id = '1'; //specifions directement qu'il s'agit du cameroun
-            $new_armory->departement_id = $departement_id;
+            $new_armory->state_id = $state_id;
             $new_armory->name = $name;
             $new_armory->manager_name = $manager_name;
             $new_armory->address = $address;
@@ -92,7 +92,7 @@ class ArmoryController extends Controller
             $new_armory->phone_number = $phone_number;
             $new_armory->save();
 
-            $new_user = $this->createUser($new_armory , $armory_id);
+            $new_user = $this->createUser($new_armory, $armory_id);
             $new_user->save();
             toastr()->success('Armureries enregistree avec success');
             return redirect()->route('home');
@@ -104,7 +104,7 @@ class ArmoryController extends Controller
         }
     }
 
-    private function createUser($armory , $armoryID)
+    private function createUser($armory, $armoryID)
     {
         $generatedPwd = HelpersFunction::generateStrongPassword();
         $generatedLogin = HelpersFunction::generateUniqueLogin($armory->email);
@@ -113,7 +113,7 @@ class ArmoryController extends Controller
 
         $new_user = new User();
         $new_user->id = $user_id;
-        $new_user->generated_login  = $generatedLogin;
+        $new_user->generated_login = $generatedLogin;
         $new_user->generated_password = $generatedPwd;
         $new_user->prefix = 'armory';
         $new_user->ressource_id = $armoryID;
@@ -162,16 +162,16 @@ class ArmoryController extends Controller
             $email = $request->edit_email;
             $mailbox = $request->edit_mailbox;
             $phone_number = $request->edit_phone_number;
-            $departement_id = $request->edit_departement_id;
+            $state_id = $request->edit_state_id;
 
             // Vérifier si toutes les données nécessaires sont remplies
-            if (HelpersFunction::checkValueOfArrayIsEmpty([$name, $manager_name, $address, $email, $mailbox, $phone_number, $departement_id])) {
+            if (HelpersFunction::checkValueOfArrayIsEmpty([$name, $manager_name, $address, $email, $mailbox, $phone_number, $state_id])) {
                 throw new \Exception('Veuillez remplir tous les champs');
             }
 
             $armory = Armory::findOrFail($id);
 
-            $armory->departement_id = $departement_id;
+            $armory->state_id = $state_id;
             $armory->name = $name;
             $armory->manager_name = $manager_name;
             $armory->address = $address;
@@ -237,7 +237,7 @@ class ArmoryController extends Controller
             $weapon_type = $request->weapon_type;
 
             if (empty($fullname) || empty($telephone) ||
-                empty($weapon_type)  || empty($email) ||
+                empty($weapon_type) || empty($email) ||
                 empty($profession)) {
                 throw new \Exception('Veuillez remplir tous les champs');
             }
@@ -261,22 +261,26 @@ class ArmoryController extends Controller
             if ($request->hasFile('holder_weapons_picture')) {
                 $filename = HelpersFunction::handleFileUpload($request->file('holder_weapons_picture'), 'public/finac/holder_weapons_picture/');
                 $holder_weapon->photo = $filename;
-                $uploadedFilesCount++;                }
+                $uploadedFilesCount++;
+            }
 
             if ($request->hasFile('identity_number')) {
                 $filename = HelpersFunction::handleFileUpload($request->file('identity_number'), 'public/finac/identity_number/');
                 $holder_weapon->identity_number = $filename;
-                $uploadedFilesCount++;            }
+                $uploadedFilesCount++;
+            }
 
             if ($request->hasFile('buy_permission')) {
                 $filename = HelpersFunction::handleFileUpload($request->file('buy_permission'), 'public/finac/buy_permission/');
                 $holder_weapon->buy_permission = $filename;
-                $uploadedFilesCount++;                }
+                $uploadedFilesCount++;
+            }
 
             if ($request->hasFile('honor_contract')) {
                 $filename = HelpersFunction::handleFileUpload($request->file('honor_contract'), 'public/finac/honor_contract/');
                 $holder_weapon->honor_contract = $filename;
-                $uploadedFilesCount++;                }
+                $uploadedFilesCount++;
+            }
 
             $totalExpectedFiles = 4; // Nombre total de fichiers attendus
 
@@ -307,7 +311,7 @@ class ArmoryController extends Controller
             $new_weapon->save();
 
             $port_request = new PermissionsPort();
-            $port_request->id =$permissionPortUid->toString();
+            $port_request->id = $permissionPortUid->toString();
             $port_request->holder_id = $uuid->toString();
             $port_request->weapon_id = $weaponUid->toString();
             $port_request->date_demande = now();
@@ -330,11 +334,11 @@ class ArmoryController extends Controller
         $armoryId = $user->getArmoryId();
         $weaponTypes = WeaponType::where('armory_id', $armoryId)->whereIsDelete(false)->get();
         $weapons = [];
-        foreach ($weaponTypes as $value){
-            $weapons = Weapon::where('weapon_type_id' , $value->id);
+        foreach ($weaponTypes as $value) {
+            $weapons = Weapon::where('weapon_type_id', $value->id);
         }
 
-        return view('armory.add_weapons_sheet.add_weapons_sheet' , compact('weaponTypes' , 'weapons'));
+        return view('armory.add_weapons_sheet.add_weapons_sheet', compact('weaponTypes', 'weapons'));
 
     }
 

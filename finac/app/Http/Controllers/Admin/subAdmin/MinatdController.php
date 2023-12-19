@@ -67,24 +67,17 @@ class MinatdController extends Controller
         return view('minatd.governor.index' , compact('allMinatdUsers'   , 'allGovernorServices' , 'armories' ));
     }
 
-    public function getAllPrefectures()
-    {
 
-        $allPrefectures = Prefect::whereIsDelete(false)->get();
-
-        return view('minatd.prefecture.index' , compact( 'allPrefectures' ));
-    }
 
     public function index2()
     {
-        $towns = District::all();
+
         $states = State::all();
         $allArmories = Armory::where('is_delete' , false)->get();
         $allGovernorServices = Governor::whereIsDelete(false)->get();
-        $allPrefectures = Prefect::whereIsDelete(false)->get();
         $armories = Armory::whereIsDelete(false)->get();
 
-        return view('minatd.armory.index' , compact('allArmories' , 'towns' , 'states' , 'allPrefectures' , 'allGovernorServices' , 'armories' ));
+        return view('minatd.armory.index' , compact('allArmories' ,  'states'  , 'allGovernorServices' , 'armories' ));
 
     }
 

@@ -22,14 +22,12 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $towns = District::all();
         $states = State::all();
         $allMinatdUsers = Minatd::whereIsDelete(false)->get();
         $allGovernorServices = Governor::whereIsDelete(false)->get();
-        $allPrefectures = Prefect::whereIsDelete(false)->get();
         $armories = Armory::all();
 
-        return view('system.index' , compact('allMinatdUsers' , 'towns' , 'states' , 'allPrefectures' , 'allGovernorServices' , 'armories' ));
+        return view('system.index' , compact('allMinatdUsers' ,  'states' , 'allGovernorServices' , 'armories' ));
     }
 
     public function getAllGovernorsServices()
@@ -41,14 +39,7 @@ class AdminController extends Controller
         return view('system.governor.index' , compact('allGovernorServices','states'));
     }
 
-    public function getAllPrefectures()
-    {
 
-        $departements = Departement::orderBy('name', 'asc')->get();
-        $allPrefectures = Prefect::whereIsDelete(false)->get();
-
-        return view('system.prefecture.index' , compact( 'allPrefectures' , 'departements' ));
-    }
 
     /**
      * Show the form for creating a new resource.

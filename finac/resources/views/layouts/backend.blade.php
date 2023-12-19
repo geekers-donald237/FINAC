@@ -107,25 +107,18 @@
                     @endif
                     @if($activeLink == 'admin')
                         <li class="dropdown {{$subactiveLink === 'admin.armory' ? 'active' : ''}}"">
-                            <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="briefcase"></i><span>Armureries</span></a>
-                            <ul class="dropdown-menu">
-                                <li><a class="nav-link" href="{{route('admin.index')}}">Liste</a></li>
-                            </ul>
+                        <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="briefcase"></i><span>Armureries</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="nav-link" href="{{route('admin.index')}}">Liste</a></li>
+                        </ul>
                         </li>
 
-                            <li class="dropdown {{$subactiveLink === 'admin.governor' ? 'active' : ''}}"">
-                            <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="briefcase"></i><span>Gouverneur</span></a>
-                            <ul class="dropdown-menu">
-                                <li><a class="nav-link" href="{{route('admin_governor')}}">Liste</a></li>
-                            </ul>
-                        </li>
+                        <li class="dropdown {{$subactiveLink === 'admin.governor' ? 'active' : ''}}"">
+                        <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="briefcase"></i><span>Gouverneur</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="nav-link" href="{{route('admin_governor')}}">Liste</a></li>
+                        </ul>
 
-                            <li class="dropdown {{$subactiveLink === 'admin.prefecture' ? 'active' : ''}}"">
-                            <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="briefcase"></i><span>Prefecture</span></a>
-                            <ul class="dropdown-menu">
-                                <li><a class="nav-link" href="{{route('admin_prefecture')}}">Liste</a></li>
-                            </ul>
-                        </li>
                     @endif
                     @if($activeLink === 'minatd')
 
@@ -137,11 +130,6 @@
                         <li class="dropdown {{$subactiveLink === 'minatd.fiche' ? 'active' : ''}}">
                             <a href="{{ route('minatd.index') }}" class="nav-link"><i
                                     data-feather="file-text"></i><span>Fiche D'armes</span></a>
-                        </li>
-
-                        <li class="dropdown {{$subactiveLink === 'minatd.prefecture' ? 'active' : ''}}">
-                            <a href="{{ route('minatd_prefecture') }}" class="nav-link"><i
-                                    data-feather="map-pin"></i><span>Prefecture</span></a>
                         </li>
 
                         <li class="dropdown {{$subactiveLink === 'minatd.governor' ? 'active' : ''}}">

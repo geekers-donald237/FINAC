@@ -68,11 +68,11 @@
                             </div>
 
                             <div class="form-group col">
-                                <label for="id_state">Departement<span class="text-danger">*</span></label>
-                                <select type="2" class="form-control select2" id="departement_id"
-                                        name="departement_id" required>
-                                    @foreach ($departments as $department)
-                                        <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                <label for="id_state">Region<span class="text-danger">*</span></label>
+                                <select type="2" class="form-control select2" id="state_id"
+                                        name="state_id" required>
+                                    @foreach ($states as $state)
+                                        <option value="{{ $state->id }}">{{ $state->name }}</option>
                                     @endforeach
                                 </select>
                             </div>

@@ -12,7 +12,7 @@
 
 @section('content')
     <div class="row justify-content-between">
-        <div class="col-4 col-md-3 col-lg-3">
+        <div class="col-6 col-md-6 col-lg-6">
             <div class="card card-primary">
                 <div class="card-header">
                     <h4>
@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-4 col-md-3 col-lg-3">
+        <div class="col-6 col-md-6 col-lg-6">
             <div class="card card-primary">
                 <div class="card-header">
                     <h4>
@@ -32,16 +32,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-4 col-md-3 col-lg-3">
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h4>
-                        <span class="badge badge-danger mr-2">{{ count($allPrefectures) }}</span>
-                       prefecture
-                    </h4>
-                </div>
-            </div>
-        </div>
+
     </div>
     <div class="row justify-content-between">
         <div class="col-md-12">
