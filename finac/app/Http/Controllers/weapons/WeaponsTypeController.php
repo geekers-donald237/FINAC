@@ -9,6 +9,7 @@ use App\Models\internaltionalison\District;
 use App\Models\user\User;
 use App\Models\weapons\Weapon;
 use App\Models\weapons\WeaponType;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -47,48 +48,48 @@ class WeaponsTypeController extends Controller
             $serialNumbers = $request->input('serialnumber');
 
             if (HelpersFunction::checkValueOfArrayIsEmpty([$type, $quantity, $description, $serialNumbers])) {
-                throw new \Exception('Veuillez remplir tous les champs');
+                throw new Exception('Veuillez remplir tous les champs');
             }
 
-            $uid = Str::uuid()->toString();
-
-            // Create the WeaponType
-            $weaponType = WeaponType::create([
-                'id' => $uid,
-                'type' => $type,
-                'armory_id' => $armory_id,
-                'quantity' => $quantity,
-                'description' => $description,
-            ]);
-
             if (empty($serialNumbers)) {
-                throw new \Exception('Veuillez renseigner les numero de serie');
+                throw new Exception('Veuillez renseigner les numero de serie');
             }
 
             // Validate uniqueness of serial numbers
             $uniqueSerialNumbers = array_unique($serialNumbers);
             if (count($serialNumbers) !== count($uniqueSerialNumbers)) {
-                throw new \Exception('Les numéros de série doivent être uniques.');
+                throw new Exception('Les numéros de série doivent être uniques.');
             }
 
             $existingSerialNumbers = Weapon::whereIn('serial_number', $uniqueSerialNumbers)->pluck('serial_number')->toArray();
             $duplicateSerialNumbers = array_intersect($uniqueSerialNumbers, $existingSerialNumbers);
 
             if (!empty($duplicateSerialNumbers)) {
-                throw new \Exception('Certains numéros de série existent déjà en base de données.');
+                throw new Exception('Certains numéros de série existent déjà en base de données.');
             }
 
+            $uid = Str::uuid()->toString();
+
+            $weaponType = new WeaponType();
+            $weaponType->id = $uid;
+            $weaponType->type = $type;
+            $weaponType->armory_id = $armory_id;
+            $weaponType->quantity = $quantity;
+            $weaponType->description = $description;
+            $weaponType->save();
+
             foreach ($serialNumbers as $serialNumber) {
-                Weapon::create([
-                    'id' => Str::uuid()->toString(),
-                    'weapon_type_id' => $uid,
-                    'serial_number' => $serialNumber,
-                ]);
+                $weapon = new Weapon();
+                $weapon->id = Str::uuid()->toString();
+                $weapon->weapon_type_id = $uid;
+                $weapon->serial_number = $serialNumber;
+                $weapon->save();
             }
 
             toastr()->success('Type d\'armes ajouté');
             return redirect()->route('weapons_type.index');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
+            dd($e->getMessage());
             toastr()->error($e->getMessage());
             return redirect()->back();
         }
@@ -99,7 +100,7 @@ class WeaponsTypeController extends Controller
         try {
             $weapon = WeaponType::getSingle($id);
             return response()->json($weapon);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json('off');
         }
     }
@@ -117,7 +118,7 @@ class WeaponsTypeController extends Controller
             } else {
                 return response()->json('off');
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json('off');
         }
     }
@@ -134,12 +135,12 @@ class WeaponsTypeController extends Controller
             $description = $request->input('description');
 
             if (HelpersFunction::checkValueOfArrayIsEmpty([$type, $description])) {
-                throw new \Exception('Veuillez remplir tous les champs.');
+                throw new Exception('Veuillez remplir tous les champs.');
             }
 
             $existingType = WeaponType::where('type', $type)->where('id', '!=', $id_weapon)->first();
             if ($existingType) {
-                throw new \Exception('Ce type d\'arme existe déjà.');
+                throw new Exception('Ce type d\'arme existe déjà.');
             }
 
             $weaponType = WeaponType::findOrFail($id_weapon);
@@ -149,7 +150,7 @@ class WeaponsTypeController extends Controller
 
             toastr()->success('Modifications enregistrées avec succès');
             return redirect()->back();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Affichage des toasts en cas d'erreur
             toastr()->error($e->getMessage());
             return redirect()->back();
@@ -171,7 +172,7 @@ class WeaponsTypeController extends Controller
             } else {
                 return response()->json('off');
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json($e->getMessage());
         }
     }

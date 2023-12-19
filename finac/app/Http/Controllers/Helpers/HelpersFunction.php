@@ -158,7 +158,7 @@ class HelpersFunction extends Controller
 
             return response()->json(['success' => true, 'filename' => $fileAttachmentPath]);
         } catch (\Exception $e) {
-            return reLogsponse()->json(['success' => false, 'error' => $e->getMessage()], 500);
+            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
     }
 

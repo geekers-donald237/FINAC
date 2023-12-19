@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Declaration\ArmeController;
 use App\Http\Controllers\Declaration\DeclarationController;
+use App\Http\Controllers\Declaration\LoginLossController;
 use App\Http\Controllers\Home\WelcomeController;
 
 use Illuminate\Support\Facades\Route;
@@ -58,6 +59,8 @@ Route::middleware(['check.auth'])->group(function () {
     Route::get('holder_details/{id}', [\App\Http\Controllers\Admin\subAdmin\MinatdController::class, 'gotoHolderWeaponsDetails'])->name('holders.details');
     Route::get('gholder_details/{id}', [\App\Http\Controllers\Admin\subAdmin\GovernorController::class, 'gotoHolderWeaponsDetails'])->name('governor.holders.details');
     Route::get('pholder_details/{id}', [\App\Http\Controllers\Admin\subAdmin\PrefectureController::class, 'gotoHolderWeaponsDetails'])->name('prefecture.holders.details');
+    Route::get('holder_details_copy/{id}', [\App\Http\Controllers\Admin\subAdmin\MinatdController::class, 'gotoHolderWeaponsDetailsCopy'])->name('holders.details_copy');
+
     Route::get('gholder_details_copy/{id}', [\App\Http\Controllers\Admin\subAdmin\GovernorController::class, 'gotoHolderWeaponsDetailsCopy'])->name('governor.holders.details_copy');
     Route::get('pholder_details_copy/{id}', [\App\Http\Controllers\Admin\subAdmin\PrefectureController::class, 'gotoHolderWeaponsDetailsCopy'])->name('prefecture.holders.details_copy');
     Route::get('valid_weapons_sheet/{id}', [\App\Http\Controllers\Helpers\HelpersFunction::class, 'generateFINACCode'])->name('generate.finac');
@@ -85,3 +88,8 @@ Route::post('declarationarmes/store', [ArmeController::class, 'store'])->name('d
 
 Route::resource('declarationarmes', ArmeController::class);
 Route::resource('declaration', DeclarationController::class);
+
+Route::get('verifylogin', [LoginLossController::class, 'showLoginForm']);
+
+Route::resource('/declarationverify/verifylogin', LoginLossController::class)->only(['show', 'store']);
+

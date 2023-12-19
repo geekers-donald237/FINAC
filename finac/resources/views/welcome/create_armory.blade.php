@@ -24,8 +24,7 @@
                 <form action="{{ route('armory.store') }}" id="form" method="POST" style="width: 100%" enctype="multipart/form-data" class="needs-validation" novalidate="">
                     @csrf
                     @method('POST')
-
-                    <div class="card-body  pt-5">
+                    <div class="card-body">
                         <div class="row">
                             <div class="form-group col">
                                 <label for="nom">Nom<span class="text-danger">*</span></label>
@@ -51,8 +50,8 @@
 
                         <div class="row">
                             <div class="form-group col">
-                                <label for="secteur">Secteur<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="sector" placeholder="Secteur" required>
+                                <label for="secteur">Nom gerant<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="manager_name" placeholder="nom gerant" required>
                             </div>
 
                             <div class="form-group col">

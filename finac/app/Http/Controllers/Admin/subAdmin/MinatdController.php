@@ -43,6 +43,20 @@ class MinatdController extends Controller
         return view('minatd.index', compact('permissionsPorts', 'associatedData' , 'permissionsRejetees' ,'permissionsValides' , 'permissionsNonTraitees'));
     }
 
+    public function gotoHolderWeaponsDetailsCopy($id)
+    {
+        try {
+            $permissionsPort = PermissionsPort::findOrFail($id);
+            $holderWeapons = $permissionsPort->holderWeapons;
+            $weapon = $permissionsPort->weapon;
+
+            return view('minatd.details.finac_sheet', compact('holderWeapons', 'permissionsPort','weapon'  , 'id'));
+        } catch (\Exception $e) {
+            dd($e);
+            // Gérer l'exception, par exemple, rediriger ou afficher un message d'erreur
+        }
+    }
+
     public function getAllGovernorsServices()
     {
 

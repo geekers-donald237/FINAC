@@ -17,7 +17,7 @@ class PrefectureSeeder extends Seeder
     public function run(): void
     {
         $departments = [
-            ["name" => "DJEREM", "departement_id" => 1],
+            ["name" => "BUI", "departement_id" => 34],
             ["name" => "FARO & DEO", "departement_id" => 2],
             ["name" => "HAUTE-SANAGA", "departement_id" => 6],
             ["name" => "LEKIE", "departement_id" => 7],

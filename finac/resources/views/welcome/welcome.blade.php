@@ -31,7 +31,7 @@
         <div class="site-mobile-menu-body"></div>
     </div>
 
-    <header class="site-navbar py-4 js-sticky-header site-navbar-target" role="banner">
+    <header class="site-navbar pt-1 js-sticky-header site-navbar-target" role="banner">
         <div class="container-fluid">
             <div class="d-flex align-items-center">
                 <div class="site-logo mr-auto w-25">
@@ -77,7 +77,7 @@
                 </div>
             </div>
 
-            <div class="row mt-5 align-items-center">
+            <div class="row mt-3 align-items-center">
                 <div class="col-md-12 text-light text-center mx-auto">
                     <div class="text-container">
                         <h2 data-aos="fade-up" data-aos-delay="200"

@@ -77,7 +77,7 @@
                                             <th scope="row">{{ $key+1 }}</th>
                                             <td>{{ $value->weapon->weaponType->type }}</td>
                                             <td>{{ $value->weapon->serial_number }}</td>
-                                            <td>{{ $value->weapon->holder->fullname }}</td>
+                                            <td>{{ $value->weapon->holder->fullname ?? 'nnn' }}</td>
                                             <td> {{$value->date_demande}}
                                             </td>
                                         </tr>

@@ -11,6 +11,7 @@ use App\Models\PermissionsPort;
 use App\Models\user\User;
 use App\Models\weapons\Weapon;
 use App\Models\weapons\WeaponType;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Ramsey\Uuid\Nonstandard\Uuid;
@@ -46,20 +47,20 @@ class ArmoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         try {
             $armory_id = Uuid::uuid4()->toString();
 
             $name = $request->name;
-            $sector = $request->sector;
+            $manager_name = $request->manager_name;
             $address = $request->address;
             $email = $request->email;
             $mailbox = $request->mailbox;
             $phone_number = $request->phone_number;
             $departement_id = $request->departement_id;
 
-            if (HelpersFunction::checkValueOfArrayIsEmpty([$name, $sector, $address, $email, $mailbox, $phone_number, $departement_id])) {
+            if (HelpersFunction::checkValueOfArrayIsEmpty([$name, $manager_name, $address, $email, $mailbox, $phone_number, $departement_id])) {
                 throw new \Exception('Veuillez remplir tous les champs');
             }
 
@@ -84,7 +85,7 @@ class ArmoryController extends Controller
             $new_armory->country_id = '1'; //specifions directement qu'il s'agit du cameroun
             $new_armory->departement_id = $departement_id;
             $new_armory->name = $name;
-            $new_armory->sector = $sector;
+            $new_armory->manager_name = $manager_name;
             $new_armory->address = $address;
             $new_armory->email = $email;
             $new_armory->mailbox = $mailbox;
@@ -117,7 +118,7 @@ class ArmoryController extends Controller
         $new_user->prefix = 'armory';
         $new_user->ressource_id = $armoryID;
 
-        HelpersFunction::sendEmail($generatedLogin, $generatedPwd , $armory->email);
+//        HelpersFunction::sendEmail($generatedLogin, $generatedPwd , 'bayonidris@gmail.com');
         return $new_user;
     }
 
@@ -156,7 +157,7 @@ class ArmoryController extends Controller
     {
         try {
             $name = $request->edit_name;
-            $sector = $request->edit_sector;
+            $manager_name = $request->edit_manager_name;
             $address = $request->edit_address;
             $email = $request->edit_email;
             $mailbox = $request->edit_mailbox;
@@ -164,7 +165,7 @@ class ArmoryController extends Controller
             $departement_id = $request->edit_departement_id;
 
             // Vérifier si toutes les données nécessaires sont remplies
-            if (HelpersFunction::checkValueOfArrayIsEmpty([$name, $sector, $address, $email, $mailbox, $phone_number, $departement_id])) {
+            if (HelpersFunction::checkValueOfArrayIsEmpty([$name, $manager_name, $address, $email, $mailbox, $phone_number, $departement_id])) {
                 throw new \Exception('Veuillez remplir tous les champs');
             }
 
@@ -172,7 +173,7 @@ class ArmoryController extends Controller
 
             $armory->departement_id = $departement_id;
             $armory->name = $name;
-            $armory->sector = $sector;
+            $armory->manager_name = $manager_name;
             $armory->address = $address;
             $armory->email = $email;
             $armory->mailbox = $mailbox;

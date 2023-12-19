@@ -14,7 +14,6 @@ class Weapon extends Model
     protected $fillable = ['id','weapon_type_id','holder_id' ,'serial_number'];
 
 
-
     public function permissionsPort()
     {
         return $this->hasMany(PermissionsPort::class, 'weapon_id', 'id');
