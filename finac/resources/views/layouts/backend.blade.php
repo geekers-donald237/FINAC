@@ -11,6 +11,8 @@
 <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
 
 <link rel="stylesheet" href="{{asset('assets/css/components.css')}}">
+<link rel="stylesheet" href="{{asset('assets/bundles/datatables/datatables.min.css')}}">
+<link rel="stylesheet" href="{{asset('assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css')}}">
 <!-- Custom style CSS -->
 <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
 <link rel="icon" type="image/x-icon" href="{{asset('asset/images/logo_finac.jpg')}}">
@@ -94,12 +96,15 @@
                             <a href="{{ route('armory.index') }}" class="nav-link"><i data-feather="monitor"></i><span>Dashboard</span></a>
                         </li>
 
-                        <li class="dropdown  {{$subactiveLink === 'weapons.stock' ? 'active' : ''}}">
-                            <a href="{{ route('weapons_type.index') }}" class="nav-link"><i
-                                    data-feather="bar-chart-2"></i><span>Stock</span></a>
-                        </li>
+                            <li class="dropdown  {{$subactiveLink === 'weapons.stock' ? 'active' : ''}}">
+                                <a href="{{ route('weapons_type.index') }}" class="nav-link"><i data-feather="bar-chart-2"></i><span>Stock d'armes</span></a>
+                            </li>
 
-                        <li class="dropdown {{ Route::is('add_arm_sheet') ? 'active' : '' }}">
+                            <li class="dropdown  {{$subactiveLink === 'ammunition.stock' ? 'active' : ''}}">
+                                <a href="{{route('ammunition.index')}}" class="nav-link"><i data-feather="box"></i><span>Stock de munitions</span></a>
+                            </li>
+
+                            <li class="dropdown {{ Route::is('add_arm_sheet') ? 'active' : '' }}">
                             <a href="{{ route('add_arm_sheet') }}" class="nav-link"><i
                                     data-feather="file-text"></i><span>Creer fiche client</span></a>
                         </li>
@@ -198,6 +203,16 @@
 <script src="{{ asset('assets/bundles/sweetalert/sweetalert.min.js') }}"></script>
 <script src="{{ asset('assets/js/page/sweetalert.js') }}"></script>
 <script src="{{ asset('assets/js/page/sweetalert.js') }}"></script>
+
+<script src="{{ asset('assets/bundles/datatables/datatables.min.js')}}"></script>
+<script src="{{ asset('assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{ asset('assets/bundles/datatables/export-tables/dataTables.buttons.min.js')}}"></script>
+<script src="{{ asset('assets/bundles/datatables/export-tables/buttons.flash.min.js')}}"></script>
+<script src="{{ asset('assets/bundles/datatables/export-tables/jszip.min.js')}}"></script>
+<script src="{{ asset('assets/bundles/datatables/export-tables/pdfmake.min.js')}}"></script>
+<script src="{{ asset('assets/bundles/datatables/export-tables/vfs_fonts.js')}}"></script>
+<script src="{{ asset('assets/bundles/datatables/export-tables/buttons.print.min.js')}}"></script>
+<script src="{{ asset('assets/js/page/datatables.js')}}"></script>
 
 @yield('scripts')
 @stack('other-scripts')

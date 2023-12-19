@@ -8,11 +8,10 @@
     <style>
     </style>
 @endsection
-
 @section('content')
     <div class="row justify-content-between">
         <div class="col-6 col-md-6 col-lg-6">
-        <div class="card card-primary">
+            <div class="card card-primary">
                 <div class="card-header">
                     <h4>
                         <span class="badge badge-danger mr-2">{{ count($allArmories) }}</span>
@@ -37,8 +36,9 @@
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-primary text-white-all">
-                    <li class="breadcrumb-item"><a href="{{route('minatd.index')}}"><i class="fas fa-building"></i>Minatd</a></li>
-                    <li class="breadcrumb-item"><a ><i class="fas fa-cubes"></i>Armureries</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('minatd.index')}}"><i class="fas fa-building"></i>Minatd</a>
+                    </li>
+                    <li class="breadcrumb-item"><a><i class="fas fa-cubes"></i>Armureries</a></li>
                 </ol>
             </nav>
         </div>
@@ -63,7 +63,6 @@
                                         <th scope="col">Numero Telephone</th>
                                         <th scope="col">Status</th>
                                         <th scope="col">Option</th>
-
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -87,7 +86,9 @@
                                                     <div class="badge badge-danger">Inconnu</div>
                                                 @endif
                                             </td>
-                                            <td> <a class="btn btn-info btn-action mr-1" href="{{route('minatd.armory.details' ,$armory->id )}}" title="Editer">
+                                            <td><a class="btn btn-info btn-action mr-1"
+                                                   href="{{route('minatd.armory.details' ,$armory->id )}}"
+                                                   title="Editer">
                                                     Details
                                                 </a></td>
                                         </tr>
@@ -103,6 +104,4 @@
     </div>
 
 @endsection
-
-<script src="{{ asset('asset/js/jquery-3.3.1.min.js') }}"></script>
 

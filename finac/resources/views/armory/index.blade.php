@@ -58,36 +58,30 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table">
-                            <div class="card-body">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Type D'armes</th>
-                                        <th scope="col">Numero de serie</th>
-                                        <th scope="col">Proprietaire</th>
-                                        <th scope="col">Date vente</th>
-                                    </tr>
+                        <table class="table table-striped table-hover" id="tableExport" style="width:100%;">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Type D'armes</th>
+                                <th scope="col">Numero de serie</th>
+                                <th scope="col">Proprietaire</th>
+                                <th scope="col">Date vente</th>
+                            </tr>
 
-                                    </thead>
-                                    <tbody>
-                                    @foreach($permissionsPorts as $key => $value)
-                                        <tr>
-                                            <th scope="row">{{ $key+1 }}</th>
-                                            <td>{{ $value->weapon->weaponType->type }}</td>
-                                            <td>{{ $value->weapon->serial_number }}</td>
-                                            <td>{{ $value->weapon->holder->fullname ?? 'nnn' }}</td>
-                                            <td> {{$value->date_demande}}
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-
+                            </thead>
+                            <tbody>
+                            @foreach($permissionsPorts as $key => $value)
+                                <tr>
+                                    <th scope="row">{{ $key+1 }}</th>
+                                    <td>{{ $value->weapon->weaponType->type }}</td>
+                                    <td>{{ $value->weapon->serial_number }}</td>
+                                    <td>{{ $value->weapon->holder->fullname ?? 'nnn' }}</td>
+                                    <td> {{$value->date_demande}}
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>

@@ -36,6 +36,7 @@ Route::middleware(['check.auth'])->group(function () {
     // SubAdmin Routes
     Route::resource('governor', \App\Http\Controllers\Admin\subAdmin\GovernorController::class);
     Route::resource('minatd', \App\Http\Controllers\Admin\subAdmin\MinatdController::class);
+    Route::resource('ammunition', \App\Http\Controllers\weapons\AmmunitionController::class);
 
     // Armory Routes
     Route::get('armory_details/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'getArmorySytemdetails'])->name('armory.details');
