@@ -34,18 +34,6 @@
                         @method('POST')
                         <div class="row">
                             <div class="form-group col">
-                                <label for="finac_code">Code Finac <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="finac_code" name="finac_code" placeholder="Code Finac" required>
-                            </div>
-
-                            <div class="form-group col">
-                                <label for="series_number">Numero de serie<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="series_number" name="series_number" placeholder="Numero de serie" required>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col">
                                 <label for="name">Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
                             </div>
@@ -108,54 +96,9 @@
         </div>
     </div>
 
-    </div>
 </div>
 
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
-    $(document).ready(function () {
-        // Sélectionnez le formulaire et initialisez le plugin de validation
-        var form = $("#wizard_with_validation");
-        form.validate();
-
-        // Manipulation du changement d'étape du formulaire
-        form.on('change', function (event, current, next) {
-            // Récupérez les données saisies dans les deux premières étapes
-            var finacCode = $('#finac_code').val();
-            var seriesNumber = $('#series_number').val();
-            var name = $('#name').val();
-            var surname = $('#surname').val();
-            var dateNaissance = $('#dateNaissance').val();
-            var lieuNaissance = $('#lieuNaissance').val();
-            var photoRecto = $('#photoRecto').val();
-            var photoVerso = $('#photoVerso').val();
-            var date = $('#date').val();
-            var adresse = $('#adresse').val();
-            var description = $('#description').val();
-
-            // Affichez les données dans la troisième étape
-            $('#verification_data').html(`
-                <p><strong>Code finac:</strong> ${finacCode}</p>
-                <p><strong>Numéro de série:</strong> ${seriesNumber}</p>
-                <p><strong>Nom:</strong> ${name}</p>
-                <p><strong>Prenom:</strong> ${surname}</p>
-                <p><strong>Date de naissance:</strong> ${dateNaissance}</p>
-                <p><strong>Lieu de naissance:</strong> ${lieuNaissance}</p>
-                <p><strong>Photo de la CNI Recto:</strong> ${photoRecto}</p>
-                <p><strong>Photo de la CNI verso:</strong> ${photoVerso}</p>
-                <p><strong>Date de dernière possession:</strong> ${date}</p>
-                <p><strong>Adresse:</strong> ${adresse}</p>
-                <p><strong>Circonstances de la perte:</strong> ${description}</p>
-            `);
-        });
-
-        // Manipulation de la soumission du formulaire
-        form.on('submit', function () {
-            // Vous pouvez ajouter ici une logique supplémentaire avant la soumission du formulaire
-            return form.valid();
-        });
-    });
-</script>
 
 @endsection

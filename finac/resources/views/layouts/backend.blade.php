@@ -75,8 +75,9 @@
                                     data-feather="briefcase"></i><span>Declaration :</span></a>
                             <ul class="dropdown-menu">
                                 <li class="dropdown {{$subactiveLink === 'user.declaration.perte' ? 'active' : ''}}">
-                                    <a href="{{ route('declaration.LossDeclaration') }}" class="nav-link">Pertes
-                                        d'armes </a>
+                                <a href="" data-toggle="modal" data-target="#LoginLossPopupModal" class="nav-link">
+                                                        <span>Déclaration de perte d'arme</span>
+                                                    </a>
                                 </li>
                                 <li class="dropdown {{$subactiveLink === 'user.possesion' ? 'active' : ''}}">
                                     <a href="{{ route('declaration.WeaponsDeclaration') }}" class="nav-link">Possesion
@@ -174,6 +175,36 @@
             @yield('content')
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="LoginLossPopupModal" tabindex="-1" role="dialog" aria-labelledby="LoginLossPopupModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="LoginLossPopupModalTitle">Connexion</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="{{ route('verifylogin.store') }}">
+                            @csrf
+                            @method('POST')
+                            <div class="form-group">
+                                <label for="code_finac">Code Finac <span class="text-danger">*</span></label>
+                                <input type="text" name="code_finac" class="form-control" placeholder="Code Finac" autocomplete="Code Finac" autofocus required>
+                            </div>
+                            <div class="form-group">
+                                <label for="serial_number">Numero de Serie <span class="text-danger">*</span></label>
+                                <input type="text" name="serial_number" class="form-control" placeholder="Entrer votre Numero de Serie"  required>
+                            </div>
+                            <div class="btn-box pt-3 pb-4">
+                                <input type="submit" value="Connexion" class="btn btn-primary w-100">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+        </div>
 </div>
 
 <script src="{{asset('assets/js/app.min.js')}}"></script>

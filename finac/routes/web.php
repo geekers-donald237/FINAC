@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['web'])->group(function () {
+ Route::middleware(['web'])->group(function () {
     Route::get('/', [WelcomeController::class, 'index'])->name('home');
     Route::get('/info', [WelcomeController::class, 'infoAndContactPage'])->name('info_contact');
     Route::get('/create', [WelcomeController::class, 'goTocreateArmory'])->name('add_armory');
@@ -81,5 +81,14 @@ Route::post('declarationarmes/store', [ArmeController::class, 'store'])->name('d
 Route::resource('declarationarmes', ArmeController::class);
 Route::resource('declaration', DeclarationController::class);
 
+// Définir la route pour afficher le formulaire
+Route::get('verifylogin', [LoginLossController::class, 'showLoginForm'])->name('verifylogin.show');
+
+// Définir la route pour traiter le formulaire avec la méthode POST
+Route::post('verifylogin', [LoginLossController::class, 'store'])->name('verifylogin.store');
 
 
+
+// Route::get('/', function () {
+//     return view('WeaponsDeclaration');
+// });

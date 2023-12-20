@@ -21,6 +21,10 @@ return new class extends Migration
             $table->text('circonstance');
             $table->string('numero_serie');
             $table->string('marque');
+            $table->text('telephone');
+            $table->string('email');
+            $table->string('photo_recto')->nullable();
+            $table->string('photo_verso')->nullable();
             $table->timestamps();
         });
     }
