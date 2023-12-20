@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\armory\HoldersWeapon;
 use App\Models\PermissionsPort;
 use App\Models\user\User;
+use App\Models\weapons\Ammunition;
 use App\Models\weapons\Weapon;
 use App\Models\weapons\WeaponType;
 use Faker\Factory;
@@ -23,7 +24,7 @@ class ArmorySeeder extends Seeder
     {
         $faker = FakerFactory::create();
 
-        foreach (range(1, 1) as $index) {
+        foreach (range(1, 3) as $index) {
             $armoryId = Str::uuid();
             $userId = Str::uuid();
 
@@ -31,9 +32,9 @@ class ArmorySeeder extends Seeder
             $armory = [
                 'id' => $armoryId,
                 'country_id' => '1',
-                'departement_id' => $faker->numberBetween(1, 5),
-                'name' => 'sos',
-                'sector' => $faker->word . ' Sector',
+                'state_id' => $faker->numberBetween(1, 5),
+                'name' => 'sos' . $faker->numberBetween(1, 5),
+                'manager_name' => $faker->firstName,
                 'address' => $faker->address,
                 'email' => $faker->unique()->safeEmail,
                 'mailbox' => 'P.O. Box ' . rand(100, 999),
@@ -54,68 +55,53 @@ class ArmorySeeder extends Seeder
             $user->save();
 
             // Création des types d'armes
-//            $weaponTypes = [
-//                ['type' => 'Pistolet', 'quantity' => 10, 'description' => 'Arme de poing'],
-//                ['type' => 'Fusil d\'assaut', 'quantity' => 5, 'description' => 'Arme automatique'],
-//                ['type' => 'Fusil de chasse', 'quantity' => 8, 'description' => 'Arme pour la chasse'],
-//                ['type' => 'Mitrailleuse', 'quantity' => 3, 'description' => 'Arme automatique à tir rapide'],
-//                ['type' => 'Sniper', 'quantity' => 2, 'description' => 'Arme de précision'],
-//            ];
-//
-//            foreach ($weaponTypes as $weaponType) {
-//                $weaponTypeId = Str::uuid();
-//                $weaponType['id'] = $weaponTypeId;
-//                $weaponType['armory_id'] = $armoryId->toString();
-//                WeaponType::create($weaponType);
-//
-//                // Création des armes
-//                $weapons = [];
-//                for ($i = 0; $i < $weaponType['quantity']; $i++) {
-//                    $weaponId = Str::uuid();
-//                    $weapons[] = [
-//                        'id' => $weaponId,
-//                        'weapon_type_id' => $weaponTypeId->toString(),
-//                        'serial_number' => 'SN' . rand(1000, 9999),
-//                        'holder_id' => null,
-//                        'created_at' => now(),
-//                        'updated_at' => now(),
-//                    ];
-//                }
-//                Weapon::insert($weapons);
-//            }
-//
-//            // Création des détenteurs
-//            $holders = [];
-//            for ($i = 0; $i < 3; $i++) {
-//                $holderId = Str::uuid();
-//                DB::table('holders_weapons')->insert([
-//                    'id' => $holderId,
-//                    'fullname' => $faker->name,
-//                    'telephone' => $faker->phoneNumber,
-//                    'email' => $faker->safeEmail,
-//                    'profession' => $faker->word,
-//                    'created_at' => now(),
-//                    'updated_at' => now(),
-//                ]);
-//
-//                $holders[] = $holderId;
-//            }
-//
-//            // Lier chaque détenteur à une arme et effectuer des demandes de permission de port
-//            foreach ($holders as $holderId) {
-//                $randomWeapon = Weapon::inRandomOrder()->first();
-//                $randomWeapon->holder_id = $holderId->toString();
-//                $randomWeapon->save();
-//
-//                // Création de la demande de permission de port
-//                $permissionPort = new PermissionsPort();
-//                $permissionPort->id = Str::uuid();
-//                $permissionPort->holder_id = $holderId->toString();
-//                $permissionPort->weapon_id = $randomWeapon->id;
-//                $permissionPort->date_demande = now();
-//                $permissionPort->save();
-//            }
+            $weaponTypes = [
+                ['type' => 'Pistolet', 'quantity' => 10, 'description' => 'Arme de poing'],
+                ['type' => 'Fusil d\'assaut', 'quantity' => 5, 'description' => 'Arme automatique'],
+                ['type' => 'Fusil de chasse', 'quantity' => 8, 'description' => 'Arme pour la chasse'],
+                ['type' => 'Mitrailleuse', 'quantity' => 3, 'description' => 'Arme automatique à tir rapide'],
+                ['type' => 'Sniper', 'quantity' => 2, 'description' => 'Arme de précision'],
+            ];
+
+            foreach ($weaponTypes as $weaponType) {
+                $weaponTypeId = Str::uuid();
+                $weaponType['id'] = $weaponTypeId;
+                $weaponType['armory_id'] = $armoryId->toString();
+                WeaponType::create($weaponType);
+
+                // Création des armes
+                $weapons = [];
+                for ($i = 0; $i < $weaponType['quantity']; $i++) {
+                    $serialNumber = 'SN' . rand(1000, 9999);
+
+                    // Vérifier si le numéro de série est déjà utilisé
+                    while (Weapon::where('serial_number', $serialNumber)->exists()) {
+                        $serialNumber = 'SN' . rand(1000, 9999);
+                    }
+
+                    $weaponId = Str::uuid();
+                    $weapons[] = [
+                        'id' => $weaponId,
+                        'weapon_type_id' => $weaponTypeId->toString(),
+                        'serial_number' => $serialNumber,
+                        'holder_id' => null,
+                    ];
+                }
+                Weapon::insert($weapons);
+            }
         }
+        for ($i = 0; $i < 5; $i++) {
+            $ammunitions[] = [
+                'id' => Str::uuid()->toString(),
+                'armory_id' => $armoryId,
+                'name' => $faker->word,
+                'type' => $faker->word,
+                'caliber' => $faker->randomFloat(2, 1, 10),
+                'quantity_in_stock' => rand(10, 100),
+
+            ];
+        }
+        Ammunition::insert($ammunitions);
     }
 
 }

@@ -10,6 +10,8 @@ class Ammunition extends Model
 {
     use HasFactory;
 
+    protected $keyType = 'string';
+
     protected $fillable = [
         'name',
         'type',
@@ -17,7 +19,8 @@ class Ammunition extends Model
         'quantity_in_stock',
     ];
 
-    public function armory() {
+    public function armory()
+    {
         return $this->belongsTo(Armory::class, 'armory_id');
     }
 

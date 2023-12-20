@@ -47,7 +47,6 @@
             <button type="button" class="btn btn-primary" href="{{route('add_arm_sheet')}}">
                 <i class="fas fa-plus"></i>
                 Ajouter une fiche client
-
             </button>
         </div>
 
@@ -57,7 +56,7 @@
         <div class="col-12">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h4>Fiche Client</h4>
+                    <h4>Ma Fiche Client</h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">

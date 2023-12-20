@@ -17,6 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AdminsSeeder::class);
         $this->call(MinatdSeeder::class);
         $this->call(GovernorSeeder::class);
-//        $this->call(    ArmorySeeder::class);
+        $this->call(ArmorySeeder::class);
     }
 }
