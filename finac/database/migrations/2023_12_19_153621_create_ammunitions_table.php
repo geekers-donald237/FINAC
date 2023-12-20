@@ -13,11 +13,15 @@ return new class extends Migration
     {
         Schema::create('ammunitions', function (Blueprint $table) {
             $table->id();
+            $table->string('armory_id');
+
             $table->string('name');
             $table->string('type');
             $table->string('caliber');
             $table->integer('quantity_in_stock');
             $table->boolean('is_delete')->default(false);
+            $table->foreign('armory_id')->references('id')->on('armories')->onDelete('cascade')->onUpdate('cascade'); // Clé étrangère vers la table Armories
+
             $table->timestamps();
         });
     }

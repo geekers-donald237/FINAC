@@ -22,8 +22,8 @@
             </nav>
         </div>
         <div class="col-md-4 text-right">
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addGovernorModal">
-                <i class="fas fa-plus-circle"></i> Ajouter Gouverneur
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addGovernorModal">
+                <i class="fas fa-plus"></i> Ajouter Gouverneur
             </button>
         </div>
     </div>
@@ -35,53 +35,50 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table">
-                            <div class="card-body">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Nom</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Numero Telephone</th>
-                                        <th scope="col">Region</th>
-                                        <th scope="col">Options</th>
-                                        <th scope="col"></th>
+                        <table class="table table-striped table-hover" id="tableExport" style="width:100%;">
 
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($allGovernorServices as $index => $allGovernorService)
-                                        <tr>
-                                            <td>{{ $index + 1 }}</td>
-                                            <td>{{ $allGovernorService->name }}</td>
-                                            <td>{{ $allGovernorService->email }}</td>
-                                            <td>{{ $allGovernorService->phone_number }}</td>
-                                            <td>{{ $allGovernorService->state->name }}</td>
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Numero Telephone</th>
+                                <th scope="col">Region</th>
+                                <th scope="col">Options</th>
+                                <th scope="col"></th>
 
-                                            <td>
-                                                <a class="btn btn-warning btn-action mr-1"
-                                                   onclick="edit_governor({{ json_encode($allGovernorService->id) }});"
-                                                   title="Editer">
-                                                    Editer
-                                                </a>
-                                                <a class="btn btn-danger btn-action"
-                                                   onclick="event.preventDefault(); delete_governor({{ json_encode($allGovernorService->id) }});"
-                                                   title="Supprimer">
-                                                    Supprimer
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('resend', $allGovernorService->id) }}"
-                                                   class="btn btn-primary btn-action mr-1" title="Resend">
-                                                    Re-envoyer le code
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($allGovernorServices as $index => $allGovernorService)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $allGovernorService->name }}</td>
+                                    <td>{{ $allGovernorService->email }}</td>
+                                    <td>{{ $allGovernorService->phone_number }}</td>
+                                    <td>{{ $allGovernorService->state->name }}</td>
+
+                                    <td>
+                                        <a class="btn btn-warning btn-action mr-1"
+                                           onclick="edit_governor({{ json_encode($allGovernorService->id) }});"
+                                           title="Editer">
+                                            Editer
+                                        </a>
+                                        <a class="btn btn-danger btn-action"
+                                           onclick="event.preventDefault(); delete_governor({{ json_encode($allGovernorService->id) }});"
+                                           title="Supprimer">
+                                            Supprimer
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('resend', $allGovernorService->id) }}"
+                                           class="btn btn-primary btn-action mr-1" title="Resend">
+                                            Re-envoyer le code
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>

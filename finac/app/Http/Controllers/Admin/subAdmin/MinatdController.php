@@ -13,6 +13,7 @@ use App\Models\user\subAdmin\Governor;
 use App\Models\user\subAdmin\Minatd;
 use App\Models\user\subAdmin\Prefect;
 use App\Models\user\User;
+use App\Models\weapons\Ammunition;
 use App\Models\weapons\Weapon;
 use App\Models\weapons\WeaponType;
 use Illuminate\Http\Request;
@@ -117,6 +118,7 @@ class MinatdController extends Controller
     public function getArmoryMinatdDetails($armoryId)
     {
         $weaponTypes = WeaponType::where('armory_id', $armoryId)->get();
+        $ammos = Ammunition::where('armory_id', $armoryId)->whereIsDelete(false)->get();
         $weaponTypesId = WeaponType::where('armory_id', $armoryId)->pluck('id');
         $armory = Armory::find($armoryId);
         $armoryName = $armory->name;
@@ -126,7 +128,7 @@ class MinatdController extends Controller
 
         $permissionsPorts = PermissionsPort::whereIn('weapon_id', $weapons)->get();
 
-        return view('minatd.armory.armory_details',compact('weaponTypes' ,'armoryName','permissionsPorts' , 'armoryId'));
+        return view('minatd.armory.armory_details',compact('weaponTypes' ,'armoryName', 'ammos','permissionsPorts' , 'armoryId'));
 
     }
 

@@ -15,7 +15,8 @@
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-primary text-white-all">
-                    <li class="breadcrumb-item"><a href="{{route('minatd.index')}}"><i class="fas fa-building"></i>Minatd</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('minatd.index')}}"><i class="fas fa-building"></i>Minatd</a>
+                    </li>
                     <li class="breadcrumb-item"><a><i class="fas fa-cubes"></i>Governor</a></li>
                 </ol>
             </nav>
@@ -29,45 +30,40 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table">
-                            <div class="card-body">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Nom</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Numero Telephone</th>
-                                        <th scope="col">Region</th>
-                                        <th scope="col">Options</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($allGovernorServices as $index => $allGovernorService)
-                                        <tr>
-                                            <td>{{ $index + 1 }}</td>
-                                            <td>{{ $allGovernorService->name }}</td>
-                                            <td>{{ $allGovernorService->email }}</td>
-                                            <td>{{ $allGovernorService->phone_number }}</td>
-                                            <td>{{ $allGovernorService->state->name }}</td>
+                        <table class="table table-striped table-hover" id="tableExport" style="width:100%;">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Numero Telephone</th>
+                                <th scope="col">Region</th>
+                                <th scope="col">Options</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($allGovernorServices as $index => $allGovernorService)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $allGovernorService->name }}</td>
+                                    <td>{{ $allGovernorService->email }}</td>
+                                    <td>{{ $allGovernorService->phone_number }}</td>
+                                    <td>{{ $allGovernorService->state->name }}</td>
 
-                                            <td>
-                                                <a class="btn btn-primary btn-action mr-1" title="Details">
-                                                    Details
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
+                                    <td>
+                                        <a class="btn btn-primary btn-action mr-1" title="Details">
+                                            Details
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 
 @endsection
 

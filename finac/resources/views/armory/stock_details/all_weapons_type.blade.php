@@ -22,13 +22,13 @@
                 </ol>
             </nav>
         </div>
-        <div class="col-md-auto">
-            <nav aria-label="breadcrumb">
-                <a class="btn btn-success btn-pilll"  href="{{route('goto')}}">
-                    Ajouter Un stock d'arme
-                </a>
-            </nav>
+        <div class="col-md-4 text-right">
+            <!-- Bouton pour ouvrir la modale d'ajout de stock de munitions -->
+            <button type="button" class="btn btn-primary" href="{{route('goto')}}">
+                <i class="fas fa-plus"></i> Ajouter Un stock d'arme
+            </button>
         </div>
+
     </div>
     <div class="row">
         <div class="col-12">

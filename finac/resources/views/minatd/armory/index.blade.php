@@ -51,51 +51,47 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table">
-                            <div class="card-body">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Nom</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Boite Postale</th>
-                                        <th scope="col">Numero Telephone</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Option</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($armories as $index => $armory)
-                                        <tr>
-                                            <td>{{ $index + 1 }}</td>
-                                            <td>{{ $armory->name }}</td>
-                                            <td>{{ $armory->email }}</td>
-                                            <td>{{ $armory->mailbox }}</td>
-                                            <td>{{ $armory->phone_number }}</td>
-                                            <td>
-                                                @if($armory->is_delete)
-                                                    <div class="badge badge-secondary">Supprimé</div>
-                                                @elseif($armory->statut == 'creer')
-                                                    <div class="badge badge-primary">Créé</div>
-                                                @elseif($armory->statut == 'verifie')
-                                                    <div class="badge badge-success">Vérifié</div>
-                                                @elseif($armory->statut == 'suspendu')
-                                                    <div class="badge badge-warning">Suspendu</div>
-                                                @else
-                                                    <div class="badge badge-danger">Inconnu</div>
-                                                @endif
-                                            </td>
-                                            <td><a class="btn btn-info btn-action mr-1"
-                                                   href="{{route('minatd.armory.details' ,$armory->id )}}"
-                                                   title="Editer">
-                                                    Details
-                                                </a></td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
+                        <table class="table table-striped table-hover" id="tableExport" style="width:100%;">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Boite Postale</th>
+                                <th scope="col">Numero Telephone</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Option</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($armories as $index => $armory)
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $armory->name }}</td>
+                                    <td>{{ $armory->email }}</td>
+                                    <td>{{ $armory->mailbox }}</td>
+                                    <td>{{ $armory->phone_number }}</td>
+                                    <td>
+                                        @if($armory->is_delete)
+                                            <div class="badge badge-secondary">Supprimé</div>
+                                        @elseif($armory->statut == 'creer')
+                                            <div class="badge badge-primary">Créé</div>
+                                        @elseif($armory->statut == 'verifie')
+                                            <div class="badge badge-success">Vérifié</div>
+                                        @elseif($armory->statut == 'suspendu')
+                                            <div class="badge badge-warning">Suspendu</div>
+                                        @else
+                                            <div class="badge badge-danger">Inconnu</div>
+                                        @endif
+                                    </td>
+                                    <td><a class="btn btn-info btn-action mr-1"
+                                           href="{{route('minatd.armory.details' ,$armory->id )}}"
+                                           title="Editer">
+                                            Details
+                                        </a></td>
+                                </tr>
+                            @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>

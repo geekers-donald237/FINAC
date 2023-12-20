@@ -13,8 +13,5 @@ class State extends Model
 
     }
 
-    public function departements()
-    {
-        return $this->hasMany(Departement::class);
-    }
+
 }

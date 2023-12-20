@@ -2,6 +2,7 @@
 
 namespace App\Models\weapons;
 
+use App\Models\armory\Armory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,5 +17,8 @@ class Ammunition extends Model
         'quantity_in_stock',
     ];
 
+    public function armory() {
+        return $this->belongsTo(Armory::class, 'armory_id');
+    }
 
 }

@@ -42,13 +42,16 @@
                 </ol>
             </nav>
         </div>
-        <div class="col-md-auto">
-            <nav aria-label="breadcrumb">
-                <a class="btn btn-success btn-pilll" href="{{route('add_arm_sheet')}}">
-                    Ajouter une fiche client
-                </a>
-            </nav>
+        <div class="col-md-4 text-right">
+            <!-- Bouton pour ouvrir la modale d'ajout de stock de munitions -->
+            <button type="button" class="btn btn-primary" href="{{route('add_arm_sheet')}}">
+                <i class="fas fa-plus"></i>
+                Ajouter une fiche client
+
+            </button>
         </div>
+
+
     </div>
     <div class="row">
         <div class="col-12">

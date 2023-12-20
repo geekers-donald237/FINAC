@@ -51,28 +51,28 @@
                             @endforeach
                             </tbody>
                         </table>
+
+
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="col-12 col-md-6 col-lg-6">
-            <div class="card">
+            <div class="card card-primary">
                 <div class="card-header">
                     <h4>Fiche D'arme</h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-md">
+                        <table class="table table-striped table-hover" id="tableExport" style="width:100%;">
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Fiche Type</th>
                                 <th scope="col">Date Soumission</th>
                                 <th scope="col">status</th>
-
                             </tr>
-
                             </thead>
                             <tbody>
                             @foreach($permissionsPorts as $key => $value)
@@ -106,10 +106,43 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-12 col-md-6 col-lg-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h4>Stock Munitions</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover" id="tableExport" style="width:100%;">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nom de la munition</th>
+                                <th scope="col">Type de munition</th>
+                                <th scope="col">Calibre</th>
+                                <th scope="col">Quantité en stock</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($ammos as $key => $ammo)
+                                <tr>
+                                    <th scope="row">{{ $key+1 }}</th>
+                                    <td>{{ $ammo->name }}</td>
+                                    <td>{{ $ammo->type }}</td>
+                                    <td>{{ $ammo->caliber }}</td>
+                                    <td>{{ $ammo->quantity_in_stock }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
 @endsection
-<script src="{{ asset('asset/js/jquery-3.3.1.min.js') }}"></script>
 
 

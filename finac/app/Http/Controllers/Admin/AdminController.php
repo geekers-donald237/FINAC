@@ -11,6 +11,7 @@ use App\Models\PermissionsPort;
 use App\Models\user\subAdmin\Governor;
 use App\Models\user\subAdmin\Minatd;
 use App\Models\user\subAdmin\Prefect;
+use App\Models\weapons\Ammunition;
 use App\Models\weapons\Weapon;
 use App\Models\weapons\WeaponType;
 use Illuminate\Http\Request;
@@ -92,13 +93,14 @@ class AdminController extends Controller
     public function getArmorySytemdetails($armoryId)
     {
         $weaponTypes = WeaponType::where('armory_id', $armoryId)->get();
+        $ammos = Ammunition::whereIsDelete(false)->where('armory_id' , $armoryId)->get();
         $weaponTypesId = WeaponType::where('armory_id', $armoryId)->pluck('id');
 
         $weapons = Weapon::whereIn('weapon_type_id', $weaponTypesId)->pluck('id');
 
         $permissionsPorts = PermissionsPort::whereIn('weapon_id', $weapons)->get();
 
-        return view('system.armory.index',compact('weaponTypes' ,'permissionsPorts' , 'armoryId'));
+        return view('system.armory.index',compact('weaponTypes' , 'ammos','permissionsPorts' , 'armoryId'));
 
     }
 }

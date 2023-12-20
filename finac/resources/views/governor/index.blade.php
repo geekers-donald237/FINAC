@@ -63,40 +63,36 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table">
-                            <div class="card-body">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Nom demandeur</th>
-                                        <th scope="col">Téléphone</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Profession</th>
-                                        <th scope="col">Destinateur</th>
-                                        <th scope="col">Options</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($permissionsAvecArmureries as $key => $data)
-                                        <tr>
-                                            <th scope="row">{{ intval($key) + 1 }}</th>
-                                            <td>{{ $data['holder']->fullname }}</td>
-                                            <td>{{ $data['holder']->telephone }}</td>
-                                            <td>{{ $data['holder']->email }}</td>
-                                            <td>{{ $data['holder']->profession }}</td>
-                                            <td>{{ $data['armory']->name }}</td>
-                                            <td>
-                                                <a class="btn btn-primary btn-action" href="{{ route('governor.holders.details', $data['permissionsPort']->id) }}" title="Details">
-                                                    Details
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                        <table class="table table-striped table-hover" id="tableExport" style="width:100%;">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nom demandeur</th>
+                                <th scope="col">Téléphone</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Profession</th>
+                                <th scope="col">Destinateur</th>
+                                <th scope="col">Options</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($permissionsAvecArmureries as $key => $data)
+                                <tr>
+                                    <th scope="row">{{ intval($key) + 1 }}</th>
+                                    <td>{{ $data['holder']->fullname }}</td>
+                                    <td>{{ $data['holder']->telephone }}</td>
+                                    <td>{{ $data['holder']->email }}</td>
+                                    <td>{{ $data['holder']->profession }}</td>
+                                    <td>{{ $data['armory']->name }}</td>
+                                    <td>
+                                        <a class="btn btn-primary btn-action" href="{{ route('governor.holders.details', $data['permissionsPort']->id) }}" title="Details">
+                                            Details
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
 
-                                    </tbody>
-                                </table>
-                            </div>
+                            </tbody>
                         </table>
                     </div>
                 </div>
