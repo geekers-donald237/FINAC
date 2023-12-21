@@ -16,7 +16,7 @@ class CountriesSeeders extends Seeder
     {
         DB::table('countries')->delete();
         $countries = array(
-            array('id' => 37,'code' => 'CM','name' => "Cameroon",'phonecode' => 237),
+            array('id' => 1,'code' => 'CM','name' => "Cameroon",'phonecode' => 237),
         );
         DB::table('countries')->insert($countries);
 

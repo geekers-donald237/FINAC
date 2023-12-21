@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\armory\HoldersWeapon;
 use App\Models\PermissionsPort;
 use App\Models\user\User;
+use App\Models\weapons\Ammunition;
 use App\Models\weapons\Weapon;
 use App\Models\weapons\WeaponType;
 use Faker\Factory;
@@ -23,22 +24,21 @@ class ArmorySeeder extends Seeder
     {
         $faker = FakerFactory::create();
 
-        foreach (range(1, 5) as $index) {
+        foreach (range(1, 3) as $index) {
             $armoryId = Str::uuid();
             $userId = Str::uuid();
 
             // Création de l'armurerie
             $armory = [
                 'id' => $armoryId,
-                'country_id' => '37',
-                'departement_id' => $faker->numberBetween(1, 5),
-                'name' => 'sos',
-                'sector' => $faker->word . ' Sector',
+                'country_id' => '1',
+                'state_id' => $faker->numberBetween(1, 5),
+                'name' => 'sos' . $faker->numberBetween(1, 5),
+                'manager_name' => $faker->firstName,
                 'address' => $faker->address,
                 'email' => $faker->unique()->safeEmail,
                 'mailbox' => 'P.O. Box ' . rand(100, 999),
                 'phone_number' => '+237 6' . rand(10, 99) . ' ' . rand(100, 999) . ' ' . rand(100, 999),
-                'agrement_number' => 'AG' . rand(100, 999),
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
@@ -49,7 +49,7 @@ class ArmorySeeder extends Seeder
             $user = new User();
             $user->id = $userId;
             $user->generated_login = strtolower(str_replace(' ', '', $armory['name'])) . '_armory';
-            $user->generated_password = bcrypt('password'); // Vous devriez générer un mot de passe sécurisé
+            $user->generated_password = Hash::make('password'); // Vous devriez générer un mot de passe sécurisé
             $user->prefix = 'armory';
             $user->ressource_id = $armoryId->toString();
             $user->save();
@@ -72,51 +72,36 @@ class ArmorySeeder extends Seeder
                 // Création des armes
                 $weapons = [];
                 for ($i = 0; $i < $weaponType['quantity']; $i++) {
+                    $serialNumber = 'SN' . rand(1000, 9999);
+
+                    // Vérifier si le numéro de série est déjà utilisé
+                    while (Weapon::where('serial_number', $serialNumber)->exists()) {
+                        $serialNumber = 'SN' . rand(1000, 9999);
+                    }
+
                     $weaponId = Str::uuid();
                     $weapons[] = [
                         'id' => $weaponId,
                         'weapon_type_id' => $weaponTypeId->toString(),
-                        'serial_number' => 'SN' . rand(1000, 9999),
+                        'serial_number' => $serialNumber,
                         'holder_id' => null,
-                        'created_at' => now(),
-                        'updated_at' => now(),
                     ];
                 }
                 Weapon::insert($weapons);
             }
-
-            // Création des détenteurs
-            $holders = [];
-            for ($i = 0; $i < 3; $i++) {
-                $holderId = Str::uuid();
-                DB::table('holders_weapons')->insert([
-                    'id' => $holderId,
-                    'fullname' => $faker->name,
-                    'telephone' => $faker->phoneNumber,
-                    'email' => $faker->safeEmail,
-                    'profession' => $faker->word,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-
-                $holders[] = $holderId;
-            }
-
-            // Lier chaque détenteur à une arme et effectuer des demandes de permission de port
-            foreach ($holders as $holderId) {
-                $randomWeapon = Weapon::inRandomOrder()->first();
-                $randomWeapon->holder_id = $holderId->toString();
-                $randomWeapon->save();
-
-                // Création de la demande de permission de port
-                $permissionPort = new PermissionsPort();
-                $permissionPort->id = Str::uuid();
-                $permissionPort->holder_id = $holderId->toString();
-                $permissionPort->weapon_id = $randomWeapon->id;
-                $permissionPort->date_demande = now();
-                $permissionPort->save();
-            }
         }
+        for ($i = 0; $i < 5; $i++) {
+            $ammunitions[] = [
+                'id' => Str::uuid()->toString(),
+                'armory_id' => $armoryId,
+                'name' => $faker->word,
+                'type' => $faker->word,
+                'caliber' => $faker->randomFloat(2, 1, 10),
+                'quantity_in_stock' => rand(10, 100),
+
+            ];
+        }
+        Ammunition::insert($ammunitions);
     }
 
 }

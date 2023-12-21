@@ -1,6 +1,6 @@
 @php
     $activeLink = 'minatd';
-        $subactiveLink = 'minatd.fiche'
+    $subactiveLink = 'minatd.fiche'
 
 @endphp
 @extends('layouts.backend')
@@ -25,7 +25,7 @@
 
     <div class="row">
         <div class="col-lg-4">
-            <div class="card mb-4">
+            <div class="card card-primary mb-4">
                 <div class="card-body text-center">
                     <img src="{{asset('http://127.0.0.1:8000/storage/finac/holder_weapons_picture/'.$holderWeapons->photo)}}" alt="Profile picture"
                          class="rounded-circle img-fluid"  style="width: 100px;height: 100px;object-fit: cover;object-position: center;">
@@ -37,7 +37,7 @@
         </div>
 
         <div class="col-lg-8">
-            <div class="card mb-4">
+            <div class="card card-primary mb-4">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-3">

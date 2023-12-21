@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('profession');
             $table->string('identity_number',1000)->nullable();
             $table->string('buy_permission',1000)->nullable();
-            $table->string('moral_certificate',1000)->nullable();
+            $table->string('honor_contract',1000)->nullable();
             $table->string('photo',1000)->nullable();
             $table->timestamps();
         });

@@ -23,29 +23,25 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="card card-primary">
                 <div class="card-header">
                     <h4>Liste des Arme declaree</h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table">
-                            <div class="card-body">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">type de l'arme</th>
-                                        <th scope="col">Numero de serie</th>
-                                        <th scope="col">Date de Perte</th>
-                                        <th scope="col">Options</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
+                        <table class="table table-striped table-hover" id="tableExport" style="width:100%;">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">type de l'arme</th>
+                                <th scope="col">Numero de serie</th>
+                                <th scope="col">Date de Perte</th>
+                                <th scope="col">Options</th>
+                            </tr>
+                            </thead>
+                            <tbody>
 
-                                    </tbody>
-                                </table>
-                            </div>
+                            </tbody>
                         </table>
                     </div>
                 </div>

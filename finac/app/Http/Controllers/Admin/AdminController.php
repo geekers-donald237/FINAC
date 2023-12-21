@@ -11,6 +11,7 @@ use App\Models\PermissionsPort;
 use App\Models\user\subAdmin\Governor;
 use App\Models\user\subAdmin\Minatd;
 use App\Models\user\subAdmin\Prefect;
+use App\Models\weapons\Ammunition;
 use App\Models\weapons\Weapon;
 use App\Models\weapons\WeaponType;
 use Illuminate\Http\Request;
@@ -22,14 +23,12 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $towns = District::all();
         $states = State::all();
-        $allMinatdUsers = Minatd::where('is_delete' , false)->get();
+        $allMinatdUsers = Minatd::whereIsDelete(false)->get();
         $allGovernorServices = Governor::whereIsDelete(false)->get();
-        $allPrefectures = Prefect::whereIsDelete(false)->get();
         $armories = Armory::all();
 
-        return view('system.index' , compact('allMinatdUsers' , 'towns' , 'states' , 'allPrefectures' , 'allGovernorServices' , 'armories' ));
+        return view('system.index' , compact('allMinatdUsers' ,  'states' , 'allGovernorServices' , 'armories' ));
     }
 
     public function getAllGovernorsServices()
@@ -41,14 +40,7 @@ class AdminController extends Controller
         return view('system.governor.index' , compact('allGovernorServices','states'));
     }
 
-    public function getAllPrefectures()
-    {
 
-        $departements = Departement::orderBy('name', 'asc')->get();
-        $allPrefectures = Prefect::whereIsDelete(false)->get();
-
-        return view('system.prefecture.index' , compact( 'allPrefectures' , 'departements' ));
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -101,13 +93,14 @@ class AdminController extends Controller
     public function getArmorySytemdetails($armoryId)
     {
         $weaponTypes = WeaponType::where('armory_id', $armoryId)->get();
+        $ammos = Ammunition::whereIsDelete(false)->where('armory_id' , $armoryId)->get();
         $weaponTypesId = WeaponType::where('armory_id', $armoryId)->pluck('id');
 
         $weapons = Weapon::whereIn('weapon_type_id', $weaponTypesId)->pluck('id');
 
         $permissionsPorts = PermissionsPort::whereIn('weapon_id', $weapons)->get();
 
-        return view('system.armory.index',compact('weaponTypes' ,'permissionsPorts' , 'armoryId'));
+        return view('system.armory.index',compact('weaponTypes' , 'ammos','permissionsPorts' , 'armoryId'));
 
     }
 }

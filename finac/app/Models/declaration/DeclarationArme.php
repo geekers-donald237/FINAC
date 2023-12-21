@@ -18,5 +18,9 @@ class DeclarationArme extends Model
         'numero_serie',
         'marque',
         'photo',
+        'telephone',
+        'email',
+        'photo_recto',
+        'photo_verso',
     ];
 }

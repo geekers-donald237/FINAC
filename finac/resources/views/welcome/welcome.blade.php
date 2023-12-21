@@ -37,7 +37,7 @@
                 <div class="container-fluid">
                     <div class="d-flex align-items-center">
                         <div class="site-logo mr-auto w-25">
-                            <a href="{{route('home')}}">
+                            <a href="">
                                 <img src="{{ asset('asset/images/cameroun-flag.png') }}" width="60" height="45" alt="Drapeau Cameroun" class="flag-icon">
                             </a>
                         </div>
@@ -46,9 +46,9 @@
                             @guest()
                                 <nav class="site-navigation position-relative navbar navbar-expand-lg text-right" role="navigation" style="background-color: #0F1111">
                                     <ul class="site-menu main-menu js-clone-nav mx-auto d-none d-lg-block  m-0 p-0">
-                                        <li><a href="{{route('home')}}" class="active nav-link">Acceuil</a></li>
-                                        <li><a href="{{route('info_contact')}}" class="nav-link">Infos & Contact</a></li>
-                                        <li><a href="{{route('add_armory')}}" class="nav-link">Creer une Armurerie</a></li>
+                                        <li><a href="" class="active nav-link">Acceuil</a></li>
+                                        <li><a href="" class="nav-link">Infos & Contact</a></li>
+                                        <li><a href="" class="nav-link">Creer une Armurerie</a></li>
                                     </ul>
                                 </nav>
                             @endguest
@@ -59,7 +59,7 @@
                                 <ul class="site-menu main-menu site-menu-dark js-clone-nav mr-auto d-none d-lg-block m-0 p-0">
                                     @auth
                                         <li class="ctav">
-                                            <a href="{{route('logout')}}" class="nav-link text-primary"><span>Logout</span></a>
+                                            <a href="" class="nav-link text-primary"><span>Logout</span></a>
                                         </li>
                                     @endauth
                                     @guest
@@ -141,7 +141,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form method="post" action="{{ route('login') }}">
+                        <form method="post" action="">
                             @csrf
                             @method('POST')
                             <div class="form-group">

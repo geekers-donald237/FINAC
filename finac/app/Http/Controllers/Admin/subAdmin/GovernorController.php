@@ -3,17 +3,12 @@
 namespace App\Http\Controllers\Admin\subAdmin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Email\MailController;
 use App\Http\Controllers\Helpers\HelpersFunction;
 use App\Models\armory\Armory;
 use App\Models\armory\HoldersWeapon;
-use App\Models\internaltionalison\Departement;
 use App\Models\internaltionalison\State;
-use App\Models\internaltionalison\District;
 use App\Models\PermissionsPort;
 use App\Models\user\subAdmin\Governor;
-use App\Models\user\subAdmin\Minatd;
-use App\Models\user\subAdmin\Prefect;
 use App\Models\user\User;
 use App\Models\weapons\Weapon;
 use App\Models\weapons\WeaponType;
@@ -28,15 +23,10 @@ class GovernorController extends Controller
      */
     public function index()
     {
-        $gouverneur_id = auth()->user()->ressource_id;
-        $gouverneur = Governor::find($gouverneur_id);
+        $governor_id = auth()->user()->ressource_id;
+        $governor = Governor::find($governor_id);
         $permissionsPorts = PermissionsPort::all();
-        $departements = $gouverneur->state->departements;
-        $departement_ids = [];
-
-        foreach ($departements as $departement) {
-            $departement_ids[] = $departement->id;
-        }
+        $state_id = $governor->state_id;
 
         $permissionsAvecArmureries = [];
         $permissionsTraitees = 0;
@@ -53,8 +43,8 @@ class GovernorController extends Controller
 
             // Vérifier si l'objet Weapons a été trouvé
             if ($weapons) {
-                // Vérifier si le département de l'armurerie est inclus dans la liste des départements
-                if (in_array($weapons->weaponType->armory->departement_id, $departement_ids)) {
+                // Vérifier si le département de l'armurerie est le même que celui de la préfecture
+                if ($weapons->weaponType->armory->state_id == $state_id) {
                     // Utiliser la relation pour obtenir l'armurerie associée
                     $armory = $weapons->weaponType->armory;
 
@@ -86,7 +76,6 @@ class GovernorController extends Controller
         }
 
         return view('governor.index', compact(
-            'departements',
             'permissionsPorts',
             'permissionsAvecArmureries',
             'permissionsTraitees',
@@ -130,7 +119,7 @@ class GovernorController extends Controller
             $newGovernor = new Governor();
 
             $newGovernor->id = $uuid->toString();
-            $newGovernor->country_id = '37'; // Spécifiez directement qu'il s'agit du Cameroun
+            $newGovernor->country_id = '1'; // Spécifiez directement qu'il s'agit du Cameroun
             $newGovernor->state_id = $state_id;
             $newGovernor->name = $name;
             $newGovernor->email = $email;
@@ -152,7 +141,7 @@ class GovernorController extends Controller
 
             // Sauvegardez l'utilisateur
             $newUser->save();
-            HelpersFunction::sendEmail($login, $password , $newUser->email);
+            HelpersFunction::sendEmail($login, $password, $newUser->email);
 
             toastr()->success('Service Minatd enregistré avec succès.');
             return redirect()->back();
@@ -179,109 +168,8 @@ class GovernorController extends Controller
         HelpersFunction::sendEmail($generatedLogin, $generatedPassword, $user->email);
         $user->update(['generated_password' => Hash::make($generatedPassword)]);
 
-        toastr()->success( 'E-mail renvoyé avec succès.');
+        toastr()->success('E-mail renvoyé avec succès.');
         return redirect()->back();
-    }
-
-    public function index2()
-    {
-        $towns = District::all();
-        $states = State::all();
-        $gouverneur_id = auth()->user()->ressource_id;
-        $gouverneur = Governor::find($gouverneur_id);
-        $departements = $gouverneur->state->departements;
-        $departement_ids = [];
-
-        foreach ($departements as $departement) {
-            $departement_ids[] = $departement->id;
-        }
-
-        // Récupérez les armureries dont l'ID de département est autorisé
-        $allArmories = Armory::where('is_delete', false)
-            ->whereIn('departement_id', $departement_ids)
-            ->get();
-
-
-        return view('governor.armory.index', compact('allArmories', 'towns', 'states'));
-    }
-
-
-
-    public function gotoHolderWeaponsDetails($id)
-    {
-        try {
-            $permissionsPort = PermissionsPort::findOrFail($id);
-            $holderWeapons = $permissionsPort->holderWeapons;
-            $weapon = $permissionsPort->weapon;
-
-            return view('governor.details.holder_weapons_details', compact('holderWeapons', 'weapon'  , 'id'));
-        } catch (\Exception $e) {
-            dd($e);
-        }
-    }
-
-
-    public function gotoLostArm()
-    {
-        try {
-            return view('governor.weapon_lost.index');
-        } catch (\Exception $e) {
-            dd($e);
-        }
-    }
-
-    public function getArmoryGovernorDetails($armoryId)
-    {
-        $weaponTypes = WeaponType::where('armory_id', $armoryId)->get();
-        $weaponTypesId = WeaponType::where('armory_id', $armoryId)->pluck('id');
-        $armory = Armory::find($armoryId);
-        $armoryName = $armory->name;
-
-
-        $weapons = Weapon::whereIn('weapon_type_id', $weaponTypesId)->pluck('id');
-
-        $permissionsPorts = PermissionsPort::whereIn('weapon_id', $weapons)->get();
-
-        return view('governor.armory.armory_details',compact('weaponTypes' ,'armoryName','permissionsPorts' , 'armoryId'));
-
-    }
-
-    public function gotoHolderWeaponsDetailsCopy($id)
-    {
-        try {
-            $permissionsPort = PermissionsPort::findOrFail($id);
-            $holderWeapons = $permissionsPort->holderWeapons;
-            $weapon = $permissionsPort->weapon;
-
-            return view('governor.details.finac_sheet', compact('holderWeapons', 'permissionsPort','weapon'  , 'id'));
-        } catch (\Exception $e) {
-            dd($e);
-            // Gérer l'exception, par exemple, rediriger ou afficher un message d'erreur
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        try {
-            $check = Governor::where('id', $id)->first();
-            if ($check) {
-                return response()->json($check);
-            } else {
-                return response()->json('off');
-            }
-        } catch (\Exception $e) {
-            return response()->json($e->getMessage());
-        }
-    }
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**
@@ -297,7 +185,7 @@ class GovernorController extends Controller
             $state_id = $request->edit_state_id;
 
             // Vérifier si toutes les données nécessaires sont remplies
-            if (HelpersFunction::checkValueOfArrayIsEmpty([$name, $email, $mailbox, $phone_number,$state_id])) {
+            if (HelpersFunction::checkValueOfArrayIsEmpty([$name, $email, $mailbox, $phone_number, $state_id])) {
                 throw new \Exception('Veuillez remplir tous les champs');
             }
 
@@ -320,6 +208,100 @@ class GovernorController extends Controller
             dd($e->getMessage());
             return redirect()->back();
         }
+    }
+
+    public function index2()
+    {
+        $states = State::all();
+        $gouverneur_id = auth()->user()->ressource_id;
+        $gouverneur = Governor::find($gouverneur_id);
+        $state_id = $gouverneur->state_id;
+
+
+        // Récupérez les armureries dont l'ID de département est autorisé
+        $armories = Armory::where('is_delete', false)
+            ->where('state_id', $state_id)
+            ->get();
+
+
+        return view('governor.armory.index', compact('armories', 'states'));
+    }
+
+    public function gotoHolderWeaponsDetails($id)
+    {
+        try {
+            $permissionsPort = PermissionsPort::findOrFail($id);
+            $holderWeapons = $permissionsPort->holderWeapons;
+            $weapon = $permissionsPort->weapon;
+
+            return view('governor.details.holder_weapons_details', compact('holderWeapons', 'weapon', 'id'));
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    public function gotoLostArm()
+    {
+        try {
+            return view('governor.weapon_lost.index');
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    public function getArmoryGovernorDetails($armoryId)
+    {
+        $weaponTypes = WeaponType::where('armory_id', $armoryId)->get();
+        $weaponTypesId = WeaponType::where('armory_id', $armoryId)->pluck('id');
+        $armory = Armory::find($armoryId);
+        $armoryName = $armory->name;
+
+
+        $weapons = Weapon::whereIn('weapon_type_id', $weaponTypesId)->pluck('id');
+
+        $permissionsPorts = PermissionsPort::whereIn('weapon_id', $weapons)->get();
+
+        return view('governor.armory.armory_details', compact('weaponTypes', 'armoryName', 'permissionsPorts', 'armoryId'));
+
+    }
+
+    public function gotoHolderWeaponsDetailsCopy($id)
+    {
+        try {
+            $permissionsPort = PermissionsPort::findOrFail($id);
+            $holderWeapons = $permissionsPort->holderWeapons;
+            $weapon = $permissionsPort->weapon;
+
+            return view('governor.details.finac_sheet', compact('holderWeapons', 'permissionsPort', 'weapon', 'id'));
+        } catch (\Exception $e) {
+            dd($e);
+            // Gérer l'exception, par exemple, rediriger ou afficher un message d'erreur
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        try {
+            $check = Governor::where('id', $id)->first();
+            if ($check) {
+                return response()->json($check);
+            } else {
+                return response()->json('off');
+            }
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage());
+        }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
     }
 
     /**

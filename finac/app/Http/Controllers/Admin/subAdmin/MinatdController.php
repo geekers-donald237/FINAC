@@ -13,6 +13,7 @@ use App\Models\user\subAdmin\Governor;
 use App\Models\user\subAdmin\Minatd;
 use App\Models\user\subAdmin\Prefect;
 use App\Models\user\User;
+use App\Models\weapons\Ammunition;
 use App\Models\weapons\Weapon;
 use App\Models\weapons\WeaponType;
 use Illuminate\Http\Request;
@@ -43,34 +44,41 @@ class MinatdController extends Controller
         return view('minatd.index', compact('permissionsPorts', 'associatedData' , 'permissionsRejetees' ,'permissionsValides' , 'permissionsNonTraitees'));
     }
 
+    public function gotoHolderWeaponsDetailsCopy($id)
+    {
+        try {
+            $permissionsPort = PermissionsPort::findOrFail($id);
+            $holderWeapons = $permissionsPort->holderWeapons;
+            $weapon = $permissionsPort->weapon;
+
+            return view('minatd.details.finac_sheet', compact('holderWeapons', 'permissionsPort','weapon'  , 'id'));
+        } catch (\Exception $e) {
+            dd($e);
+            // Gérer l'exception, par exemple, rediriger ou afficher un message d'erreur
+        }
+    }
+
     public function getAllGovernorsServices()
     {
 
         $allMinatdUsers = Minatd::where('is_delete' , false)->get();
         $allGovernorServices = Governor::whereIsDelete(false)->get();
-        $armories = Armory::all();
+        $armories = Armory::whereIsDelete(false)->get();
 
         return view('minatd.governor.index' , compact('allMinatdUsers'   , 'allGovernorServices' , 'armories' ));
     }
 
-    public function getAllPrefectures()
-    {
 
-        $allPrefectures = Prefect::whereIsDelete(false)->get();
-
-        return view('minatd.prefecture.index' , compact( 'allPrefectures' ));
-    }
 
     public function index2()
     {
-        $towns = District::all();
+
         $states = State::all();
         $allArmories = Armory::where('is_delete' , false)->get();
         $allGovernorServices = Governor::whereIsDelete(false)->get();
-        $allPrefectures = Prefect::whereIsDelete(false)->get();
-        $armories = Armory::all();
+        $armories = Armory::whereIsDelete(false)->get();
 
-        return view('minatd.armory.index' , compact('allArmories' , 'towns' , 'states' , 'allPrefectures' , 'allGovernorServices' , 'armories' ));
+        return view('minatd.armory.index' , compact('allArmories' ,  'states'  , 'allGovernorServices' , 'armories' ));
 
     }
 
@@ -110,6 +118,7 @@ class MinatdController extends Controller
     public function getArmoryMinatdDetails($armoryId)
     {
         $weaponTypes = WeaponType::where('armory_id', $armoryId)->get();
+        $ammos = Ammunition::where('armory_id', $armoryId)->whereIsDelete(false)->get();
         $weaponTypesId = WeaponType::where('armory_id', $armoryId)->pluck('id');
         $armory = Armory::find($armoryId);
         $armoryName = $armory->name;
@@ -119,23 +128,11 @@ class MinatdController extends Controller
 
         $permissionsPorts = PermissionsPort::whereIn('weapon_id', $weapons)->get();
 
-        return view('minatd.armory.armory_details',compact('weaponTypes' ,'armoryName','permissionsPorts' , 'armoryId'));
+        return view('minatd.armory.armory_details',compact('weaponTypes' ,'armoryName', 'ammos','permissionsPorts' , 'armoryId'));
 
     }
 
-    public function gotoHolderWeaponsDetailsCopy($id)
-    {
-        try {
-            $permissionsPort = PermissionsPort::findOrFail($id);
-            $holderWeapons = $permissionsPort->holderWeapons;
-            $weapon = $permissionsPort->weapon;
 
-            return view('minatd.details.finac_sheet', compact('holderWeapons', 'permissionsPort','weapon'  , 'id'));
-        } catch (\Exception $e) {
-            dd($e);
-            // Gérer l'exception, par exemple, rediriger ou afficher un message d'erreur
-        }
-    }
 
     /**
      * Show the form for creating a new resource.

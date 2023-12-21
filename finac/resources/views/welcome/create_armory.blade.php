@@ -17,12 +17,13 @@
 
     <div class="row">
         <div class="col-12 col-md-12 col-lg-12">
-            <div class="card">
-
+            <div class="card  card-primary">
+                <div class="card-header">
+                    <h4>Armurerie</h4>
+                </div>
                 <form action="{{ route('armory.store') }}" id="form" method="POST" style="width: 100%" enctype="multipart/form-data" class="needs-validation" novalidate="">
                     @csrf
                     @method('POST')
-
                     <div class="card-body">
                         <div class="row">
                             <div class="form-group col">
@@ -49,8 +50,8 @@
 
                         <div class="row">
                             <div class="form-group col">
-                                <label for="secteur">Secteur<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="sector" placeholder="Secteur" required>
+                                <label for="secteur">Nom gerant<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="manager_name" placeholder="nom gerant" required>
                             </div>
 
                             <div class="form-group col">
@@ -60,27 +61,22 @@
                         </div>
 
                         <div class="row">
-                            <div class="form-group col">
-                                <label for="agrement">Numéro d'agrément <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="agrement_number" placeholder="Numéro d'agrément" required>
-                            </div>
 
                             <div class="form-group col">
-                                <label for="license">License <span class="text-danger">*</span></label>
+                                <label for="license">License de creation <span class="text-danger">*</span></label>
                                 <input type="file" class="form-control" name="license" accept = ".pdf" placeholder="License" required>
                             </div>
 
-                        </div>
-                        <div class="row">
-                            <div class="col-12 form-group form-float">
-                                <label for="id_state">Departement<span class="text-danger">*</span></label>
-                                <select type="2" class="form-control select2" id="departement_id"
-                                        name="departement_id" required>
-                                    @foreach ($departments as $department)
-                                        <option value="{{ $department->id }}">{{ $department->name }}</option>
+                            <div class="form-group col">
+                                <label for="id_state">Region<span class="text-danger">*</span></label>
+                                <select type="2" class="form-control select2" id="state_id"
+                                        name="state_id" required>
+                                    @foreach ($states as $state)
+                                        <option value="{{ $state->id }}">{{ $state->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
+
                         </div>
                     </div>
 

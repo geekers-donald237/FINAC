@@ -11,7 +11,7 @@ class Weapon extends Model
 {
     use HasFactory;
     protected $keyType = 'string';
-
+    protected $fillable = ['id','weapon_type_id','holder_id' ,'serial_number'];
 
 
     public function permissionsPort()
@@ -26,7 +26,7 @@ class Weapon extends Model
 
     public function holder()
     {
-        return $this->hasMany(HoldersWeapon::class , 'holder_id');
+        return $this->belongsTo(HoldersWeapon::class, 'holder_id');
     }
 
 }
