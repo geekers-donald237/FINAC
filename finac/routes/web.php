@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Declaration\ArmeController;
-use App\Http\Controllers\Declaration\DeclarationController;
+use App\Http\Controllers\Declaration\WeaponPossesionDeclarationController;
+use App\Http\Controllers\Declaration\WeaponLostDeclarationController;
 use App\Http\Controllers\Declaration\LoginLossController;
 use App\Http\Controllers\Home\WelcomeController;
 use Illuminate\Support\Facades\Route;
@@ -52,7 +52,6 @@ Route::middleware(['check.auth'])->group(function () {
     // Helpers Routes
     Route::get('prefecture_details', [\App\Http\Controllers\Admin\subAdmin\MinatdController::class, 'getAllPrefectures'])->name('minatd_prefecture');
     Route::get('governor_details', [\App\Http\Controllers\Admin\subAdmin\MinatdController::class, 'getAllGovernorsServices'])->name('minatd_governor');
-    Route::get('aprefecture_details', [\App\Http\Controllers\Admin\AdminController::class, 'getAllPrefectures'])->name('admin_prefecture');
     Route::get('agovernor_details', [\App\Http\Controllers\Admin\AdminController::class, 'getAllGovernorsServices'])->name('admin_governor');
     Route::get('holder_details/{id}', [\App\Http\Controllers\Admin\subAdmin\MinatdController::class, 'gotoHolderWeaponsDetails'])->name('holders.details');
     Route::get('gholder_details/{id}', [\App\Http\Controllers\Admin\subAdmin\GovernorController::class, 'gotoHolderWeaponsDetails'])->name('governor.holders.details');
@@ -63,7 +62,6 @@ Route::middleware(['check.auth'])->group(function () {
     Route::post('reject_weapons_sheet/{id}', [\App\Http\Controllers\Helpers\HelpersFunction::class, 'rejectPermissionsPort'])->name('submit.reject');
     Route::get('lost_weapon', [\App\Http\Controllers\Admin\subAdmin\MinatdController::class, 'gotoLostArm'])->name('lost_arm');
     Route::get('declared_weapon', [\App\Http\Controllers\Admin\subAdmin\MinatdController::class, 'gotoDeclaredArm'])->name('declared_arm');
-    Route::get('glost_weapon', [\App\Http\Controllers\Admin\subAdmin\GovernorController::class, 'gotoLostArm'])->name('governor_lost_arm');
     Route::get('resend_governor/{id}', [\App\Http\Controllers\Admin\subAdmin\GovernorController::class, 'resendEmail'])->name('resend');
     Route::post('/save-pdf', [\App\Http\Controllers\Helpers\HelpersFunction::class, 'savePdf'])->name('save-pdf');
     Route::get('test_route', [\App\Http\Controllers\Admin\subAdmin\MinatdController::class, 'index2'])->name('minatd_armory');
@@ -72,14 +70,12 @@ Route::middleware(['check.auth'])->group(function () {
 });
 
 
-Route::get('/declaration/LossDeclaration', [DeclarationController::class, 'index'])->name('declaration.LossDeclaration');
-Route::get('/declaration/WeaponsDeclaration', [ArmeController::class, 'index'])->name('declaration.WeaponsDeclaration');
+Route::get('/declaration/LossDeclaration', [WeaponLostDeclarationController::class, 'index'])->name('declaration.loss_weapon');
+Route::get('/declaration/WeaponsDeclaration', [WeaponPossesionDeclarationController::class, 'index'])->name('declaration.WeaponsDeclaration');
 
-Route::post('declaration/store', [DeclarationController::class, 'store'])->name('declaration.store');
-Route::post('declarationarmes/store', [ArmeController::class, 'store'])->name('declarationarmes.store');
-
-Route::resource('declarationarmes', ArmeController::class);
-Route::resource('declaration', DeclarationController::class);
+Route::post('declaration/save', [WeaponLostDeclarationController::class, 'store'])->name('declaration.store');
+Route::post('declaration/lostweapon', [WeaponLostDeclarationController::class, 'checkIfweaponExistOrNot'])->name('declaration.check');
+Route::post('declarationarmes/store', [WeaponPossesionDeclarationController::class, 'store'])->name('declarationarmes.store');
 
 
 

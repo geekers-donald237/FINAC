@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('declaration_armes', function (Blueprint $table) {
+        Schema::create('weapon_lost_declarations', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('nom');
-            $table->string('prenom');
-            $table->string('photo')->nullable(); // Vous pouvez ajuster cela en fonction de la façon dont vous stockez les photos (peut-être un lien vers un stockage externe).
+            $table->string('name');
+            $table->string('surname');
+            $table->string('phone_number');
+            $table->string('email');
             $table->string('adresse');
+
             $table->date('date');
-            $table->text('circonstance');
-            $table->string('numero_serie');
-            $table->string('marque');
+            $table->string('description');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('declaration_armes');
+        Schema::dropIfExists('declarations');
     }
 };

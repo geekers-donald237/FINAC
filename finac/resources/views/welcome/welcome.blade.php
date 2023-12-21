@@ -105,7 +105,7 @@
                                 @guest
                                     <div class="row" style="margin-top: 45%">
                                         <div class="cta3">
-                                            <a href="{{ route('declaration.LossDeclaration') }}" class="nav-link">
+                                            <a href="" data-toggle="modal" data-target="#LostWeaponDeclarationModal" class="nav-link">
                                                 <span>Déclaration de perte d'arme</span>
                                             </a>
                                         </div>
@@ -131,6 +131,36 @@
     </header>
 
 
+</div>
+
+<div class="modal fade" id="LostWeaponDeclarationModal" tabindex="-1" role="dialog" aria-labelledby="LostWeaponDeclarationModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="LostWeaponDeclarationModalTitle">Declaration de perte</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{{ route('declaration.check') }}">
+                    @csrf
+                    @method('POST')
+                    <div class="form-group">
+                        <label for="code_finac">Code Finac <span class="text-danger">*</span></label>
+                        <input type="text" name="code_finac" class="form-control" placeholder="Code Finac" autocomplete="Code Finac" autofocus required>
+                    </div>
+                    <div class="form-group">
+                        <label for="serial_number">Numero de Serie <span class="text-danger">*</span></label>
+                        <input type="text" name="serial_number" class="form-control" placeholder="Entrer votre Numero de Serie"  required>
+                    </div>
+                    <div class="btn-box pt-3 pb-4">
+                        <input type="submit" value="Verifier" class="btn btn-primary w-100">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="modal fade" id="LoginPopupModal" tabindex="-1" role="dialog" aria-labelledby="LoginPopupModalTitle"

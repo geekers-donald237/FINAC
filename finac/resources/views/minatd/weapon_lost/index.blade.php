@@ -40,9 +40,21 @@
                             </tr>
                             </thead>
                             <tbody>
-
+                            @foreach($lostWeapons as $index => $declaration)
+                                {{$declaration}}
+                                <tr>
+                                    <th scope="row">{{ $index + 1 }}</th>
+                                    <td>{{ $declaration->weapon_type }}</td>
+                                    <td>{{ $declaration->serial_number }}</td>
+                                    <td>{{ $declaration->date }}</td>
+                                    <td>
+                                        {{-- Ajoutez ici vos liens ou boutons d'options --}}
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Email\MailController;
 use App\Http\Controllers\Helpers\HelpersFunction;
 use App\Models\armory\Armory;
+use App\Models\declaration\WeaponLostDeclaration;
 use App\Models\internaltionalison\State;
 use App\Models\internaltionalison\District;
 use App\Models\PermissionsPort;
@@ -99,8 +100,9 @@ class MinatdController extends Controller
 
     public function gotoLostArm()
     {
+        $lostWeapons = WeaponLostDeclaration::all();
         try {
-            return view('minatd.weapon_lost.index');
+            return view('minatd.weapon_lost.index' , compact('lostWeapons'));
         } catch (\Exception $e) {
             dd($e);
         }
