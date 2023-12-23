@@ -11,6 +11,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Mail;
+
 
 class WeaponPossesionDeclarationController extends Controller
 {
@@ -74,19 +76,19 @@ class WeaponPossesionDeclarationController extends Controller
 
     private function sendEmail(string $recipientEmail, string $weaponType): void
     {
-    try {
-        // Personnalisez le contenu de l'e-mail en fonction du type d'arme déclaré
-        $emailContent = "Merci pour votre déclaration. Si vous possédez une arme de type $weaponType, veuillez vous diriger vers le service du gouverneur de votre région.";
+        try {
+            // Personnalisez le contenu de l'e-mail en fonction du type d'arme déclaré
+            $emailContent = "Merci pour votre déclaration. Si vous possédez une arme de type $weaponType, veuillez vous diriger vers le service du gouverneur de votre région.";
 
-        Mail::send([], [], function ($message) use ($recipientEmail, $emailContent) {
-            $message->to($recipientEmail)
-                ->subject('Confirmation de déclaration')
-                ->setBody($emailContent, 'text/html');
-        });
-    } catch (\Exception $e) {
-        // Gérer les erreurs d'envoi d'e-mail
-        toastr()->error('Erreur lors de l\'envoi de l\'e-mail de confirmation');
-    }
+            Mail::send([], [], function ($message) use ($recipientEmail, $emailContent) {
+                $message->to($recipientEmail)
+                    ->subject('Confirmation de déclaration')
+                    ->setBody($emailContent, 'text/html');
+            });
+        } catch (\Exception $e) {
+            // Gérer les erreurs d'envoi d'e-mail
+            toastr()->error('Erreur lors de l\'envoi de l\'e-mail de confirmation');
+        }
     }
 
 }

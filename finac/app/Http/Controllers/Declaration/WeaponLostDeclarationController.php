@@ -9,6 +9,9 @@ use App\Models\PermissionsPort;
 use App\Models\weapons\Weapon as WT;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\DeclarationConfirmationMail;
+
 
 class WeaponLostDeclarationController extends Controller
 {
@@ -58,6 +61,12 @@ class WeaponLostDeclarationController extends Controller
             $new_declaration->description = $description;
             $new_declaration->save();
 
+            $sendemail = $new_declaration->email; // Récupérez l'adresse e-mail depuis l'objet que vous venez d'enregistrer
+
+            Mail::to($sendemail)->send(new DeclarationConfirmationMail()); // Utilisez votre classe de mèl pour la confirmation
+
+
+
             toastr()->success('Déclaration enregistrée avec succès');
             return redirect()->route('home');
         } catch (\Exception $e) {
@@ -65,6 +74,7 @@ class WeaponLostDeclarationController extends Controller
             return redirect()->back();
         }
     }
+
 
     /**
      * Display the specified resource.
