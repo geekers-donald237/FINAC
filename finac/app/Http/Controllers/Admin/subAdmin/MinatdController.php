@@ -7,6 +7,7 @@ use App\Http\Controllers\Email\MailController;
 use App\Http\Controllers\Helpers\HelpersFunction;
 use App\Models\armory\Armory;
 use App\Models\declaration\WeaponLostDeclaration;
+use App\Models\declaration\WeaponDeclarationPossesion;
 use App\Models\internaltionalison\State;
 use App\Models\internaltionalison\District;
 use App\Models\PermissionsPort;
@@ -110,8 +111,9 @@ class MinatdController extends Controller
 
     public function gotoDeclaredArm()
     {
+        $declaredArm = WeaponDeclarationPossesion::all();
         try {
-            return view('minatd.weapon_declared.index');
+            return view('minatd.weapon_declared.index' , compact('declaredArm'));
         } catch (\Exception $e) {
             dd($e);
         }

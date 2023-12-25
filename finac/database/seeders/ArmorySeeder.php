@@ -24,7 +24,7 @@ class ArmorySeeder extends Seeder
     {
         $faker = FakerFactory::create();
 
-        foreach (range(1, 3) as $index) {
+        foreach (range(1, 1) as $index) {
             $armoryId = Str::uuid();
             $userId = Str::uuid();
 
@@ -33,7 +33,7 @@ class ArmorySeeder extends Seeder
                 'id' => $armoryId,
                 'country_id' => '1',
                 'state_id' => $faker->numberBetween(1, 5),
-                'name' => 'sos' . $faker->numberBetween(1, 5),
+                'name' => 'sos_2' ,
                 'manager_name' => $faker->firstName,
                 'address' => $faker->address,
                 'email' => $faker->unique()->safeEmail,
@@ -44,7 +44,6 @@ class ArmorySeeder extends Seeder
             ];
 
             DB::table('armories')->insert($armory);
-
             // Création de l'utilisateur lié à l'armurerie
             $user = new User();
             $user->id = $userId;

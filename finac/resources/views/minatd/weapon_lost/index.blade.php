@@ -15,7 +15,8 @@
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-primary text-white-all">
-                    <li class="breadcrumb-item"><a href="{{route('minatd.index')}}"><i class="fas fa-building"></i>Admin</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('minatd.index')}}"><i class="fas fa-building"></i>Admin</a>
+                    </li>
                     <li class="breadcrumb-item"><a><i class="fas fa-cubes"></i>Prefecture</a></li>
                 </ol>
             </nav>
@@ -33,27 +34,36 @@
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">type de l'arme</th>
-                                <th scope="col">Numero de serie</th>
-                                <th scope="col">Date de Perte</th>
-                                <th scope="col">Options</th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Prénom</th>
+                                <th scope="col">Téléphone</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Adresse</th>
+                                <th scope="col">Type d'arme</th>
+                                <th scope="col">Numéro de série</th>
+                                <th scope="col">Date</th>
+
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($lostWeapons as $index => $declaration)
-                                {{$declaration}}
                                 <tr>
                                     <th scope="row">{{ $index + 1 }}</th>
+                                    <td>{{ $declaration->name }}</td>
+                                    <td>{{ $declaration->surname }}</td>
+                                    <td>{{ $declaration->phone_number }}</td>
+                                    <td>{{ $declaration->email }}</td>
+                                    <td>{{ $declaration->adresse }}</td>
+
                                     <td>{{ $declaration->weapon_type }}</td>
                                     <td>{{ $declaration->serial_number }}</td>
                                     <td>{{ $declaration->date }}</td>
-                                    <td>
-                                        {{-- Ajoutez ici vos liens ou boutons d'options --}}
-                                    </td>
+
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
+
 
                     </div>
                 </div>

@@ -35,12 +35,18 @@
                                 <th scope="col">#</th>
                                 <th scope="col">type de l'arme</th>
                                 <th scope="col">Numero de serie</th>
-                                <th scope="col">Date de Perte</th>
-                                <th scope="col">Options</th>
+                                <th scope="col">Date de declaration possesion</th>
                             </tr>
                             </thead>
                             <tbody>
-
+                            @foreach ($declaredArm as $index => $arm)
+                                <tr>
+                                    <th scope="row">{{ $index + 1 }}</th>
+                                    <td>{{ $arm['weapon_type'] }}</td>
+                                    <td>{{ $arm['serial_number'] }}</td>
+                                    <td>{{ $arm['created_at'] }}</td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

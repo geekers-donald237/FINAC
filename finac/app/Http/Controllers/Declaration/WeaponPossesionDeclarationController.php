@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Declaration;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\HelpersFunction;
-use App\Models\declaration\WeaponPossesionDeclaration;
+use App\Models\declaration\WeaponDeclarationPossesion;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -38,7 +38,7 @@ class WeaponPossesionDeclarationController extends Controller
                 throw new \Exception('Veuillez remplir tous les champs');
             }
 
-            $weapon_possesion = new WeaponPossesionDeclaration();
+            $weapon_possesion = new WeaponDeclarationPossesion();
 
 
             if ($request->hasFile('cni')) {
