@@ -110,7 +110,7 @@
                                             </a>
                                         </div>
                                         <div class="cta4">
-                                            <a href="{{ route('declaration.WeaponsDeclaration') }}" class="nav-link">
+                                            <a href="" class="nav-link">
                                                 <span>Déclaration de possession d'Arme</span>
                                             </a>
                                         </div>

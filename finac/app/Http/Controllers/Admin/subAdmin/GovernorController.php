@@ -155,13 +155,7 @@ class GovernorController extends Controller
 
     public function resendEmail($governor_id)
     {
-        // Obtenez la préfecture par son ID
-        $governorGovernorat = Governor::findOrFail($governor_id);
-
-        // Obtenez l'utilisateur associé à la préfecture
         $user = User::where('ressource_id', $governor_id)->firstOrFail();
-
-        // Obtenez le login généré et le mot de passe
         $generatedLogin = $user->generated_login;
         $generatedPassword = HelpersFunction::generateRandomCode();
 

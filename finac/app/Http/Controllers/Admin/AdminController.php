@@ -4,13 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\armory\Armory;
-use App\Models\internaltionalison\Departement;
 use App\Models\internaltionalison\State;
-use App\Models\internaltionalison\District;
 use App\Models\PermissionsPort;
 use App\Models\user\subAdmin\Governor;
 use App\Models\user\subAdmin\Minatd;
-use App\Models\user\subAdmin\Prefect;
 use App\Models\weapons\Ammunition;
 use App\Models\weapons\Weapon;
 use App\Models\weapons\WeaponType;
@@ -28,7 +25,7 @@ class AdminController extends Controller
         $allGovernorServices = Governor::whereIsDelete(false)->get();
         $armories = Armory::all();
 
-        return view('system.index' , compact('allMinatdUsers' ,  'states' , 'allGovernorServices' , 'armories' ));
+        return view('system.index', compact('allMinatdUsers', 'states', 'allGovernorServices', 'armories'));
     }
 
     public function getAllGovernorsServices()
@@ -37,9 +34,8 @@ class AdminController extends Controller
         $states = State::all();
 
         $allGovernorServices = Governor::whereIsDelete(false)->get();
-        return view('system.governor.index' , compact('allGovernorServices','states'));
+        return view('system.governor.index', compact('allGovernorServices', 'states'));
     }
-
 
 
     /**
@@ -93,14 +89,14 @@ class AdminController extends Controller
     public function getArmorySytemdetails($armoryId)
     {
         $weaponTypes = WeaponType::where('armory_id', $armoryId)->get();
-        $ammos = Ammunition::whereIsDelete(false)->where('armory_id' , $armoryId)->get();
+        $ammos = Ammunition::whereIsDelete(false)->where('armory_id', $armoryId)->get();
         $weaponTypesId = WeaponType::where('armory_id', $armoryId)->pluck('id');
 
         $weapons = Weapon::whereIn('weapon_type_id', $weaponTypesId)->pluck('id');
 
         $permissionsPorts = PermissionsPort::whereIn('weapon_id', $weapons)->get();
 
-        return view('system.armory.index',compact('weaponTypes' , 'ammos','permissionsPorts' , 'armoryId'));
+        return view('system.armory.index', compact('weaponTypes', 'ammos', 'permissionsPorts', 'armoryId'));
 
     }
 }
