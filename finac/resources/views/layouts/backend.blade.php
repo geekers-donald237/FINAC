@@ -41,11 +41,6 @@
                             <span class="d-sm-none d-lg-inline-block text-dark">Menu</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right pullDown">
-                            @if($activeLink === 'armory')
-                                <a href="{{route('armory.update_details')}}" class="dropdown-item has-icon"> <i
-                                        class="far fa-user"></i> Profile
-                                </a>
-                            @endif
                             <a href="{{ route('logout_dashboard') }}" class="nav-link nav-link-lg--}} text-danger"
                                onclick="document.getElementById('mylogoutid').submit();"> <i
                                     class="fas fa-sign-out-alt"></i>
@@ -104,9 +99,9 @@
                         <li class="dropdown {{ Route::is('add_arm_sheet') ? 'active' : '' }}">
                             <a href="{{ route('add_arm_sheet') }}" class="nav-link"><i
                                     data-feather="file-text"></i><span>Creer fiche client</span></a>
-                        </li>
 
-                    @endif
+
+                        @endif
                     @if($activeLink == 'admin')
                         <li class="{{$subactiveLink === 'admin.armory' ? 'active' : ''}}">
                             <a href="{{route('admin.index')}}" class="nav-link">

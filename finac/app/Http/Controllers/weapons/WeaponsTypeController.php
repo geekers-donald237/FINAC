@@ -178,13 +178,5 @@ class WeaponsTypeController extends Controller
     }
 
 
-    public function gotoProfileScreen()
-    {
-        $userID = Auth::user()->id;
-        $user = User::find($userID);
-        $armoryId = $user->getArmoryId();
-        $departements = Departement::all();
-        $districts = District::all();
-        return view('armory.edit.edit_armory', compact('districts', 'departements', 'armoryId'));
-    }
+
 }

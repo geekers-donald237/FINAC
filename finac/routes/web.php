@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\Armory\ArmoryController;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Declaration\WeaponPossesionDeclarationController;
-use App\Http\Controllers\Declaration\WeaponLostDeclarationController;
 use App\Http\Controllers\Declaration\LoginLossController;
+use App\Http\Controllers\Declaration\WeaponLostDeclarationController;
+use App\Http\Controllers\Declaration\WeaponPossesionDeclarationController;
 use App\Http\Controllers\Home\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,16 +19,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::middleware(['web'])->group(function () {
     Route::get('/', [WelcomeController::class, 'index'])->name('home');
     Route::get('/info', [WelcomeController::class, 'infoAndContactPage'])->name('info_contact');
     Route::get('/create', [WelcomeController::class, 'goTocreateArmory'])->name('add_armory');
+
     Route::post('/login', [AuthController::class, 'login'])->name('login');
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('logout', [AuthController::class, 'logout_dashboard'])->name('logout_dashboard');
-    Route::resource('armory', \App\Http\Controllers\Armory\ArmoryController::class);
 
+    Route::resource('armory', ArmoryController::class);
+
+
+    Route::get('/declaration/loss-weapon', [WeaponLostDeclarationController::class, 'index'])->name('declaration.loss_weapon');
+    Route::post('declaration/save', [WeaponLostDeclarationController::class, 'store'])->name('declaration.store');
+    Route::post('declaration/lost-weapon', [WeaponLostDeclarationController::class, 'checkIfweaponExistOrNot'])->name('declaration.check');
+
+    Route::get('/declaration/weapons-declaration', [WeaponPossesionDeclarationController::class, 'index'])->name('declaration.weapons_declaration');
+    Route::post('declarationarmes/store', [WeaponPossesionDeclarationController::class, 'store'])->name('declarationarmes.store');
 });
+
 
 Route::middleware(['check.auth'])->group(function () {
     // Admin Routes
@@ -47,7 +59,6 @@ Route::middleware(['check.auth'])->group(function () {
 
     // Weapons Type Routes
     Route::resource('weapons_type', App\Http\Controllers\weapons\WeaponsTypeController::class);
-    Route::get('update-armory', [App\Http\Controllers\weapons\WeaponsTypeController::class, 'gotoProfileScreen'])->name('armory.update_details');
 
     // Helpers Routes
     Route::get('prefecture_details', [\App\Http\Controllers\Admin\subAdmin\MinatdController::class, 'getAllPrefectures'])->name('minatd_prefecture');
@@ -67,15 +78,11 @@ Route::middleware(['check.auth'])->group(function () {
     Route::get('test_route', [\App\Http\Controllers\Admin\subAdmin\MinatdController::class, 'index2'])->name('minatd_armory');
     Route::get('gtest_route', [\App\Http\Controllers\Admin\subAdmin\GovernorController::class, 'index2'])->name('governor_armory');
     Route::get('goto', [\App\Http\Controllers\weapons\WeaponsTypeController::class, 'index2'])->name('goto');
+    Route::get('sale_ammunition', [\App\Http\Controllers\Armory\ArmoryController::class, 'gotoSalesAmmunition'])->name('sale_ammunition');
+
+    Route::post('/sale-ammunitions', [\App\Http\Controllers\weapons\AmmunitionController::class, 'SaleAmmunitions'])->name('sale-ammunitions');
+
 });
-
-
-Route::get('/declaration/LossDeclaration', [WeaponLostDeclarationController::class, 'index'])->name('declaration.loss_weapon');
-Route::get('/declaration/WeaponsDeclaration', [WeaponPossesionDeclarationController::class, 'index'])->name('declaration.WeaponsDeclaration');
-
-Route::post('declaration/save', [WeaponLostDeclarationController::class, 'store'])->name('declaration.store');
-Route::post('declaration/lostweapon', [WeaponLostDeclarationController::class, 'checkIfweaponExistOrNot'])->name('declaration.check');
-Route::post('declarationarmes/store', [WeaponPossesionDeclarationController::class, 'store'])->name('declarationarmes.store');
 
 
 

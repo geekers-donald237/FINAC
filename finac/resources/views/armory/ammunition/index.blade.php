@@ -17,14 +17,14 @@
             </nav>
         </div>
         <div class="col-md-4 text-right">
-            <!-- Bouton pour ouvrir la modale d'ajout de stock de munitions -->
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAmmoModal">
                 <i class="fas fa-plus"></i> Ajouter un stock de munitions
             </button>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#sellAmmoModal">
+                <i class="fas fa-shopping-cart"></i> Vendre des munitions
+            </button>
         </div>
     </div>
-
-
 
     <div class="row">
         <div class="col-12">
@@ -75,7 +75,50 @@
         </div>
     </div>
 
-    <div class="modal fade" id="editAmmoModal" tabindex="-1" role="dialog" aria-labelledby="editAmmoModalLabel" aria-hidden="true">
+    <div class="modal fade" id="sellAmmoModal" tabindex="-1" role="dialog" aria-labelledby="sellAmmoModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sellAmmoModalLabel">Vendre des munitions</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{{ route('sale-ammunitions') }}">
+                        @csrf
+                        @method('post')
+
+                        <div class="form-group">
+                            <label for="selectAmmo">Sélectionner la munition</label>
+                            <select class="form-control" id="selectAmmo" name="selectAmmo">
+                                @foreach ($ammunitions as $ammunition)
+                                    <option
+                                        value="{{ $ammunition->id }}">{{ $ammunition->name ." ". $ammunition->type }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="quantity">Quantité à vendre</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity"
+                                   placeholder="Entrez la quantité">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Vendre</button>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="editAmmoModal" tabindex="-1" role="dialog" aria-labelledby="editAmmoModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -104,7 +147,8 @@
                         </div>
                         <div class="form-group">
                             <label for="edit_quantity_in_stock">Quantité en stock</label>
-                            <input type="number" class="form-control" id="edit_quantity_in_stock" name="edit_quantity_in_stock" required>
+                            <input type="number" class="form-control" id="edit_quantity_in_stock"
+                                   name="edit_quantity_in_stock" required>
                         </div>
 
                         <!-- Bouton de soumission du formulaire -->

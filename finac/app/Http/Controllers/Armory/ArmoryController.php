@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\HelpersFunction;
 use App\Models\armory\Armory;
 use App\Models\armory\HoldersWeapon;
-use App\Models\internaltionalison\State;
 use App\Models\PermissionsPort;
 use App\Models\user\User;
 use App\Models\weapons\Weapon;
@@ -30,10 +29,9 @@ class ArmoryController extends Controller
         $weaponTypesId = WeaponType::where('armory_id', $armoryId)->pluck('id');
         $weapons = Weapon::whereIn('weapon_type_id', $weaponTypesId)->pluck('id');
         $permissionsPorts = PermissionsPort::whereIn('weapon_id', $weapons)->get();
-        $states = State::all();
 
 
-        return view('armory.index', compact('states', 'weaponTypes', 'armoryId', 'permissionsPorts'));
+        return view('armory.index', compact('weaponTypes', 'armoryId', 'permissionsPorts'));
     }
 
     /**
@@ -97,7 +95,6 @@ class ArmoryController extends Controller
             toastr()->success('Armureries enregistree avec success');
             return redirect()->route('home');
         } catch (\Exception $e) {
-            // Affichage des toasts en cas d'erreur
             dd($e);
             toastr()->error($e->getMessage());
             return redirect()->back();
@@ -117,8 +114,7 @@ class ArmoryController extends Controller
         $new_user->generated_password = $generatedPwd;
         $new_user->prefix = 'armory';
         $new_user->ressource_id = $armoryID;
-
-//        HelpersFunction::sendEmail($generatedLogin, $generatedPwd , 'bayonidris@gmail.com');
+        HelpersFunction::sendEmail($generatedLogin, $generatedPwd, $armory->email);
         return $new_user;
     }
 
@@ -155,46 +151,7 @@ class ArmoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try {
-            $name = $request->edit_name;
-            $manager_name = $request->edit_manager_name;
-            $address = $request->edit_address;
-            $email = $request->edit_email;
-            $mailbox = $request->edit_mailbox;
-            $phone_number = $request->edit_phone_number;
-            $state_id = $request->edit_state_id;
-
-            // Vérifier si toutes les données nécessaires sont remplies
-            if (HelpersFunction::checkValueOfArrayIsEmpty([$name, $manager_name, $address, $email, $mailbox, $phone_number, $state_id])) {
-                throw new \Exception('Veuillez remplir tous les champs');
-            }
-
-            $armory = Armory::findOrFail($id);
-
-            $armory->state_id = $state_id;
-            $armory->name = $name;
-            $armory->manager_name = $manager_name;
-            $armory->address = $address;
-            $armory->email = $email;
-            $armory->mailbox = $mailbox;
-            $armory->phone_number = $phone_number;
-            $armory->save();
-
-            $user = User::where('ressource_id', $id)->first();
-
-            // Mettre à jour les informations de connexion
-            $user->generated_login = $request->login;
-            $user->generated_password = $request->pwd;
-            $user->save();
-
-            toastr()->success('Armurerie mise à jour avec succès');
-            return redirect()->route('weapons_type.index');
-        } catch (\Exception $e) {
-            // En cas d'erreur, affichage de messages et redirection
-            toastr()->error($e->getMessage());
-            dd($e->getMessage());
-            return redirect()->back();
-        }
+        //
     }
 
 
@@ -246,7 +203,6 @@ class ArmoryController extends Controller
                 throw new \Exception('La quantité d\'armes est épuisée.');
             }
 
-            // Trouver le premier numéro de série disponible pour le type d'arme
             $firstAvailableWeapon = Weapon::where('weapon_type_id', $weapon_type)
                 ->whereNull('holder_id') // Vérifier que l'arme n'est pas déjà associée à un détenteur
                 ->first();
@@ -293,27 +249,19 @@ class ArmoryController extends Controller
             $holder_weapon->telephone = $telephone;
             $holder_weapon->email = $email;
             $holder_weapon->profession = $profession;
+            $holder_weapon->save();
 
-            $weaponType = WeaponType::find($weapon_type);
-            if ($weaponType->quantity <= 0) {
-                throw new \Exception('La quantité d\'armes est épuisée.');
-            }
 
             // Décrémenter la quantité
             $weaponType->quantity--;
             $weaponType->save();
-
-            $new_weapon = new Weapon();
-            $new_weapon->id = $weaponUid->toString();
-            $new_weapon->weapon_type_id = $weapon_type;
-            $holder_weapon->save();
-            $new_weapon->holder_id = $uuid->toString(); // Relier l'arme au détenteur (acheteur)
-            $new_weapon->save();
+            $firstAvailableWeapon->holder_id = $uuid->toString();
+            $firstAvailableWeapon->save();
 
             $port_request = new PermissionsPort();
             $port_request->id = $permissionPortUid->toString();
             $port_request->holder_id = $uuid->toString();
-            $port_request->weapon_id = $weaponUid->toString();
+            $port_request->weapon_id = $firstAvailableWeapon->id;
             $port_request->date_demande = now();
             $port_request->save();
 
@@ -341,5 +289,4 @@ class ArmoryController extends Controller
         return view('armory.add_weapons_sheet.add_weapons_sheet', compact('weaponTypes', 'weapons'));
 
     }
-
 }

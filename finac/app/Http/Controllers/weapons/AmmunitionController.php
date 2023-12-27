@@ -153,4 +153,44 @@ class AmmunitionController extends Controller
             return response()->json(['error' => $e->getMessage()]);
         }
     }
+
+
+    /**
+     * @throws Exception
+     */
+    public function saleAmmunitions(Request $request)
+    {
+
+
+        try {
+
+            $ammunitionId = $request->input('selectAmmo');
+            $quantityToSell = $request->input('quantity');
+            if (HelpersFunction::checkValueOfArrayIsEmpty([$ammunitionId, $quantityToSell])) {
+                throw new \Exception('Veuillez remplir tous les champs');
+
+            }
+            $ammunition = Ammunition::find($ammunitionId);
+
+            if (!$ammunition) {
+                throw new \Exception('Munition introuvable');
+            }
+
+            // Vérifiez si la quantité disponible est suffisante
+            if ($quantityToSell > $ammunition->quantity_in_stock) {
+                throw new \Exception('Quantité insuffisante en stock');
+            }
+
+            $ammunition->quantity_in_stock -= $quantityToSell;
+            $ammunition->save();
+
+            toastr()->success('Munitions mises à jour avec succès');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            // En cas d'erreur, affichage de messages et redirection
+            toastr()->error($e->getMessage());
+            return redirect()->back();
+        }
+    }
+
 }
