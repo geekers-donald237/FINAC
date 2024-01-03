@@ -112,29 +112,25 @@ class WeaponLostDeclarationController extends Controller
     /**
      * @throws \Exception
      */
-    public function checkIfweaponExistOrNot(Request $request)
-    {
-        $code_finac = $request->code_finac;
-        $serial_number = $request->serial_number;
+    public function checkIfWeaponExistOrNot(Request $request)
+{
+    $code_finac = $request->code_finac;
 
-        if (HelpersFunction::checkValueOfArrayIsEmpty([$code_finac, $serial_number])) {
-            throw new \Exception('Veuillez remplir tous les champs');
-        }
-
-        // Vérifier le code_finac dans la table permissionsPort
-        $permissionsPort = PermissionsPort::firstWhere('code_finac', $code_finac);
-
-        if ($permissionsPort) {
-            $weapons = WT::where('id', $permissionsPort->weapon_id)
-                ->where('serial_number', $serial_number)
-                ->first();
-
-            if ($weapons) {
-                return redirect()->route('declaration.loss_weapon');
-            }
-        }
-        toastr()->error('code finac ou numero de serie incorrecte');
-        return redirect()->back();
+    if (HelpersFunction::checkValueOfArrayIsEmpty([$code_finac])) {
+        throw new \Exception('Veuillez remplir le champ code_finac');
     }
+
+    // Vérifier le code_finac dans la table permissionsPort
+    $permissionsPort = PermissionsPort::firstWhere('code_finac', $code_finac);
+
+    if ($permissionsPort) {
+        // No need to check serial_number here
+
+        return redirect()->route('declaration.loss_weapon');
+    }
+
+    toastr()->error('Code finac incorrect');
+    return redirect()->back();
+}
 
 }
