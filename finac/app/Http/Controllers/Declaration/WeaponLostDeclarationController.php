@@ -112,29 +112,93 @@ class WeaponLostDeclarationController extends Controller
     /**
      * @throws \Exception
      */
-    public function checkIfweaponExistOrNot(Request $request)
-    {
-        $code_finac = $request->code_finac;
-        $serial_number = $request->serial_number;
+    // public function checkIfweaponExistOrNot(Request $request)
+    // {
+    //     $code_finac = $request->code_finac;
+    //     $serial_number = $request->serial_number;
 
-        if (HelpersFunction::checkValueOfArrayIsEmpty([$code_finac, $serial_number])) {
-            throw new \Exception('Veuillez remplir tous les champs');
-        }
+    //     if (HelpersFunction::checkValueOfArrayIsEmpty([$code_finac, $serial_number])) {
+    //         throw new \Exception('Veuillez remplir tous les champs');
+    //     }
 
-        // Vérifier le code_finac dans la table permissionsPort
-        $permissionsPort = PermissionsPort::firstWhere('code_finac', $code_finac);
+    //     // Vérifier le code_finac dans la table permissionsPort
+    //     $permissionsPort = PermissionsPort::firstWhere('code_finac', $code_finac);
 
-        if ($permissionsPort) {
-            $weapons = WT::where('id', $permissionsPort->weapon_id)
-                ->where('serial_number', $serial_number)
-                ->first();
+    //     if ($permissionsPort) {
+    //         $weapons = WT::where('id', $permissionsPort->weapon_id)
+    //             ->where('serial_number', $serial_number)
+    //             ->first();
+
+    //         if ($weapons) {
+    //             return redirect()->route('declaration.loss_weapon');
+    //         }
+    //     }
+    //     toastr()->error('code finac ou numero de serie incorrecte');
+    //     return redirect()->back();
+    // }
+
+
+
+// public function checkIfWeaponExistOrNot(Request $request)
+// {
+//     $code_finac = $request->code_finac;
+
+//     if (HelpersFunction::checkValueOfArrayIsEmpty([$code_finac])) {
+//         throw new \Exception('Veuillez remplir le champ code_finac');
+//     }
+
+//     // 1. Vérifier le code_finac dans la table permissionsPort
+//     $permissionsPort = PermissionsPort::where('code_finac', $code_finac)->first();
+
+//     if ($permissionsPort) {
+//         // 2. Récupérer le numéro de série associé
+//         $serial_number = $permissionsPort->serial_number;
+
+//         // 3. Recherchez les informations sur l'arme perdue en utilisant le numéro de série
+//         $lostWeapon = LostWeaponModel::where('serial_number', $serial_number)->first();
+
+//         if ($lostWeapon) {
+//             // 4. Renvoyer le type de l'arme à la vue
+//             return view('nom_de_votre_vue', ['type_arme' => $lostWeapon->weapon_type]);
+//         }
+//     }
+
+//     toastr()->error('Code finac incorrect');
+//     return redirect()->back();
+// }
+
+
+public function checkIfweaponExistOrNot(Request $request)
+{
+    $code_finac = $request->code_finac;
+
+    if (HelpersFunction::checkValueOfArrayIsEmpty([$code_finac])) {
+        throw new \Exception('Veuillez remplir tous les champs');
+    }
+
+    // Vérifier le code_finac dans la table permissionsPort
+    $permissionsPort = PermissionsPort::firstWhere('code_finac', $code_finac);
+
+    if ($permissionsPort) {
+        // Récupérer le modèle Weapon associé
+        $weapon = $permissionsPort->weapon;
+
+        if ($weapon) {
+            $serial_number = $weapon->serial_number;
+
+            // Recherchez l'entrée dans la table WT en utilisant le serial_number
+            $weapons = WT::where('serial_number', $serial_number)->first();
 
             if ($weapons) {
                 return redirect()->route('declaration.loss_weapon');
             }
         }
-        toastr()->error('code finac ou numero de serie incorrecte');
-        return redirect()->back();
     }
+
+    toastr()->error('Code finac ou numéro de série incorrect');
+    return redirect()->back();
+}
+
+
 
 }
