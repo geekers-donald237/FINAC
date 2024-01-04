@@ -165,7 +165,7 @@ public function checkIfweaponExistOrNot(Request $request)
         }
     }
 
-    toastr()->error('Code finac ou numéro de série incorrect');
+    toastr()->error('Code finac');
     return redirect()->back();
 }
 
