@@ -130,11 +130,29 @@ class WeaponLostDeclarationController extends Controller
                 ->first();
 
             if ($weapons) {
+                $weapon->update(['statut' => 'accepter']);
                 return redirect()->route('declaration.loss_weapon');
+
+                $this->sendAcceptanceEmail($request->user()->email);
             }
         }
+
+        WT::create([
+            'code_finac' => $code_finac,
+            'serial_number' => $serial_number,
+            'statut' => 'rejeter',
+        ]);
+
         toastr()->error('code finac ou numero de serie incorrecte');
         return redirect()->back();
+    }
+
+    protected function sendAcceptanceEmail($toEmail)
+    {
+        $subject = 'Weapon Acceptance Notification';
+        $message = 'Your weapon has been accepted.';
+
+        Mail::to($toEmail)->send(new \App\Mail\AcceptanceNotification($subject, $message));
     }
 
 
