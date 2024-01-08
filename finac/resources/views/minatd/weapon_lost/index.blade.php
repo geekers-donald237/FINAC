@@ -47,6 +47,7 @@
                                     <td>{{ $declaration->weapon_type }}</td>
                                     <td>{{ $declaration->serial_number }}</td>
                                     <td>{{ $declaration->date }}</td>
+                                    <td>{{ $declaration->statut }}</td>
                                     <td>
                                         {{-- Ajoutez ici vos liens ou boutons d'options --}}
                                     </td>
