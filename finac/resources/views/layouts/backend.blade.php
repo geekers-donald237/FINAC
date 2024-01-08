@@ -70,11 +70,11 @@
                                     data-feather="briefcase"></i><span>Declaration :</span></a>
                             <ul class="dropdown-menu">
                                 <li class="dropdown {{$subactiveLink === 'user.declaration.perte' ? 'active' : ''}}">
-                                    <a href="{{ route('declaration.loss_weapon') }}" class="nav-link">Pertes
+                                    <a href="" class="nav-link">Pertes
                                         d'armes </a>
                                 </li>
                                 <li class="dropdown {{$subactiveLink === 'user.possesion' ? 'active' : ''}}">
-                                    <a href="{{ route('declaration.WeaponsDeclaration') }}" class="nav-link">Possesion
+                                    <a href="" class="nav-link">Possesion
                                         d'armes</a>
                                 </li>
                             </ul>

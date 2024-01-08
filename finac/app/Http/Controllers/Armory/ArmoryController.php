@@ -14,6 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Ramsey\Uuid\Nonstandard\Uuid;
+use Spatie\Newsletter\Facades\Newsletter;
 
 class ArmoryController extends Controller
 {

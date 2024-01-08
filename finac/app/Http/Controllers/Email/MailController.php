@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Email;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\SendMailJob;
 use App\Mail\MailConfig;
 use App\Mail\PermissionsPortDeniedMail;
 use Illuminate\Support\Facades\Mail;

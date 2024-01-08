@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Armory\ArmoryController;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Declaration\LoginLossController;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Declaration\WeaponLostDeclarationController;
 use App\Http\Controllers\Declaration\WeaponPossesionDeclarationController;
 use App\Http\Controllers\Home\WelcomeController;

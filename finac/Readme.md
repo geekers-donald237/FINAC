@@ -34,3 +34,5 @@ Pour le module de gestion des armureries, voici les fonctions à implémenter, e
     - Assurer la sécurité des données en utilisant des mécanismes d'authentification et d'autorisation appropriés, ainsi que des protocoles de sécurité pour protéger les informations sensibles.
 
 Ces fonctions permettront à l'armurerie de s'inscrire, de gérer son profil, d'enregistrer les ventes d'armes, de soumettre des fiches personnelles, de mettre à jour ses stocks et de suivre les règles et réglementations en matière d'armes, tout en garantissant la sécurité des données.
+
+php artisan vendor:publish --tag="newsletter-config"
