@@ -85,4 +85,21 @@ Route::middleware(['check.auth'])->group(function () {
 });
 
 
+Route::get('/declaration/LossDeclaration', [WeaponLostDeclarationController::class, 'index'])->name('declaration.loss_weapon');
+Route::get('/declaration/WeaponsDeclaration', [WeaponPossesionDeclarationController::class, 'index'])->name('declaration.WeaponsDeclaration');
 
+Route::post('declaration/save', [WeaponLostDeclarationController::class, 'store'])->name('declaration.store');
+Route::post('declaration/lostweapon', [WeaponLostDeclarationController::class, 'checkIfweaponExistOrNot'])->name('declaration.check');
+Route::post('declarationarmes/store', [WeaponPossesionDeclarationController::class, 'store'])->name('declarationarmes.store');
+
+// Définir la route pour afficher le formulaire
+Route::get('verifylogin', [LoginLossController::class, 'showLoginForm'])->name('verifylogin.show');
+
+// Définir la route pour traiter le formulaire avec la méthode POST
+Route::post('verifylogin', [LoginLossController::class, 'store'])->name('verifylogin.store');
+
+
+
+// Route::get('/', function () {
+//     return view('WeaponsDeclaration');
+// });

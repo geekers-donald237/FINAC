@@ -12,7 +12,7 @@ class PermissionsPort extends Model
     use HasFactory;
     protected $keyType = 'string';
 
-    protected $fillable = ['statut', 'code_finac', 'validate_from_id', 'prefix'];
+    protected $fillable = ['statut', 'code_finac', 'numero_serie', 'validate_from_id', 'prefix'];
 
     public function holderWeapons()
     {
