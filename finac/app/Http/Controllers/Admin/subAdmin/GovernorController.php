@@ -240,14 +240,7 @@ class GovernorController extends Controller
         }
     }
 
-    public function gotoLostArm()
-    {
-        try {
-            return view('governor.weapon_lost.index');
-        } catch (\Exception $e) {
-            dd($e);
-        }
-    }
+
 
     public function getArmoryGovernorDetails($armoryId)
     {

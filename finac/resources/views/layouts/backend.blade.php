@@ -75,9 +75,8 @@
                                     data-feather="briefcase"></i><span>Declaration :</span></a>
                             <ul class="dropdown-menu">
                                 <li class="dropdown {{$subactiveLink === 'user.declaration.perte' ? 'active' : ''}}">
-                                <a href="" data-toggle="modal" data-target="#LoginLossPopupModal" class="nav-link">
-                                                        <span>Déclaration de perte d'arme</span>
-                                                    </a>
+                                    <a href="{{ route('declaration.loss_weapon') }}" class="nav-link">Pertes
+                                        d'armes </a>
                                 </li>
                                 <li class="dropdown {{$subactiveLink === 'user.possesion' ? 'active' : ''}}">
                                     <a href="{{ route('declaration.WeaponsDeclaration') }}" class="nav-link">Possesion
@@ -161,10 +160,6 @@
                                     data-feather="file-text"></i><span>Fiche D'armes</span></a>
                         </li>
 
-                        <li class="dropdown {{$subactiveLink === 'governor.weapon_lost' ? 'active' : ''}}">
-                            <a href="{{route('governor_lost_arm')}}" class="nav-link"><i
-                                    data-feather="shield"></i><span>Arme Perdue</span></a>
-                        </li>
                     @endif
                 </ul>
 

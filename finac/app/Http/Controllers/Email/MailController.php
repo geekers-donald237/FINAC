@@ -48,5 +48,11 @@ class MailController extends Controller
         });
     }
 
+    public function build(): DeclarationConfirmationMail
+    {
+        return $this->view('emails.declaration-confirmation')
+                    ->subject('Confirmation de déclaration d\'arme');
+    }
+
 
 }

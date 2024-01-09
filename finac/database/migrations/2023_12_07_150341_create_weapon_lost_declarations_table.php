@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('declarations', function (Blueprint $table) {
+        Schema::create('weapon_lost_declarations', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('surname');
-            $table->date('dateNaissance');
-            $table->string('lieuNaissance');
-            $table->string('photoRecto')->nullable();
-            $table->string('photoVerso')->nullable();
-            $table->date('date');
+            $table->string('phone_number');
+            $table->string('email');
             $table->string('adresse');
+
+            $table->date('date');
             $table->string('description');
             $table->timestamps();
         });
