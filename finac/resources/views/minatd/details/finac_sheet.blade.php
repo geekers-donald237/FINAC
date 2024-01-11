@@ -242,7 +242,7 @@
         // Convertir le contenu en Data URL
         var pdfData = pdf.output("datauristring");
         //
-        // Créer un élément d'ancrage invisible
+        // // Créer un élément d'ancrage invisible
         // var link = document.createElement("a");
         // link.href = pdfData;
         // link.download = "ficheFinac.pdf";
