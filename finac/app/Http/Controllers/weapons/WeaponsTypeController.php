@@ -4,8 +4,6 @@ namespace App\Http\Controllers\weapons;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\HelpersFunction;
-use App\Models\internaltionalison\Departement;
-use App\Models\internaltionalison\District;
 use App\Models\user\User;
 use App\Models\weapons\Weapon;
 use App\Models\weapons\WeaponType;
@@ -176,7 +174,6 @@ class WeaponsTypeController extends Controller
             return response()->json($e->getMessage());
         }
     }
-
 
 
 }

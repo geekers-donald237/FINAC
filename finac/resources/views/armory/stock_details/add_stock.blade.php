@@ -18,7 +18,7 @@
                 <ol class="breadcrumb bg-primary text-white-all">
                     <li class="breadcrumb-item"><a href="{{route('armory.index')}}"><i class="fas fa-building"></i>Armueries</a>
                     </li>
-                    <li class="breadcrumb-item"><a href="weapons_type.index"><i class="fas fa-cubes"></i>Stock</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('weapons_type.index')}}"><i class="fas fa-cubes"></i>Stock</a></li>
                     <li class="breadcrumb-item"><a href="#">Ajouter</a></li>
                 </ol>
             </nav>

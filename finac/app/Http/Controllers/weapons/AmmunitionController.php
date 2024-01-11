@@ -4,12 +4,15 @@ namespace App\Http\Controllers\weapons;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Helpers\HelpersFunction;
+use App\Models\user\User;
 use App\Models\weapons\Ammunition;
 use Exception;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Ramsey\Uuid\Uuid;
 
 class AmmunitionController extends Controller
 {
@@ -18,8 +21,11 @@ class AmmunitionController extends Controller
      */
     public function index(): \Illuminate\Contracts\View\View|Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
-        $ammunitions = Ammunition::whereIsDelete('false')->get();
-        return view('armory.ammunition.index', compact('ammunitions'));
+        $userID = Auth::user()->id;
+        $user = User::find($userID);
+        $armoryId = $user->getArmoryId();
+        $ammunitions = Ammunition::where('armory_id', $armoryId)->whereIsDelete('false')->get();
+        return view('armory.ammunition.index', compact('ammunitions', 'armoryId'));
     }
 
     /**
@@ -38,6 +44,7 @@ class AmmunitionController extends Controller
         try {
             $name = $request->input('name');
             $type = $request->input('type');
+            $ammoId = $request->input('armory_id');
             $caliber = $request->input('caliber');
             $quantity_in_stock = $request->input('quantity_in_stock');
 
@@ -48,7 +55,9 @@ class AmmunitionController extends Controller
 
             // Créer une nouvelle munition
             $ammo = new Ammunition();
+            $ammo->id = Uuid::uuid4()->toString();
             $ammo->name = $name;
+            $ammo->armory_id = $ammoId;
             $ammo->type = $type;
             $ammo->caliber = $caliber;
             $ammo->quantity_in_stock = $quantity_in_stock;
@@ -57,7 +66,7 @@ class AmmunitionController extends Controller
             toastr()->success('Stock de munitions ajouté avec succès.');
             return redirect()->route('ammunition.index');
         } catch (Exception $e) {
-            toastr()->error($e->getMessage());
+            dd($e->getMessage());
             return redirect()->back();
         }
     }

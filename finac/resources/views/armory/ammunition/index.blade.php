@@ -96,6 +96,7 @@
                                 @foreach ($ammunitions as $ammunition)
                                     <option
                                         value="{{ $ammunition->id }}">{{ $ammunition->name ." ". $ammunition->type }}</option>
+
                                 @endforeach
                             </select>
                         </div>
@@ -134,6 +135,7 @@
                         @method('PUT') <!-- Ajoutez cette ligne pour indiquer que c'est une requête PUT -->
 
                         <div class="form-group">
+
                             <label for="edit_name">Nom de la munition</label>
                             <input type="text" class="form-control" id="edit_name" name="edit_name" required>
                         </div>
@@ -173,9 +175,12 @@
 
                 <div class="modal-body">
                     <form method="post" action="{{ route('ammunition.store') }}">
+
                         @csrf
                         <div class="form-group">
                             <label for="name">Nom de la munition</label>
+                            <input type="hidden" class="form-control" name="armory_id" value="{{$armoryId}}">
+
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="form-group">

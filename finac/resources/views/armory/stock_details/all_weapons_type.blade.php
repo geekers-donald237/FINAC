@@ -23,10 +23,9 @@
             </nav>
         </div>
         <div class="col-md-4 text-right">
-            <!-- Bouton pour ouvrir la modale d'ajout de stock de munitions -->
-            <button type="button" class="btn btn-primary" href="{{route('goto')}}">
+            <a type="button" class="btn btn-primary" href="{{route('goto')}}">
                 <i class="fas fa-plus"></i> Ajouter Un stock d'arme
-            </button>
+            </a>
         </div>
 
     </div>
