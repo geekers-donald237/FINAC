@@ -15,7 +15,8 @@
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-primary text-white-all">
-                    <li class="breadcrumb-item"><a href="{{route('minatd.index')}}"><i class="fas fa-building"></i>Minatd</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('minatd.index')}}"><i class="fas fa-building"></i>Minatd</a>
+                    </li>
                     <li class="breadcrumb-item"><a><i class="fas fa-cubes"></i>Arme Declarees</a></li>
                 </ol>
             </nav>
@@ -33,15 +34,23 @@
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">type de l'arme</th>
+                                <th scope="col">Nom complet</th>
+                                <th scope="col">Numero de telephone</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Addresse</th>
+                                <th scope="col">Type de l'arme</th>
                                 <th scope="col">Numero de serie</th>
-                                <th scope="col">Date de declaration possesion</th>
+                                <th scope="col">Date de declaration de possession</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach ($declaredArm as $index => $arm)
                                 <tr>
                                     <th scope="row">{{ $index + 1 }}</th>
+                                    <td>{{ $arm['fullname'] }}</td>
+                                    <td>{{ $arm['phone_number'] }}</td>
+                                    <td>{{ $arm['email'] }}</td>
+                                    <td>{{ $arm['adress'] }}</td>
                                     <td>{{ $arm['weapon_type'] }}</td>
                                     <td>{{ $arm['serial_number'] }}</td>
                                     <td>{{ $arm['created_at'] }}</td>

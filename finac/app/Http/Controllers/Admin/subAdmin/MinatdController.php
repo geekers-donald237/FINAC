@@ -101,13 +101,19 @@ class MinatdController extends Controller
 
     public function gotoLostArm()
     {
-        $lostWeapons = WeaponLostDeclaration::all();
         try {
-            return view('minatd.weapon_lost.index' , compact('lostWeapons'));
+            $lostWeapons = Weapon::where('isLost', true)->get();
+            $lostWeapons->load('holder');
+
+            $lostWeapons->load('weaponType');
+
+            return view('minatd.weapon_lost.index', compact('lostWeapons'));
+
         } catch (\Exception $e) {
             dd($e);
         }
     }
+
 
     public function gotoDeclaredArm()
     {

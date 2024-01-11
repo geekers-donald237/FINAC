@@ -34,41 +34,29 @@
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Nom</th>
-                                <th scope="col">Prénom</th>
+                                <th scope="col">Nom Propriétaire</th>
                                 <th scope="col">Téléphone</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Adresse</th>
                                 <th scope="col">Type d'arme</th>
                                 <th scope="col">Numéro de série</th>
-                                <th scope="col">Date</th>
-
+                                <th scope="col">Date Declaration</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($lostWeapons as $index => $declaration)
+                            @foreach($lostWeapons as $index => $weapon)
                                 <tr>
                                     <th scope="row">{{ $index + 1 }}</th>
-                                    <td>{{ $declaration->name }}</td>
-                                    <td>{{ $declaration->surname }}</td>
-                                    <td>{{ $declaration->phone_number }}</td>
-                                    <td>{{ $declaration->email }}</td>
-                                    <td>{{ $declaration->adresse }}</td>
-
-                                    <td>{{ $declaration->weapon_type }}</td>
-                                    <td>{{ $declaration->serial_number }}</td>
-                                    <td>{{ $declaration->date }}</td>
-                                    <td>{{ $declaration->statut }}</td>
-                                    <td>
-                                        {{-- Ajoutez ici vos liens ou boutons d'options --}}
-                                    </td>
+                                    <td>{{ $weapon->holder->fullname  }}</td>
+                                    <td>{{ $weapon->holder->telephone  }}</td>
+                                    <td>{{ $weapon->weaponType->type  }}</td>
+                                    <td>{{ $weapon->serial_number  }}</td>
+                                    <td>{{ $weapon->created_at  }}</td>
                                 </tr>
                             @endforeach
+
                             </tbody>
                         </table>
-
-
                     </div>
+
                 </div>
             </div>
         </div>

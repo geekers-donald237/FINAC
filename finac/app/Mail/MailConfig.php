@@ -29,7 +29,7 @@ class MailConfig extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Authentification Credentials',
+            subject: 'Informations de connexion',
         );
     }
 

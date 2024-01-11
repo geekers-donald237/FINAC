@@ -59,7 +59,8 @@ class WeaponLostDeclarationController extends Controller
 
             if ($weapon) {
                 // Mettre à jour le statut de l'arme à 'isLost'
-                $weapon->update(['isLost' => true]);
+                $weapon->isLost = true;
+                $weapon->save();
             }
 
             $subject = 'Declaration de pertes d\'armes';
