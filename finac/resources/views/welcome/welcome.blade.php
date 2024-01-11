@@ -110,7 +110,7 @@
                                             </a>
                                         </div>
                                         <div class="cta4">
-                                            <a href="" class="nav-link">
+                                            <a href="{{ route('declaration.WeaponsDeclaration') }}" class="nav-link">
                                                 <span>Déclaration de possession d'Arme</span>
                                             </a>
                                         </div>
@@ -149,10 +149,6 @@
                     <div class="form-group">
                         <label for="code_finac">Code Finac <span class="text-danger">*</span></label>
                         <input type="text" name="code_finac" class="form-control" placeholder="Code Finac" autocomplete="Code Finac" autofocus required>
-                    </div>
-                    <div class="form-group">
-                                <label for="serial_number">Numero de Serie <span class="text-danger">*</span></label>
-                                <input type="text" name="serial_number" class="form-control" placeholder="Entrer votre Numero de Serie"  required>
                     </div>
                     <div class="btn-box pt-3 pb-4">
                         <input type="submit" value="Verifier" class="btn btn-primary w-100">

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Armory\ArmoryController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Email\MailController;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Declaration\WeaponLostDeclarationController;
 use App\Http\Controllers\Declaration\WeaponPossesionDeclarationController;
@@ -85,7 +86,7 @@ Route::middleware(['check.auth'])->group(function () {
 });
 
 
-Route::get('/declaration/LossDeclaration', [WeaponLostDeclarationController::class, 'index'])->name('declaration.loss_weapon');
+Route::get('/declaration/LossDeclaration/{serialNumber}', [WeaponLostDeclarationController::class, 'index'])->name('declaration.loss_weapon');
 Route::get('/declaration/WeaponsDeclaration', [WeaponPossesionDeclarationController::class, 'index'])->name('declaration.WeaponsDeclaration');
 
 Route::post('declaration/save', [WeaponLostDeclarationController::class, 'store'])->name('declaration.store');
@@ -99,7 +100,11 @@ Route::get('verifylogin', [LoginLossController::class, 'showLoginForm'])->name('
 Route::post('verifylogin', [LoginLossController::class, 'store'])->name('verifylogin.store');
 
 
+Route::get('/send-weapon-declaration-mail', function () {
+    $email = 'bayonidris@gmail.com';  // Remplacez ceci par l'adresse e-mail réelle
+    $subject = 'Weapon Declaration Subject';
+    $serialNumber = '12345';  // Remplacez ceci par le numéro de série réel
+    $weaponType = 'Assault Rifle';  // Remplacez ceci par le type d'arme réel
 
-// Route::get('/', function () {
-//     return view('WeaponsDeclaration');
-// });
+    return MailController::sendWeaponDeclarationMail($email, $subject, $serialNumber, $weaponType, true);
+});

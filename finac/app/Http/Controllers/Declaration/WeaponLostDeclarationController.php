@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Declaration;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Email\MailController;
 use App\Http\Controllers\Helpers\HelpersFunction;
 use App\Models\declaration\WeaponLostDeclaration;
 use App\Models\PermissionsPort;
-use App\Models\weapons\Weapon as WT;
+use App\Models\weapons\Weapon;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
-use Illuminate\Support\Facades\Mail;
-use App\Http\Controllers\DeclarationConfirmationMail;
 
 
 class WeaponLostDeclarationController extends Controller
@@ -18,27 +17,21 @@ class WeaponLostDeclarationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($serialNumber)
     {
-        return view('weaponsdeclaration.lost_weapon');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return view('weaponsdeclaration.lost_weapon', compact('serialNumber'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request)
     {
         try {
             $name = $request->name;
             $surname = $request->surname;
+            $serialNumber = $request->serialNumber;
             $phone_number = $request->phone_number;
             $email = $request->email;
             $adresse = $request->adresse;
@@ -61,14 +54,18 @@ class WeaponLostDeclarationController extends Controller
             $new_declaration->description = $description;
             $new_declaration->save();
 
-            $sendemail = $new_declaration->email; // Récupérez l'adresse e-mail depuis l'objet que vous venez d'enregistrer
+            // Vérifier si une arme avec le numéro de série existe
+            $weapon = Weapon::where('serial_number', $serialNumber)->first();
 
-            Mail::to($sendemail)->send(new DeclarationConfirmationMail()); // Utilisez votre classe de mèl pour la confirmation
+            if ($weapon) {
+                // Mettre à jour le statut de l'arme à 'isLost'
+                $weapon->update(['isLost' => true]);
+            }
 
-
-
+            $subject = 'Declaration de pertes d\'armes';
+            MailController::sendWeaponDeclarationMail($email, $subject, $weapon->weaponType->type, $serialNumber, false);
             toastr()->success('Déclaration enregistrée avec succès');
-            return redirect()->route('home');
+             return redirect()->route('home');
         } catch (\Exception $e) {
             toastr()->error($e->getMessage());
             return redirect()->back();
@@ -93,6 +90,54 @@ class WeaponLostDeclarationController extends Controller
     }
 
     /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function checkIfweaponExistOrNot(Request $request)
+    {
+        $code_finac = $request->code_finac;
+
+        if (HelpersFunction::checkValueOfArrayIsEmpty([$code_finac])) {
+            throw new \Exception('Veuillez remplir tous les champs');
+        }
+
+        // Vérifier le code_finac dans la table permissionsPort
+        $permissionsPort = PermissionsPort::where('code_finac', $code_finac)->first();
+
+
+        if ($permissionsPort) {
+            // Récupérer le serial_number associé à ce code_finac
+//            $serial_number = $permissionsPort->serial_number;
+//
+//            $weapon = WT::where('id', $permissionsPort->weapon_id)
+//                ->where('serial_number', $serial_number)
+//                ->first();
+//
+//            if ($weapon) {
+//                $weapon->update(['isLost' => true]);
+//                $permissionsPort->update(['isLost' => true]);
+//
+//                return redirect()->route('declaration.loss_weapon');
+//            }
+            $serialNumber = Weapon::getSerialNumberByWeaponId($permissionsPort->weapon_id);
+
+            return redirect()->route('declaration.loss_weapon' , encrypt($serialNumber));
+
+        }
+
+        toastr()->error('Code finac incorrect');
+        return redirect()->back();
+    }
+
+
+    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
@@ -101,59 +146,13 @@ class WeaponLostDeclarationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Show the form for creating a new resource.
      */
-    public function destroy(string $id)
+    public function create()
     {
         //
     }
 
-
-    /**
-     * @throws \Exception
-     */
-    public function checkIfweaponExistOrNot(Request $request)
-    {
-        $code_finac = $request->code_finac;
-        $serial_number = $request->serial_number;
-
-        if (HelpersFunction::checkValueOfArrayIsEmpty([$code_finac, $serial_number])) {
-            throw new \Exception('Veuillez remplir tous les champs');
-        }
-
-        // Vérifier le code_finac dans la table permissionsPort
-        $permissionsPort = PermissionsPort::firstWhere('code_finac', $code_finac);
-
-        if ($permissionsPort) {
-            $weapons = WT::where('id', $permissionsPort->weapon_id)
-                ->where('serial_number', $serial_number)
-                ->first();
-
-            if ($weapons) {
-                $weapon->update(['statut' => 'accepter']);
-                return redirect()->route('declaration.loss_weapon');
-
-                $this->sendAcceptanceEmail($request->user()->email);
-            }
-        }
-
-        WT::create([
-            'code_finac' => $code_finac,
-            'serial_number' => $serial_number,
-            'statut' => 'rejeter',
-        ]);
-
-        toastr()->error('code finac ou numero de serie incorrecte');
-        return redirect()->back();
-    }
-
-    protected function sendAcceptanceEmail($toEmail)
-    {
-        $subject = 'Weapon Acceptance Notification';
-        $message = 'Your weapon has been accepted.';
-
-        Mail::to($toEmail)->send(new \App\Mail\AcceptanceNotification($subject, $message));
-    }
 
 
 // public function checkIfweaponExistOrNot(Request $request)
@@ -186,7 +185,6 @@ class WeaponLostDeclarationController extends Controller
 //     toastr()->error('Code finac');
 //     return redirect()->back();
 // }
-
 
 
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('weapon_type_id');
             $table->string('holder_id')->nullable();
             $table->string('serial_number')->nullable()->unique();
+            $table->boolean('isLost')->default(false);
             $table->timestamps();
             $table->foreign('holder_id')->references('id')->on('holders_weapons');
             $table->foreign('weapon_type_id')->references('id')->on('weapon_types');

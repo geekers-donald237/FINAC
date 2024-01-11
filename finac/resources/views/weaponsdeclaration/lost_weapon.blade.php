@@ -30,15 +30,15 @@
                     <h4>Declaration Perte d'armes</h4>
                 </div>
 
-                <form action="{{ route('declaration.store') }}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                <form action="{{ route('declaration.store')  }}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
                     @csrf
                     @method('POST')
                     <div class="card-body">
-
                         <div class="row">
                             <div class="form-group col">
                                 <label for="name">Nom <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Entrer vos noms" required>
+                                <input type="hidden" name="serialNumber" value="{{ decrypt($serialNumber) }}">
                             </div>
 
                             <div class="form-group col">

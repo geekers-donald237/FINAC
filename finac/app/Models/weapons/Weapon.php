@@ -29,4 +29,16 @@ class Weapon extends Model
         return $this->belongsTo(HoldersWeapon::class, 'holder_id');
     }
 
+    public static function getSerialNumberByWeaponId($weaponId)
+    {
+        $weapon = self::find($weaponId);
+
+        if ($weapon) {
+            // Retournez le serial_number de l'arme
+            return $weapon->serial_number;
+        }
+
+        return null;
+    }
+
 }

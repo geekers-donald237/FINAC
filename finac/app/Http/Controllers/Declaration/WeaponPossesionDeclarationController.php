@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Declaration;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Email\MailController;
 use App\Http\Controllers\Helpers\HelpersFunction;
 use App\Models\declaration\WeaponDeclarationPossesion;
 use Illuminate\Contracts\Foundation\Application;
@@ -11,7 +12,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Uuid;
-use Illuminate\Support\Facades\Mail;
 
 
 class WeaponPossesionDeclarationController extends Controller
@@ -41,8 +41,6 @@ class WeaponPossesionDeclarationController extends Controller
             }
 
             $weapon_possesion = new WeaponDeclarationPossesion();
-
-
             if ($request->hasFile('cni')) {
                 $filename = HelpersFunction::handleFileUpload($request->file('cni'), 'public/finac/weapon_possesion/cni');
                 $weapon_possesion->cni = $filename;
@@ -64,30 +62,14 @@ class WeaponPossesionDeclarationController extends Controller
 
             $weapon_possesion->save();
 
-            $this->sendEmail($weapon_possesion->email, $weapon_possesion->weapon_type);
+            $subject = 'Declaration de possesion d\'armes';
 
-            toastr()->success('Déclaration enregistrée avec succès');
+            MailController::sendWeaponDeclarationMail($email, $subject, $weapon_type, $serial_number, true);
+            toastr()->success('Déclaration de possesion enregistrée avec succès');
             return redirect()->back();
         } catch (\Exception $e) {
             toastr()->error($e->getMessage());
             return redirect()->back();
-        }
-    }
-
-    private function sendEmail(string $recipientEmail, string $weaponType): void
-    {
-        try {
-            // Personnalisez le contenu de l'e-mail en fonction du type d'arme déclaré
-            $emailContent = "Merci pour votre déclaration. Si vous possédez une arme de type $weaponType, veuillez vous diriger vers le service du gouverneur de votre région.";
-
-            Mail::send([], [], function ($message) use ($recipientEmail, $emailContent) {
-                $message->to($recipientEmail)
-                    ->subject('Confirmation de déclaration')
-                    ->setBody($emailContent, 'text/html');
-            });
-        } catch (\Exception $e) {
-            // Gérer les erreurs d'envoi d'e-mail
-            toastr()->error('Erreur lors de l\'envoi de l\'e-mail de confirmation');
         }
     }
 

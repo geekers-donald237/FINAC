@@ -8,19 +8,28 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class MailConfig extends Mailable
+class WeaponDeclaration extends Mailable
 {
     use Queueable, SerializesModels;
-    public $login;
-    public $password;
-
 
     /**
      * Create a new message instance.
      */
-    public function __construct($login , $password){
-        $this->login = $login;
-        $this->password = $password;
+    public $weaponType;
+    public $subject;
+    public $serialNumber;
+    public $isDeclarationOfPossesion;
+
+    /**
+     * Create a new message instance.
+     */
+    public function __construct($subject, $weaponType, $serialNumber , $isDeclarationOfPossesion)
+    {
+        $this->subject = $subject;
+        $this->weaponType = $weaponType;
+        $this->serialNumber = $serialNumber;
+        $this->isDeclarationOfPossesion = $isDeclarationOfPossesion;
+
     }
 
     /**
@@ -29,7 +38,7 @@ class MailConfig extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Authentification Credentials',
+            subject: $this->subject,
         );
     }
 
@@ -39,7 +48,7 @@ class MailConfig extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'email.email',
+            view: 'email.weapon_declaration',
         );
     }
 
@@ -53,5 +62,3 @@ class MailConfig extends Mailable
         return [];
     }
 }
-
-
