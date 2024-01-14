@@ -99,7 +99,7 @@ Votre application Laravel sera maintenant accessible à l'adresse du serveur dis
 
 N'oubliez pas d'ajuster ces étapes en fonction de votre configuration spécifique.
 
-sudo docker-compose exec laravel-app php artisan migrate --database=mysql --force
+sudo docker-compose exec finac php artisan migrate --database=mysql --force
 
 sudo systemctl stop apache2.service
 

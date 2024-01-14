@@ -1,28 +1,24 @@
 FROM php:7.4.22-fpm-alpine
 
-# Update app
-RUN apk update && apk add --no-cache tzdata
-# Set timezone
-ENV TZ="UTC"
+# Update app and set timezone
+RUN apk update && apk add --no-cache tzdata \
+    && cp /usr/share/zoneinfo/UTC /etc/localtime \
+    && echo "UTC" > /etc/timezone
 
-RUN apk add --update --no-cache autoconf g++ make openssl-dev
-RUN apk add libpng-dev
-RUN apk add libzip-dev
-RUN docker-php-ext-install gd
-RUN docker-php-ext-install zip
-RUN docker-php-ext-install bcmath
-RUN docker-php-ext-install sockets
+# Install dependencies
+RUN apk add --update --no-cache autoconf g++ make openssl-dev libpng-dev libzip-dev nginx \
+    && docker-php-ext-install gd zip bcmath sockets mysqli pdo pdo_mysql
+
+# Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-### End Init install
 
 # Install Redis
-RUN pecl install redis
-RUN docker-php-ext-enable redis
+RUN pecl install redis && docker-php-ext-enable redis
 
-# Install Mongodb
-RUN pecl install mongodb
-RUN docker-php-ext-enable mongodb
+# Install MongoDB
+RUN pecl install mongodb && docker-php-ext-enable mongodb
 
-RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mysql
+# Configure NGINX
+COPY ./docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 
 WORKDIR /home/source/main
