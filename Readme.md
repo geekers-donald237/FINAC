@@ -1,109 +1,154 @@
-### Configuration de Docker pour Laravel Localement
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-#### Étape 1: Installation de Docker
+# Laravel Docker Starter Kit
+- Laravel v10.x
+- PHP v8.2.x
+- MySQL v8.1
+- MariaDB v10.11
+- phpMyAdmin v5.2.1
+- Mailpit v1.8.4
+- Node.js v18.17.1
+- NPM v10.1.0
+- Yarn v1.22.19
+- Vite v4.4.9
 
-Assurez-vous que Docker est installé sur votre machine. Vous pouvez télécharger Docker sur [le site officiel de Docker](https://www.docker.com/get-started).
+# Requirements
+- Stable version of [Docker](https://docs.docker.com/engine/install/)
+- Compatible version of [Docker Compose](https://docs.docker.com/compose/install/#install-compose)
 
-#### Étape 2: Initialisation d'un Projet Laravel
+# How To Deploy
 
-```bash
-composer create-project --prefer-dist laravel/laravel nom-du-projet
-cd nom-du-projet
-```
+### For first time only !
+- `docker compose up -d`
+- `docker compose exec php bash`
+- `composer setup`
 
-#### Étape 3: Configuration des Fichiers Docker
+### From the second time onwards
+- `docker compose up -d`
+- `docker compose exec php bash`
 
-Créez un fichier `Dockerfile` à la racine du projet :
+# Notes
 
-```dockerfile
-# Utilisez une image Laravel prête à l'emploi
-FROM php:8.1-fpm-alpine
+### Laravel App
+- URL: http://localhost
 
-# Installez les extensions PHP nécessaires
-RUN docker-php-ext-install pdo pdo_mysql sockets
+### phpMyAdmin
+- URL: http://localhost:8080
+- Username: `root`
+- Password: `root`
+- Database: `refactorian`
 
-# Installez Composer
-RUN curl -sS https://getcomposer.org/installer | php -- \
-     --install-dir=/usr/local/bin --filename=composer
+### Basic docker compose commands
+- Build or rebuild services
+    - `docker compose build`
+- Create and start containers
+    - `docker compose up -d`
+- Stop and remove containers, networks
+    - `docker compose down`
+- Stop all services
+    - `docker compose stop`
+- Restart service containers
+    - `docker compose restart`
+- Run a command inside a container
+    - `docker compose exec [container] [command]`
 
-# Copiez les fichiers du projet dans le conteneur
-WORKDIR /app
-COPY . .
+### Useful Laravel Commands
+- Display basic information about your application
+    - `php artisan about`
+- Remove the configuration cache file
+    - `php artisan config:clear`
+- Flush the application cache
+    - `php artisan cache:clear`
+- Clear all cached events and listeners
+    - `php artisan event:clear`
+- Delete all of the jobs from the specified queue
+    - `php artisan queue:clear`
+- Remove the route cache file
+    - `php artisan route:clear`
+- Clear all compiled view files
+    - `php artisan view:clear`
+- Remove the compiled class file
+    - `php artisan clear-compiled`
+- Remove the cached bootstrap files
+    - `php artisan optimize:clear`
+- Delete the cached mutex files created by scheduler
+    - `php artisan schedule:clear-cache`
+- Flush expired password reset tokens
+    - `php artisan auth:clear-resets`
 
-# Installez les dépendances du projet
-RUN composer install
-```
+### Laravel Pint (Code Style Fixer | PHP-CS-Fixer)
+- Format all files
+    - `./vendor/bin/pint`
+- Format specific files or directories
+    - `./vendor/bin/pint app/Models`
+    - `./vendor/bin/pint app/Models/User.php`
+- Format all files with preview
+    - `./vendor/bin/pint -v`
+- Format uncommitted changes according to Git
+    - `./vendor/bin/pint --dirty`
+- Inspect all files
+    - `./vendor/bin/pint --test`
 
-Créez un fichier `docker-compose.yml` à la racine du projet :
+# TODO
+- Improve environment
+- Add more containers
 
-```yaml
-version: '3.8'
+---
 
-services:
-    app:
-        container_name: nom-du-projet
-        build:
-            context: .
-            dockerfile: Dockerfile
-        command: 'php artisan serve --host=0.0.0.0'
-        volumes:
-            - .:/app
-        ports:
-            - 8000:8000
-```
+## About Laravel
 
-#### Étape 4: Construction et Exécution des Conteneurs
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-```bash
-docker-compose up --build
-```
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Votre application Laravel sera accessible à l'adresse `http://localhost:8000`.
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-### Déploiement sur un Serveur Distant
+## Learning Laravel
 
-#### Étape 1: Configuration du Serveur
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-Assurez-vous que votre serveur distant a Docker installé et une connexion SSH configurée.
+You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-#### Étape 2: Copie des Fichiers
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-Utilisez `scp` pour copier les fichiers de votre projet Laravel vers le serveur distant :
+## Laravel Sponsors
 
-```bash
-scp -r -P PORT_DU_SSH . debian@ADRESSE_IP_SERVEUR:/home/debian/nom-du-projet
-```
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-#### Étape 3: Connexion au Serveur
+### Premium Partners
 
-Connectez-vous au serveur via SSH :
+- **[Vehikl](https://vehikl.com/)**
+- **[Tighten Co.](https://tighten.co)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Cubet Techno Labs](https://cubettech.com)**
+- **[Cyber-Duck](https://cyber-duck.co.uk)**
+- **[Many](https://www.many.co.uk)**
+- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
+- **[DevSquad](https://devsquad.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
+- **[OP.GG](https://op.gg)**
+- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
+- **[Lendio](https://lendio.com)**
 
-```bash
-ssh -p PORT_DU_SSH debian@ADRESSE_IP_SERVEUR
-```
+## Contributing
 
-#### Étape 4: Construction et Exécution des Conteneurs sur le Serveur
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-```bash
-cd /home/debian/nom-du-projet
-docker-compose up --build -d
-```
+## Code of Conduct
 
-Votre application Laravel sera maintenant accessible à l'adresse du serveur distant.
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-### Remarques Importantes
+## Security Vulnerabilities
 
-- Assurez-vous que le port spécifié dans `docker-compose.yml` est accessible sur le serveur.
-- Configurez l'environnement de production dans Laravel avant de déployer en production.
-- Pour une utilisation en production, envisagez d'utiliser un serveur web comme Nginx ou Apache en conjonction avec PHP-FPM.
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-N'oubliez pas d'ajuster ces étapes en fonction de votre configuration spécifique.
+## License
 
-sudo docker-compose exec finac php artisan migrate --database=mysql --force
-
-sudo systemctl stop apache2.service
-
-docker-compose up --build -d
-
-lancer les migrations
-
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
