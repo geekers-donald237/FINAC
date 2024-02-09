@@ -96,7 +96,6 @@ class ArmoryController extends Controller
             toastr()->success('Armureries enregistree avec success');
             return redirect()->route('home');
         } catch (\Exception $e) {
-            dd($e);
             toastr()->error($e->getMessage());
             return redirect()->back();
         }

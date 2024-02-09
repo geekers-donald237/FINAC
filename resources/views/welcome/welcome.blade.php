@@ -74,15 +74,16 @@
                     <a href="#"
                        class="d-inline-block-block d-lg-none site-menu-toggle js-menu-toggle text-black float-right"><span
                             class="icon-menu h3"></span></a>
+
                 </div>
             </div>
 
-            <div class="row mt-3 align-items-center">
-                <div class="col-md-12 text-light text-center mx-auto">
-                    <div class="text-container">
+            <div class="row mt-3 align-items-center justify-content-center">
+                <div class="col-md-10 text-light text-center">
+                    <div>
                         <h2 data-aos="fade-up" data-aos-delay="200"
-                            style="font-family: 'Arial', sans-serif; letter-spacing: 1px; line-height: 1.2;">Ministere
-                            de L'Administration Territoriale et de la Decentralisation</h2>
+                            style="font-family: 'Arial', sans-serif; letter-spacing: 1px; line-height: 1.2;"> Ministere
+                            de L'Administration Territoriale </h2>
                     </div>
                 </div>
             </div>
@@ -105,7 +106,8 @@
                                 @guest
                                     <div class="row" style="margin-top: 45%">
                                         <div class="cta3">
-                                            <a href="" data-toggle="modal" data-target="#LostWeaponDeclarationModal" class="nav-link">
+                                            <a href="" data-toggle="modal" data-target="#LostWeaponDeclarationModal"
+                                               class="nav-link">
                                                 <span>Déclaration de perte d'arme</span>
                                             </a>
                                         </div>
@@ -133,7 +135,8 @@
 
 </div>
 
-<div class="modal fade" id="LostWeaponDeclarationModal" tabindex="-1" role="dialog" aria-labelledby="LostWeaponDeclarationModalTitle" aria-hidden="true">
+<div class="modal fade" id="LostWeaponDeclarationModal" tabindex="-1" role="dialog"
+     aria-labelledby="LostWeaponDeclarationModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -148,7 +151,8 @@
                     @method('POST')
                     <div class="form-group">
                         <label for="code_finac">Code Finac <span class="text-danger">*</span></label>
-                        <input type="text" name="code_finac" class="form-control" placeholder="Code Finac" autocomplete="Code Finac" autofocus required>
+                        <input type="text" name="code_finac" class="form-control" placeholder="Code Finac"
+                               autocomplete="Code Finac" autofocus required>
                     </div>
                     <div class="btn-box pt-3 pb-4">
                         <input type="submit" value="Verifier" class="btn btn-primary w-100">

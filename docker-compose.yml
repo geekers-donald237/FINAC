@@ -2,7 +2,6 @@ version: '3'
 name: laravel-project
 
 services:
-
     ####################################################################################################
     # PHP
     ####################################################################################################
@@ -12,6 +11,7 @@ services:
             - 5173:5173
         volumes:
             - .:/var/www:cached
+        restart: always
 
     ####################################################################################################
     # Nginx
@@ -26,6 +26,7 @@ services:
             - .docker/nginx/nginx.conf:/etc/nginx/nginx.conf
         depends_on:
             - php
+        restart: always
 
     ####################################################################################################
     # DATABASE (MySQL)
@@ -40,28 +41,9 @@ services:
             - .docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
             - .docker/db/sql:/docker-entrypoint-initdb.d
         environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: finac
-            MYSQL_USER: root
-            MYSQL_PASSWORD:
-
-    # ####################################################################################################
-    # # DATABASE (MariaDB)
-    # ####################################################################################################
-    # db:
-    #     image: mariadb:10.11
-    #     ports:
-    #         - 3306:3306
-    #     volumes:
-    #         - .docker/db/data:/var/lib/mysql
-    #         - .docker/logs:/var/log/mysql
-    #         - .docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
-    #         - .docker/db/sql:/docker-entrypoint-initdb.d
-    #     environment:
-    #         MYSQL_ROOT_PASSWORD: root
-    #         MYSQL_DATABASE: laravel_db_name
-    #         MYSQL_USER: laravel_db_user
-    #         MYSQL_PASSWORD: laravel_db_pass
+            MYSQL_ROOT_PASSWORD: a_password
+            MYSQL_DATABASE: finac    
+        restart: always
 
     ####################################################################################################
     # phpMyAdmin
@@ -69,7 +51,7 @@ services:
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         ports:
-            - 8081:80
+            - 8080:80
         links:
             - db
         environment:
@@ -78,6 +60,7 @@ services:
             PMA_ARBITRARY: 1
         volumes:
             - .docker/phpmyadmin/sessions:/sessions
+        restart: always
 
     ####################################################################################################
     # Mailpit
@@ -85,5 +68,6 @@ services:
     mail:
         image: axllent/mailpit:latest
         ports:
-        - 8025:8025
-        - 1025:1025
+            - 8025:8025
+            - 1025:1025
+        restart: always

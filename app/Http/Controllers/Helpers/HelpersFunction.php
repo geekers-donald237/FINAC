@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Helpers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Email\MailController;
-use App\Models\armory\HoldersWeapon;
 use App\Models\PermissionsPort;
 use App\Models\user\User;
 use Exception;
@@ -25,7 +24,8 @@ class HelpersFunction extends Controller
         return false;
     }
 
-    public static function generateUniqueLogin($username) {
+    public static function generateUniqueLogin($username)
+    {
         $namePart = strtolower(substr($username, 0, 3)); // Prend les 3 premières lettres du nom
         $randomDigits = str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT); // Génère un nombre aléatoire de 4 chiffres
 
@@ -40,7 +40,8 @@ class HelpersFunction extends Controller
     }
 
 
-    public static function generateStrongPassword($length = 5) {
+    public static function generateStrongPassword($length = 5)
+    {
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         $password = substr(str_shuffle($chars), 0, $length);
 
@@ -53,6 +54,42 @@ class HelpersFunction extends Controller
         $file->storeAs($storagePath, $filename);
 
         return $filename;
+    }
+
+    public static function getCodeFinacFromPermissionPortId($permissionPortId)
+    {
+        try {
+            // Récupérer le modèle PermissionPort
+            $permissionsPort = PermissionsPort::findOrFail($permissionPortId);
+
+            // Vérifier si le modèle a un attribut "codeFinac"
+            if (!$permissionsPort->code_finac) {
+                throw new \Exception('Le modèle PermissionPort ne contient pas de code Finac.');
+            }
+
+            // Retourner le code Finac
+            return $permissionsPort->code_finac;
+        } catch (\Exception $e) {
+            // Gérer l'erreur et renvoyer null ou une valeur par défaut selon vos besoins
+            return null;
+        }
+    }
+
+    public static function sendEmail($login, $password, $email)
+    {
+        MailController::sendMail(email: $email, login: $login, password: $password);
+    }
+
+    public function generateFINACCode($permissionsPortId)
+    {
+        $code = $this->generateRandomCode();
+        $updateResult = $this->updatePermissionsPort($permissionsPortId, $code);
+
+        if ($updateResult) {
+            return response()->json('success');
+        } else {
+            return response()->json(['error' => 'Échec de la mise à jour']);
+        }
     }
 
     public static function generateRandomCode()
@@ -84,37 +121,8 @@ class HelpersFunction extends Controller
         }
     }
 
-    public function generateFINACCode($permissionsPortId)
+    function rejectPermissionsPort($permissionsPortId, Request $request)
     {
-        $code = $this->generateRandomCode();
-        $updateResult = $this->updatePermissionsPort($permissionsPortId, $code);
-
-        if ($updateResult) {
-            return response()->json('success');
-        } else {
-            return response()->json(['error' => 'Échec de la mise à jour']);
-        }
-    }
-
- public static function getCodeFinacFromPermissionPortId($permissionPortId) {
-        try {
-            // Récupérer le modèle PermissionPort
-            $permissionsPort = PermissionsPort::findOrFail($permissionPortId);
-
-            // Vérifier si le modèle a un attribut "codeFinac"
-            if (!$permissionsPort->code_finac) {
-                throw new \Exception('Le modèle PermissionPort ne contient pas de code Finac.');
-            }
-
-            // Retourner le code Finac
-            return $permissionsPort->code_finac;
-        } catch (\Exception $e) {
-            // Gérer l'erreur et renvoyer null ou une valeur par défaut selon vos besoins
-            return null;
-        }
-    }
-
-    function rejectPermissionsPort($permissionsPortId, Request $request) {
         try {
             $motifRefus = $request->input('motif_refus');
             $email = $request->input('email');
@@ -122,19 +130,15 @@ class HelpersFunction extends Controller
                 'statut' => 'rejete',
                 'motif_refus' => $motifRefus,
             ]);
-             self::permissionsPortDeniedEmail($email,$motifRefus);
+            self::permissionsPortDeniedEmail($email, $motifRefus);
             return redirect()->route('minatd.index');
 
         } catch (Exception $e) {
-           dd($e->getMessage());
+            dd($e->getMessage());
         }
     }
 
-    public static function sendEmail($login , $password , $email)
-    {
-        MailController::sendMail(email: $email, login: $login, password: $password);
-    }
-  public static function permissionsPortDeniedEmail($email , $motifRefus)
+    public static function permissionsPortDeniedEmail($email, $motifRefus)
     {
         MailController::sendPermissionsPortDeniedMail(email: $email, motifRefus: $motifRefus);
     }
@@ -154,7 +158,7 @@ class HelpersFunction extends Controller
 
             // Envoi du mail avec le fichier attaché
             $fileAttachmentPath = storage_path('app/public/finac/' . $filename);
-            MailController::sendEmailWithFileAttachment($email , $fileAttachmentPath);
+            MailController::sendEmailWithFileAttachment($email, $fileAttachmentPath);
 
             return response()->json(['success' => true, 'filename' => $fileAttachmentPath]);
         } catch (\Exception $e) {
